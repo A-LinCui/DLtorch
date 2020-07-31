@@ -1,0 +1,12 @@
+README.md
+setup.py
+DLtorch/__init__.py
+DLtorch.egg-info/PKG-INFO
+DLtorch.egg-info/SOURCES.txt
+DLtorch.egg-info/dependency_links.txt
+DLtorch.egg-info/top_level.txt
+DLtorch/datasets/Cifar10.py
+DLtorch/datasets/__init__.py
+DLtorch/datasets/base.py
+DLtorch/utils/__init__.py
+DLtorch/utils/torch_utils.py
