@@ -1,0 +1,8 @@
+# Basic Configuration for DLtorch
+
+# Dataset: Record the path for the download datasets.
+# Users can change the path below directly, if there have been datasets available.
+Dataset:
+ Cifar10: ./DLtorch/datasets/data/cifar10
+ MNIST: ./DLtorch/datasets/data/MNIST
+ FashionMnist: ./DLtorch/datasets/data/FashionMNIST
