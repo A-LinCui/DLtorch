@@ -37,3 +37,4 @@ class Cifar10(base_dataset):
             self.datalength["train"] = self.datalength["train"] - self.datalength["valid"]
             self.datasets["train"], self.datasets["valid"] = torch.utils.data.random_split(
                 self.datasets["train"], self.datalength["train"], self.datalength["valid"])
+            self.datasets["valid"].transform = self.test_transform
