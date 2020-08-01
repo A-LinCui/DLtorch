@@ -1,6 +1,7 @@
 README.md
 setup.py
 DLtorch/__init__.py
+DLtorch/config.py
 DLtorch.egg-info/PKG-INFO
 DLtorch.egg-info/SOURCES.txt
 DLtorch.egg-info/dependency_links.txt
@@ -8,5 +9,12 @@ DLtorch.egg-info/top_level.txt
 DLtorch/datasets/Cifar10.py
 DLtorch/datasets/__init__.py
 DLtorch/datasets/base.py
+DLtorch/models/DenseNet.py
+DLtorch/models/LeNet.py
+DLtorch/models/WideResNet.py
+DLtorch/models/__init__.py
+DLtorch/models/resnet.py
 DLtorch/utils/__init__.py
+DLtorch/utils/logger.py
+DLtorch/utils/python_utils.py
 DLtorch/utils/torch_utils.py

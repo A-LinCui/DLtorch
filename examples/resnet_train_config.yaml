@@ -1,0 +1,18 @@
+Dataset:
+ type: "Cifar10"
+ Dataloader:
+   batch_size: 64
+   num_workers: 2
+   train_shuffle: true
+   test_shuffle: false
+   drop_last: false
+
+Train:
+  gpus:
+    - 0
+  lr: 0.1
+  weight_decay: 1e-4
+  momentum: 0.9
+  epochs: 100
+  scheduler:
+    gamma: 0.1

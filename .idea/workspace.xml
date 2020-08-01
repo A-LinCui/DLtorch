@@ -2,15 +2,55 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="68802071-83ee-4ce1-8e91-b86542920aa6" name="默认更改列表" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/HUAWEI.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DLtorch/config.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DLtorch/utils/test.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DLtorch/config.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DLtorch/models/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DLtorch/utils/logger.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DLtorch/utils/python_utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/resnet.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/resnet_train_config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/DLtorch.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/DLtorch.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DLtorch.egg-info/PKG-INFO" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DLtorch.egg-info/SOURCES.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DLtorch.egg-info/dependency_links.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DLtorch.egg-info/top_level.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DLtorch/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DLtorch/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DLtorch/datasets/Cifar10.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/datasets/Cifar10.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DLtorch/datasets/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/datasets/base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DLtorch/utils/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/utils/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DLtorch/utils/test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/DLtorch/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/DLtorch/datasets/Cifar10.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/DLtorch/datasets/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/DLtorch/datasets/base.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/DLtorch/utils/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/lib/DLtorch/utils/torch_utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/DLtorch-0.0.2-py3-none-any.whl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/DLtorch-0.0.2.tar.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -33,16 +73,27 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/DLtorch/models" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\DLtorch\DLtorch\models\Cifar10" />
+      <recent name="E:\DLtorch" />
+      <recent name="E:\DLtorch\DLtorch\models" />
+      <recent name="E:\DLtorch\DLtorch\examples" />
       <recent name="E:\DLtorch\DLtorch" />
-      <recent name="E:\DL_package\DLtorch\utils" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\DLtorch\DLtorch\models" />
+      <recent name="E:\DLtorch" />
+      <recent name="E:\DLtorch\DLtorch" />
+      <recent name="E:\DLtorch\DLtorch\test" />
+      <recent name="E:\DLtorch\DLtorch\utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Cifar10">
-    <configuration name="Cifar10" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.resnet">
+    <configuration name="WideResNet" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="DLtorch" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -50,12 +101,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/DLtorch/datasets" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/DLtorch/models/cifar10_models" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/DLtorch/datasets/Cifar10.py" />
+      <option name="SCRIPT_NAME" value="E:\DLtorch\DLtorch\models\Cifar10\WideResNet.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -64,7 +115,29 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="tets" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="config (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="DLtorch" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/DLtorch" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/DLtorch/config.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="config" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="DLtorch" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -77,7 +150,73 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tets.py" />
+      <option name="SCRIPT_NAME" value="E:\DLtorch\DLtorch\config.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="resnet (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="DLtorch" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/DLtorch/examples" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/DLtorch/examples/resnet.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="resnet" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="DLtorch" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/examples" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/resnet.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="DLtorch" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -88,8 +227,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.Cifar10" />
-        <item itemvalue="Python.tets" />
+        <item itemvalue="Python.resnet" />
+        <item itemvalue="Python.test" />
+        <item itemvalue="Python.resnet (1)" />
+        <item itemvalue="Python.config (1)" />
+        <item itemvalue="Python.config (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -107,6 +249,11 @@
       <workItem from="1596208950171" duration="6040000" />
       <workItem from="1596215164775" duration="42000" />
       <workItem from="1596215272703" duration="1306000" />
+      <workItem from="1596250040730" duration="4199000" />
+      <workItem from="1596254597292" duration="9813000" />
+      <workItem from="1596275655435" duration="7960000" />
+      <workItem from="1596289833035" duration="1809000" />
+      <workItem from="1596291656488" duration="3215000" />
     </task>
     <servers />
   </component>
@@ -114,10 +261,14 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="919" y="263" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1596205652153">
+    <state x="313" y="119" key="#Inspections" timestamp="1596286055167">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state x="919" y="263" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1440.920@0.0.1440.920" timestamp="1596205652153" />
+    <state x="313" y="119" key="#Inspections/0.0.1440.920@0.0.1440.920" timestamp="1596286055167" />
+    <state x="919" y="263" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1596257767775">
+      <screen x="0" y="0" width="1440" height="920" />
+    </state>
+    <state x="919" y="263" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1440.920@0.0.1440.920" timestamp="1596257767775" />
     <state x="501" y="216" key="FileChooserDialogImpl" timestamp="1596215205395">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
@@ -126,29 +277,41 @@
       <screen x="0" y="0" width="1440" height="920" />
     </state>
     <state x="586" y="351" width="269" height="290" key="Github.ShareDialog/0.0.1440.920@0.0.1440.920" timestamp="1596213807541" />
-    <state width="1397" height="242" key="GridCell.Tab.0.bottom" timestamp="1596216579332">
+    <state width="1397" height="242" key="GridCell.Tab.0.bottom" timestamp="1596296705452">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state width="1397" height="242" key="GridCell.Tab.0.bottom/0.0.1440.920@0.0.1440.920" timestamp="1596216579332" />
-    <state width="1397" height="242" key="GridCell.Tab.0.center" timestamp="1596216579331">
+    <state width="1397" height="242" key="GridCell.Tab.0.bottom/0.0.1440.920@0.0.1440.920" timestamp="1596296705452" />
+    <state width="1397" height="242" key="GridCell.Tab.0.center" timestamp="1596296705452">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state width="1397" height="242" key="GridCell.Tab.0.center/0.0.1440.920@0.0.1440.920" timestamp="1596216579331" />
-    <state width="1397" height="242" key="GridCell.Tab.0.left" timestamp="1596216579331">
+    <state width="1397" height="242" key="GridCell.Tab.0.center/0.0.1440.920@0.0.1440.920" timestamp="1596296705452" />
+    <state width="1397" height="242" key="GridCell.Tab.0.left" timestamp="1596296705452">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state width="1397" height="242" key="GridCell.Tab.0.left/0.0.1440.920@0.0.1440.920" timestamp="1596216579331" />
-    <state width="1397" height="242" key="GridCell.Tab.0.right" timestamp="1596216579332">
+    <state width="1397" height="242" key="GridCell.Tab.0.left/0.0.1440.920@0.0.1440.920" timestamp="1596296705452" />
+    <state width="1397" height="242" key="GridCell.Tab.0.right" timestamp="1596296705452">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state width="1397" height="242" key="GridCell.Tab.0.right/0.0.1440.920@0.0.1440.920" timestamp="1596216579331" />
-    <state x="420" y="285" key="com.intellij.ide.util.TipDialog" timestamp="1596215166579">
+    <state width="1397" height="242" key="GridCell.Tab.0.right/0.0.1440.920@0.0.1440.920" timestamp="1596296705452" />
+    <state x="222" y="103" key="SettingsEditor" timestamp="1596288573564">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state x="420" y="285" key="com.intellij.ide.util.TipDialog/0.0.1440.920@0.0.1440.920" timestamp="1596215166579" />
+    <state x="222" y="103" key="SettingsEditor/0.0.1440.920@0.0.1440.920" timestamp="1596288573564" />
+    <state x="420" y="285" key="com.intellij.ide.util.TipDialog" timestamp="1596291656334">
+      <screen x="0" y="0" width="1440" height="920" />
+    </state>
+    <state x="420" y="285" key="com.intellij.ide.util.TipDialog/0.0.1440.920@0.0.1440.920" timestamp="1596291656334" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/DLtorch$WideResNet.coverage" NAME="WideResNet Coverage Results" MODIFIED="1596253323059" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch/models/cifar10_models" />
+    <SUITE FILE_PATH="coverage/DLtorch$logger.coverage" NAME="logger Coverage Results" MODIFIED="1596251855296" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch/utils" />
+    <SUITE FILE_PATH="coverage/DLtorch$resnet__1_.coverage" NAME="resnet (1) Coverage Results" MODIFIED="1596288254683" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch/examples" />
+    <SUITE FILE_PATH="coverage/DLtorch$test.coverage" NAME="test Coverage Results" MODIFIED="1596294426512" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/DLtorch$Cifar10.coverage" NAME="Cifar10 Coverage Results" MODIFIED="1596216510869" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch/datasets" />
+    <SUITE FILE_PATH="coverage/DLtorch$config__1_.coverage" NAME="config (1) Coverage Results" MODIFIED="1596258643145" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch" />
+    <SUITE FILE_PATH="coverage/DLtorch$DenseNet.coverage" NAME="DenseNet Coverage Results" MODIFIED="1596253465802" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch/models/cifar10_models" />
+    <SUITE FILE_PATH="coverage/DLtorch$config.coverage" NAME="config Coverage Results" MODIFIED="1596253983463" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch" />
+    <SUITE FILE_PATH="coverage/DLtorch$resnet.coverage" NAME="resnet Coverage Results" MODIFIED="1596296705442" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/DL_package$tets.coverage" NAME="tets Coverage Results" MODIFIED="1596208412619" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

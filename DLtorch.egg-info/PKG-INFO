@@ -1,12 +1,13 @@
 Metadata-Version: 2.1
 Name: DLtorch
-Version: 0.0.2
+Version: 0.0.3
 Summary: Deep Learning Framework based on Pytorch
 Home-page: https://github.com/zhaojb17/DLtorch
 Author: Junbo Zhao
 Author-email: zhaojb17@mails.tsinghua.edu.cn
-License: UNKNOWN
-Description: UNKNOWN
+License: MIT
+Description: ## DLtorch: A Simple Deep Learning Framework based on Pytorch
+        
 Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
 Classifier: Operating System :: OS Independent
