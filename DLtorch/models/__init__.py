@@ -1,4 +1,1 @@
-from .DenseNet import *
-from .LeNet import LeNet
-from .WideResNet import WideResNet
-from .resnet import *
+from DLtorch.models.Cifar10 import *

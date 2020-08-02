@@ -2,6 +2,7 @@
   <dictionary name="HUAWEI">
     <words>
       <w>datasets</w>
+      <w>ltorch</w>
     </words>
   </dictionary>
 </component>

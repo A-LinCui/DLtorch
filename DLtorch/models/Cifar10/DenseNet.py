@@ -1,10 +1,8 @@
-'''DenseNet in PyTorch.'''
 import math
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
 
 class Bottleneck(nn.Module):
     def __init__(self, in_planes, growth_rate):
@@ -34,6 +32,8 @@ class Transition(nn.Module):
 
 
 class DenseNet(nn.Module):
+    NAME = "DenseNet"
+
     def __init__(self, block, nblocks, growth_rate=12, reduction=0.5, num_classes=10):
         super(DenseNet, self).__init__()
         self.growth_rate = growth_rate
