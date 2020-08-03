@@ -1,0 +1,61 @@
+# Example Config for FinalTrainer
+
+# ---- Basic Settings ----
+device: cuda
+gpus: 0
+epochs: 200
+grad_clip: 5.0
+eval_no_grad: False
+early_stop: True
+save_as_state_dict: False
+path: NULL
+test_every: 1
+valid_every: 1
+save_every: 10
+report_every: 0.4
+
+model: LeNet
+model_kwargs: NULL
+
+# ---- Config for dataset and dataloader ----
+dataset: Cifar10
+dataset_kwargs:
+  mean:
+    - 0.49139968
+    - 0.48215827
+    - 0.44653124
+  std:
+    - 0.24703233
+    - 0.24348505
+    - 0.26158768
+  whether_valid: True
+  portion:
+    - 0.9
+    - 0.1
+dataloader_kwargs:
+  batch_size: 64
+  num_workers: 0
+  train_shuffle: True
+  test_shuffle: False
+  drop_last: False
+
+# ---- Config for objective ----
+objective: ClassificationObjective
+# objective_kwargs:
+
+# ---- Config for optimizer ----
+optimizer_type: SGD
+optimizer_kwargs:
+  lr: 0.001
+  momentum: 0.9
+  nesterov: True
+  weight_decay: 0.0003
+
+# ---- Config for scheduler ----
+scheduler: MultiStepLR
+scheduler_kwargs:
+  milestones:
+    - 10
+    - 40
+    - 100
+  gamma: 0.1

@@ -28,7 +28,7 @@ class base_dataset(object):
                                      shuffle=train_shuffle, drop_last=drop_last),
             "test": data.DataLoader(dataset=self.datasets["test"], batch_size=batch_size, num_workers=num_workers,
                                     shuffle=test_shuffle, drop_last=drop_last)}
-        if "vaild" in self.datasets:
+        if self.whether_valid:
             dataloader["valid"] = data.DataLoader(dataset=self.datasets["valid"], batch_size=batch_size, num_workers=num_workers,
                                   shuffle=test_shuffle, drop_last=drop_last)
         return dataloader

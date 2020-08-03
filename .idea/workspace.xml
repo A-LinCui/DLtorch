@@ -2,28 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="68802071-83ee-4ce1-8e91-b86542920aa6" name="默认更改列表" comment="">
-      <change afterPath="$PROJECT_DIR$/DLtorch/component/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DLtorch/component/dataset.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DLtorch/component/lr_scheduler.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DLtorch/component/model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DLtorch/component/objective.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DLtorch/component/optimizer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DLtorch/objective/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DLtorch/objective/base.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DLtorch/objective/classification_objective.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DLtorch/train/final_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/HUAWEI.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/HUAWEI.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DLtorch/train/train_config.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DLtorch/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DLtorch/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DLtorch/config.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DLtorch/models/DenseNet.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DLtorch/models/LeNet.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DLtorch/models/WideResNet.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DLtorch/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DLtorch/models/resnet.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DLtorch/utils/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/utils/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/resnet.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/resnet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DLtorch/datasets/Cifar10.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/datasets/Cifar10.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DLtorch/datasets/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/datasets/base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DLtorch/objective/classification_objective.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/objective/classification_objective.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DLtorch/train/final_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/train/final_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DLtorch/utils/python_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/utils/python_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DLtorch/utils/torch_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/utils/torch_utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +70,7 @@
       <recent name="E:\DLtorch\DLtorch" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.resnet">
+  <component name="RunManager" selected="Python.final_model">
     <configuration name="config (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="DLtorch" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -99,6 +85,28 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/DLtorch/config.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="final_model" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="DLtorch" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/DLtorch/train" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/DLtorch/train/final_model.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -173,35 +181,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="DLtorch" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.final_model" />
         <item itemvalue="Python.resnet" />
         <item itemvalue="Python.lr_scheduler" />
         <item itemvalue="Python.resnet (1)" />
         <item itemvalue="Python.config (1)" />
-        <item itemvalue="Python.test" />
       </list>
     </recent_temporary>
   </component>
@@ -224,7 +210,8 @@
       <workItem from="1596275655435" duration="7960000" />
       <workItem from="1596289833035" duration="1809000" />
       <workItem from="1596291656488" duration="3269000" />
-      <workItem from="1596366525995" duration="17973000" />
+      <workItem from="1596366525995" duration="18065000" />
+      <workItem from="1596419136666" duration="17376000" />
     </task>
     <servers />
   </component>
@@ -256,38 +243,42 @@
       <screen x="0" y="0" width="1440" height="920" />
     </state>
     <state x="586" y="351" width="269" height="290" key="Github.ShareDialog/0.0.1440.920@0.0.1440.920" timestamp="1596213807541" />
-    <state width="1397" height="241" key="GridCell.Tab.0.bottom" timestamp="1596388267109">
+    <state width="1397" height="238" key="GridCell.Tab.0.bottom" timestamp="1596441728329">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state width="1397" height="241" key="GridCell.Tab.0.bottom/0.0.1440.920@0.0.1440.920" timestamp="1596388267109" />
-    <state width="1397" height="241" key="GridCell.Tab.0.center" timestamp="1596388267109">
+    <state width="1397" height="238" key="GridCell.Tab.0.bottom/0.0.1440.920@0.0.1440.920" timestamp="1596441728329" />
+    <state width="1397" height="238" key="GridCell.Tab.0.center" timestamp="1596441728329">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state width="1397" height="241" key="GridCell.Tab.0.center/0.0.1440.920@0.0.1440.920" timestamp="1596388267109" />
-    <state width="1397" height="241" key="GridCell.Tab.0.left" timestamp="1596388267109">
+    <state width="1397" height="238" key="GridCell.Tab.0.center/0.0.1440.920@0.0.1440.920" timestamp="1596441728329" />
+    <state width="1397" height="238" key="GridCell.Tab.0.left" timestamp="1596441728329">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state width="1397" height="241" key="GridCell.Tab.0.left/0.0.1440.920@0.0.1440.920" timestamp="1596388267109" />
-    <state width="1397" height="241" key="GridCell.Tab.0.right" timestamp="1596388267109">
+    <state width="1397" height="238" key="GridCell.Tab.0.left/0.0.1440.920@0.0.1440.920" timestamp="1596441728329" />
+    <state width="1397" height="238" key="GridCell.Tab.0.right" timestamp="1596441728329">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state width="1397" height="241" key="GridCell.Tab.0.right/0.0.1440.920@0.0.1440.920" timestamp="1596388267109" />
+    <state width="1397" height="238" key="GridCell.Tab.0.right/0.0.1440.920@0.0.1440.920" timestamp="1596441728329" />
     <state x="222" y="103" key="SettingsEditor" timestamp="1596288573564">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
     <state x="222" y="103" key="SettingsEditor/0.0.1440.920@0.0.1440.920" timestamp="1596288573564" />
-    <state x="420" y="285" key="com.intellij.ide.util.TipDialog" timestamp="1596366529178">
+    <state x="420" y="285" key="com.intellij.ide.util.TipDialog" timestamp="1596419146429">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state x="420" y="285" key="com.intellij.ide.util.TipDialog/0.0.1440.920@0.0.1440.920" timestamp="1596366529178" />
-    <state x="15" y="1" width="691" height="914" key="dock-window-1" timestamp="1596373883855">
+    <state x="420" y="285" key="com.intellij.ide.util.TipDialog/0.0.1440.920@0.0.1440.920" timestamp="1596419146429" />
+    <state x="-7" y="0" width="733" height="927" key="dock-window-1" timestamp="1596430805967">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state x="15" y="1" width="691" height="914" key="dock-window-1/0.0.1440.920@0.0.1440.920" timestamp="1596373883855" />
+    <state x="-7" y="0" width="733" height="927" key="dock-window-1/0.0.1440.920@0.0.1440.920" timestamp="1596430805967" />
     <state x="463" y="103" key="refactoring.ChangeSignatureDialog" timestamp="1596380338156">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
     <state x="463" y="103" key="refactoring.ChangeSignatureDialog/0.0.1440.920@0.0.1440.920" timestamp="1596380338156" />
+    <state x="383" y="195" width="672" height="678" key="search.everywhere.popup" timestamp="1596439111112">
+      <screen x="0" y="0" width="1440" height="920" />
+    </state>
+    <state x="383" y="195" width="672" height="678" key="search.everywhere.popup/0.0.1440.920@0.0.1440.920" timestamp="1596439111112" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/DLtorch$WideResNet.coverage" NAME="WideResNet Coverage Results" MODIFIED="1596253323059" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch/models/cifar10_models" />
@@ -299,6 +290,7 @@
     <SUITE FILE_PATH="coverage/DLtorch$lr_scheduler.coverage" NAME="lr_scheduler Coverage Results" MODIFIED="1596378590082" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch/component" />
     <SUITE FILE_PATH="coverage/DLtorch$DenseNet.coverage" NAME="DenseNet Coverage Results" MODIFIED="1596253465802" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch/models/cifar10_models" />
     <SUITE FILE_PATH="coverage/DLtorch$config.coverage" NAME="config Coverage Results" MODIFIED="1596253983463" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch" />
+    <SUITE FILE_PATH="coverage/DLtorch$final_model.coverage" NAME="final_model Coverage Results" MODIFIED="1596440626337" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch/train" />
     <SUITE FILE_PATH="coverage/DLtorch$resnet.coverage" NAME="resnet Coverage Results" MODIFIED="1596388241272" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/DL_package$tets.coverage" NAME="tets Coverage Results" MODIFIED="1596208412619" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
