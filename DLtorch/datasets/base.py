@@ -2,7 +2,7 @@ import torch.utils.data as data
 from DLtorch.config import config
 
 class base_dataset(object):
-    def __init__(self, datatype, whether_valid):
+    def __init__(self, datatype=None, whether_valid=False):
         self.datatype = datatype
         self.whether_valid = whether_valid
         self.datasets = {}

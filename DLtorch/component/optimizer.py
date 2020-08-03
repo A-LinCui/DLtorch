@@ -1,7 +1,12 @@
-import torch.optim as optim
+import torch.optim
 
-def get_optimizer_cls(_type):
-    return getattr(optim, _type)
+Optimizer = {}
 
 def get_optimizer(_type, **kwargs):
-    return get_optimizer_cls(_type)(**kwargs)
+    if _type in Optimizer.keys():
+        return Optimizer[_type](**kwargs)
+    else:
+        return getattr(torch.optim, _type)(**kwargs)
+
+def regist_optimizer(name, fun):
+    Optimizer[name] = fun

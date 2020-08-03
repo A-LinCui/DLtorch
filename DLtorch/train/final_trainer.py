@@ -216,7 +216,7 @@ class FinalTrainer(object):
         if self.model_kwargs is not None:
             self.model = component.get_model(self.model_type, **self.model_kwargs).to(self.device)
         else:
-            self.model = component.get_model_cls(self.model_type)().to(self.device)
+            self.model = component.get_model(self.model_type).to(self.device)
         if len(str(self.gpus)) > 1:
             self.model = torch.nn.DataParallel(self.model)
 
@@ -225,7 +225,7 @@ class FinalTrainer(object):
         if self.dataset_kwargs is not None:
             self.dataset = component.get_dataset(self.dataset_type, **self.dataset_kwargs)
         else:
-            component.get_objective_cls(self.dataset_type)()
+            component.get_dataset_cls(self.dataset_type)()
 
         assert self.dataset_kwargs is not None, "Available dataloader config not found. Check the configuration."
         self.log.info("Initialize Dataloader.")
@@ -252,10 +252,4 @@ class FinalTrainer(object):
         if self.objective_kwargs is not None:
             self.objective = component.objective.get_objective(self.objective_type, **self.objective_kwargs)
         else:
-            self.objective = component.get_objective_cls(self.objective_type)()
-
-if __name__ == "__main__":
-    from DLtorch.utils.python_utils import load_yaml
-    config = load_yaml("train_config.yaml")
-    Trainer = FinalTrainer(**config)
-    Trainer.train()
+            self.objective = component.get_objective(self.objective_type)

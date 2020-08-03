@@ -1,7 +1,11 @@
-import DLtorch.objective
+from DLtorch.objective import *
 
-def get_objective_cls(_type):
-    return getattr(DLtorch.objective, _type)
+Objective = {"BaseObjective": lambda: BaseObjective(),
+             "ClassificationObjective": lambda **kwargs: ClassificationObjective(**kwargs)}
 
 def get_objective(_type, **kwargs):
-    return get_objective_cls(_type)(**kwargs)
+    assert _type in Objective.keys(), "NO Objective: ".format(_type)
+    return Objective[_type](**kwargs)
+
+def regist_objective(name, fun):
+    Objective[name] = fun

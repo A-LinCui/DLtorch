@@ -14,7 +14,7 @@ valid_every: 1
 save_every: 10
 report_every: 0.4
 
-model: LeNet
+model: Cifar10_resnet18
 model_kwargs: NULL
 
 # ---- Config for dataset and dataloader ----
@@ -41,7 +41,7 @@ dataloader_kwargs:
 
 # ---- Config for objective ----
 objective: ClassificationObjective
-# objective_kwargs:
+objective_kwargs: NULL
 
 # ---- Config for optimizer ----
 optimizer_type: SGD
