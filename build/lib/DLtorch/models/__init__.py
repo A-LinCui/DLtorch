@@ -1,2 +1,1 @@
-# from .DenseNet import *
-from .LeNet import LeNet
+from DLtorch.models.Cifar10 import *

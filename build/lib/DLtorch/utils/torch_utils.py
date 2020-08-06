@@ -6,6 +6,12 @@ def accuracy(outputs, labels):
     correct = (predicted == labels).sum().item()
     return correct / len(outputs)
 
+def correct(outputs, labels):
+    assert len(outputs) == len(labels), "Dimensions of outputs and labels must correspond. Outputs size: {} Labels size:{}".format(outputs.shape, labels.shape)
+    _, predicted = torch.max(outputs.data, 1)
+    correct = (predicted == labels).sum().item()
+    return correct
+
 def primary_test(model, dataloader, criterion):
     model.eval()
     correct, total, loss = 0, 0, 0

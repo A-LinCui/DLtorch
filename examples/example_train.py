@@ -1,7 +1,5 @@
-from DLtorch.train.final_trainer import *
-from DLtorch.utils.python_utils import load_yaml
+from DLtorch.main import *
 
 if __name__ == "__main__":
-    config = load_yaml("train_config.yaml")
-    Trainer = FinalTrainer(**config)
-    Trainer.train()
+    train(config="train_config.yaml", traindir="try", device="cuda", gpus="0")
+    test(config="train_config.yaml", checkpoint_path="try/0", testdir="TEST", device="cuda", gpus="0")

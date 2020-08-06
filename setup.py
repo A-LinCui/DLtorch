@@ -5,7 +5,7 @@ with open("README.md", "r") as file:
 
 setuptools.setup(
     name="DLtorch",
-    version="0.0.3",
+    version="0.0.4",
     author="Junbo Zhao",
     author_email="zhaojb17@mails.tsinghua.edu.cn",
     description="Deep Learning Framework based on Pytorch",
@@ -13,9 +13,11 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/zhaojb17/DLtorch",
     packages=setuptools.find_packages(),
-    license = "MIT",
+    package_data={'': ['*.yaml']},
+    license="MIT",
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
+        "License :: OSI Approved :: MIT License",
     ]
 )

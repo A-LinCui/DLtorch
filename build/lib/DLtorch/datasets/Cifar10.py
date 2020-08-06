@@ -32,11 +32,11 @@ class Cifar10(base_dataset):
 
         if self.whether_valid:
             assert portion is not None, "Data portion is needed if using validation set."
-            assert portion.sum() != 1.0, "Data portion invalid. The sum of training set and validation set should be 1.0"
+            assert sum(portion) == 1.0, "Data portion invalid. The sum of training set and validation set should be 1.0"
             self.datalength["valid"] = int(portion[1] * self.datalength["train"])
             self.datalength["train"] = self.datalength["train"] - self.datalength["valid"]
             self.datasets["train"], self.datasets["valid"] = torch.utils.data.random_split(
-                self.datasets["train"], self.datalength["train"], self.datalength["valid"])
+                self.datasets["train"], [self.datalength["train"], self.datalength["valid"]])
             self.datasets["valid"].transform = self.test_transform
 
         self.classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')

@@ -1,9 +1,18 @@
 import yaml
+from contextlib import contextmanager
 
-def load_yaml(dir):
-    with open(dir, 'r') as f:
+@contextmanager
+def nullcontext():
+    yield
+
+def load_yaml(path):
+    with open(path, 'r') as f:
         file = yaml.load(f, Loader=yaml.FullLoader)
     return file
+
+def write_yaml(path, config):
+    with open(path, "w", encoding="utf-8") as f:
+        yaml.dump(config, f)
 
 def list_average(list, total):
     return [list[i] / total for i in range(len(list))]

@@ -2,7 +2,7 @@ import torch.utils.data as data
 from DLtorch.config import config
 
 class base_dataset(object):
-    def __init__(self, datatype, whether_valid):
+    def __init__(self, datatype=None, whether_valid=False):
         self.datatype = datatype
         self.whether_valid = whether_valid
         self.datasets = {}
@@ -22,13 +22,11 @@ class base_dataset(object):
     def dataset(self):
         return self.datasets
 
-    def dataloader(self, batch_size, num_workers=0, train_shuffle=True, test_shuffle=False, drop_last=False):
+    # def dataloader(self, batch_size, num_workers=0, train_shuffle=True, test_shuffle=False, drop_last=False):
+    def dataloader(self, **kwargs):
         dataloader = {
-            "train": data.DataLoader(dataset=self.datasets["train"], batch_size=batch_size, num_workers=num_workers,
-                                     shuffle=train_shuffle, drop_last=drop_last),
-            "test": data.DataLoader(dataset=self.datasets["test"], batch_size=batch_size, num_workers=num_workers,
-                                    shuffle=test_shuffle, drop_last=drop_last)}
-        if "vaild" in self.datasets:
-            dataloader["valid"] = data.DataLoader(dataset=self.datasets["valid"], batch_size=batch_size, num_workers=num_workers,
-                                  shuffle=test_shuffle, drop_last=drop_last)
+            "train": data.DataLoader(dataset=self.datasets["train"], **kwargs["trainset"]),
+            "test": data.DataLoader(dataset=self.datasets["test"], **kwargs["testset"])}
+        if self.whether_valid:
+            dataloader["valid"] = data.DataLoader(dataset=self.datasets["valid"], **kwargs["testset"])
         return dataloader
