@@ -2,8 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="68802071-83ee-4ce1-8e91-b86542920aa6" name="默认更改列表" comment="">
-      <change beforePath="$PROJECT_DIR$/DLtorch/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DLtorch/datasets/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/datasets/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DLtorch/train/final_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/train/final_trainer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/example_train.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/example_train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/train_config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/examples/train_config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/try/train_config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/examples/try/train_config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/try/trainer.log" beforeDir="false" afterPath="$PROJECT_DIR$/examples/try/trainer.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,7 +135,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="lr_scheduler" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="final_trainer" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="DLtorch" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -139,12 +143,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/DLtorch/component" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/DLtorch/train" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/DLtorch/component/lr_scheduler.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/DLtorch/train/final_trainer.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -200,10 +204,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.example_train (1)" />
+        <item itemvalue="Python.example_train" />
+        <item itemvalue="Python.final_trainer" />
         <item itemvalue="Python.resnet" />
         <item itemvalue="Python.example_train" />
-        <item itemvalue="Python.example_train" />
-        <item itemvalue="Python.objective" />
       </list>
     </recent_temporary>
   </component>
@@ -233,7 +237,7 @@
       <workItem from="1596692203107" duration="14530000" />
       <workItem from="1596727800598" duration="5841000" />
       <workItem from="1596821702964" duration="66000" />
-      <workItem from="1596956449316" duration="4292000" />
+      <workItem from="1596956449316" duration="7456000" />
     </task>
     <servers />
   </component>
@@ -265,22 +269,22 @@
       <screen x="0" y="0" width="1440" height="920" />
     </state>
     <state x="586" y="351" width="269" height="290" key="Github.ShareDialog/0.0.1440.920@0.0.1440.920" timestamp="1596213807541" />
-    <state width="677" height="240" key="GridCell.Tab.0.bottom" timestamp="1596735041907">
+    <state width="1397" height="237" key="GridCell.Tab.0.bottom" timestamp="1596965486605">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state width="677" height="240" key="GridCell.Tab.0.bottom/0.0.1440.920@0.0.1440.920" timestamp="1596735041907" />
-    <state width="677" height="240" key="GridCell.Tab.0.center" timestamp="1596735041907">
+    <state width="1397" height="237" key="GridCell.Tab.0.bottom/0.0.1440.920@0.0.1440.920" timestamp="1596965486605" />
+    <state width="1397" height="237" key="GridCell.Tab.0.center" timestamp="1596965486604">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state width="677" height="240" key="GridCell.Tab.0.center/0.0.1440.920@0.0.1440.920" timestamp="1596735041907" />
-    <state width="677" height="240" key="GridCell.Tab.0.left" timestamp="1596735041906">
+    <state width="1397" height="237" key="GridCell.Tab.0.center/0.0.1440.920@0.0.1440.920" timestamp="1596965486604" />
+    <state width="1397" height="237" key="GridCell.Tab.0.left" timestamp="1596965486604">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state width="677" height="240" key="GridCell.Tab.0.left/0.0.1440.920@0.0.1440.920" timestamp="1596735041906" />
-    <state width="677" height="240" key="GridCell.Tab.0.right" timestamp="1596735041907">
+    <state width="1397" height="237" key="GridCell.Tab.0.left/0.0.1440.920@0.0.1440.920" timestamp="1596965486604" />
+    <state width="1397" height="237" key="GridCell.Tab.0.right" timestamp="1596965486605">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state width="677" height="240" key="GridCell.Tab.0.right/0.0.1440.920@0.0.1440.920" timestamp="1596735041907" />
+    <state width="1397" height="237" key="GridCell.Tab.0.right/0.0.1440.920@0.0.1440.920" timestamp="1596965486605" />
     <state x="222" y="103" key="SettingsEditor" timestamp="1596288573564">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
@@ -308,18 +312,20 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/DLtorch$test__1_.coverage" NAME="example_train Coverage Results" MODIFIED="1596467159872" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
-    <SUITE FILE_PATH="coverage/DLtorch$example_train__1_.coverage" NAME="example_train (1) Coverage Results" MODIFIED="1596734545576" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
+    <SUITE FILE_PATH="coverage/DLtorch$example_train__1_.coverage" NAME="example_train (1) Coverage Results" MODIFIED="1596965486597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/DLtorch$Cifar10.coverage" NAME="Cifar10 Coverage Results" MODIFIED="1596216510869" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch/datasets" />
     <SUITE FILE_PATH="coverage/DLtorch$objective.coverage" NAME="objective Coverage Results" MODIFIED="1596460994731" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch/component" />
     <SUITE FILE_PATH="coverage/DLtorch$DenseNet.coverage" NAME="DenseNet Coverage Results" MODIFIED="1596253465802" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch/models/cifar10_models" />
     <SUITE FILE_PATH="coverage/DLtorch$config.coverage" NAME="config Coverage Results" MODIFIED="1596253983463" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch" />
     <SUITE FILE_PATH="coverage/DLtorch$final_model.coverage" NAME="final_model Coverage Results" MODIFIED="1596440626337" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch/train" />
+    <SUITE FILE_PATH="coverage/DLtorch$final_trainer.coverage" NAME="final_trainer Coverage Results" MODIFIED="1596964066981" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch/train" />
     <SUITE FILE_PATH="coverage/DLtorch$WideResNet.coverage" NAME="WideResNet Coverage Results" MODIFIED="1596253323059" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch/models/cifar10_models" />
     <SUITE FILE_PATH="coverage/DLtorch$logger.coverage" NAME="logger Coverage Results" MODIFIED="1596251855296" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch/utils" />
     <SUITE FILE_PATH="coverage/DLtorch$resnet__1_.coverage" NAME="resnet (1) Coverage Results" MODIFIED="1596288254683" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch/examples" />
     <SUITE FILE_PATH="coverage/DLtorch$test.coverage" NAME="test Coverage Results" MODIFIED="1596462682401" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch/train" />
     <SUITE FILE_PATH="coverage/DLtorch$config__1_.coverage" NAME="config (1) Coverage Results" MODIFIED="1596371262559" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch" />
     <SUITE FILE_PATH="coverage/DLtorch$lr_scheduler.coverage" NAME="lr_scheduler Coverage Results" MODIFIED="1596456308381" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch/component" />
+    <SUITE FILE_PATH="coverage/DLtorch$example_train.coverage" NAME="example_train Coverage Results" MODIFIED="1596964074980" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch/train" />
     <SUITE FILE_PATH="coverage/DLtorch$resnet.coverage" NAME="resnet Coverage Results" MODIFIED="1596734441253" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch/models/Cifar10" />
     <SUITE FILE_PATH="coverage/DL_package$tets.coverage" NAME="tets Coverage Results" MODIFIED="1596208412619" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>

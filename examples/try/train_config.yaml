@@ -16,8 +16,8 @@ dataset_kwargs:
   - 0.48215827
   - 0.44653124
   portion:
-  - 0.9
   - 0.1
+  - 0.9
   std:
   - 0.24703233
   - 0.24348505
@@ -27,7 +27,7 @@ device: cuda
 early_stop: true
 epochs: 1
 eval_no_grad: true
-gpus: 0
+gpus: '0'
 grad_clip: 5.0
 model: Cifar10_resnet18
 model_kwargs: null

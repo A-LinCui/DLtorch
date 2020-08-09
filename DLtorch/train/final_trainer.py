@@ -66,7 +66,132 @@ class FinalTrainer(object):
         self.eval_no_grad = eval_no_grad
 
         self.last_epoch = 0
+        name = ["train", "test", "valid"] if self.early_stop else ["train", "test"]
+        self.training_statistics = {item: {"epoch": [], "acc": [], "loss": [], "reward": [], "perf": []} for item in name}
+        
+    # ---- API ----
+    def update_statistics(self, name, epoch, statistic):
+        # Save the statistics after training, testing or validating for an epoch
+        for key, consequence in zip(list(self.training_statistics[name].keys())[1:], statistic):
+            self.training_statistics[name][key].append(consequence)
+            self.training_statistics[name]["epoch"].append(epoch)
 
+    def train(self):
+        self.log.info("DLtorch Train : FinalTrainer  Start training···")
+        self.init_component()
+
+        if self.early_stop:
+            self.log.info("Using early stopping.")
+            best_reward, best_epoch, best_loss, best_acc, best_perf = 0, 0, 0, 0, 0
+            # If we load the checkpoint before training and there is no validation statistics in the checkpoint,
+            # there will be no key called "valid" in self.training_statistics. Therefore, we should add it.
+            if "valid" not in list(self.training_statistics.keys()):
+                self.training_statistics["valid"] = {"epoch": [], "acc": [], "loss": [], "reward": [], "perf": []}
+
+        for epoch in range(self.last_epoch, self.epochs):
+
+            # Print the current learning rate.
+            if self.scheduler is None:
+                self.log.info("epoch: {} learning rate: {}".format(epoch, self.optimizer_kwargs["lr"]))
+            else:
+                self.log.info("epoch: {} learning rate: {}".format(epoch, self.scheduler.get_lr()[0]))
+
+            # Train on training set for one epoch.
+            self.update_statistics("train", epoch + 1, self.train_epoch(self.dataloader["train"], epoch))
+
+            # Step the learning rate if scheduler isn't none.
+            if self.scheduler_type is not None:
+                self.scheduler.step()
+
+            # Test on validation set and save the model with the best performance.
+            if (epoch + 1) % self.valid_every == 0 and self.early_stop:
+                loss, accuracy, perf, reward = self.infer(self.dataloader["valid"], epoch, "valid")
+                self.update_statistics("valid", epoch + 1, (loss, accuracy, perf, reward))
+                if reward > best_reward or best_reward == 0:
+                    best_reward, best_loss, best_acc, best_perf, best_epoch = reward, loss, accuracy, perf, epoch
+                    if self.path is not None:
+                        save_path = os.path.join(self.path, "best")
+                        self.save(save_path)
+                self.log.info("best_valid_epoch: {} acc:{:.5f} loss:{:.5f} reward:{:.5f} perf: {}".
+                              format(best_epoch + 1, best_acc, best_loss, best_reward,
+                                     ";".join(["{}: {:.3f}".format(n, v) for n, v in zip(self.objective.perf_names, best_perf)])))
+
+            # Test on test dataset
+            if (epoch + 1) % self.test_every == 0:
+                self.update_statistics("test", epoch + 1, self.infer(self.dataloader["test"], epoch))
+
+            # Save the current model.
+            if (epoch + 1) % self.save_every == 0 and self.path is not None:
+                save_path = os.path.join(self.path, str(epoch))
+                self.save(save_path)
+
+            self.last_epoch += 1
+
+    def test(self, dataset=["train", "test"]):
+        self.log.info("DLtorch Trainer : FinalTrainer  Start testing···")
+        assert self.model is not None and self.optimizer is not None, \
+            "At least one component in 'model, optimizer' isn't available. Please load or initialize them before testing."
+        if self.dataset is None:
+            self.init_dataset()
+        if self.objective is None:
+            self.init_objective()
+        assert "valid" not in dataset or self.early_stop, \
+            "No validation dataset available or early_stop hasn't set to be true. Check the configuration."
+        for data_type in dataset:
+            loss, accuracy, perf, reward = self.infer(self.dataloader[data_type], 0, data_type)
+
+    def save(self, path):
+        if not os.path.exists(path):
+            os.makedirs(path)
+        # Save the model
+        if self.save_as_state_dict:
+            model_path = os.path.join(path, "model_state.pt")
+            torch.save(self.model.state_dict(), model_path)
+        else:
+            model_path = os.path.join(path, "model.pt")
+            torch.save(self.model, model_path)
+        # Save the optimizer
+        torch.save({"epoch": self.last_epoch, "optimizer": self.optimizer.state_dict()}, os.path.join(path, "optimizer.pt"))
+        # Save the scheduler
+        if self.scheduler is not None:
+            torch.save(self.scheduler.state_dict(), os.path.join(path, "scheduler.pt"))
+        # Save the training statistics
+        torch.save(self.training_statistics, os.path.join(path, "statistics.pt"))
+        self.log.info("Save the checkpoint at {}".format(os.path.abspath(path)))
+
+    def load(self, path):
+        assert os.path.exists(path), "The loading path '{}' doesn't exist.".format(path)
+        # Load the model
+        model_path = os.path.join(path, "model.pt") if os.path.isdir(path) else path
+        if os.path.exists(model_path):
+            self.model = torch.load(model_path, map_location=torch.device("cpu"))
+        else:
+            model_path = os.path.join(path, "model_state.pt")
+            self.init_model()
+            self.model.load_state_dict(model_path)
+        self.model.to(self.device)
+        self.log.info("Load model from {}".format(os.path.abspath(model_path)))
+        # Load the optimzier
+        self.init_optimizer()
+        optimizer_path = os.path.join(path, "optimizer.pt") if os.path.isdir(path) else None
+        if optimizer_path and os.path.exists(optimizer_path):
+            optimizer_checkpoint = torch.load(optimizer_path, map_location=torch.device("cpu"))
+            self.optimizer.load_state_dict(optimizer_checkpoint["optimizer"])
+            self.last_epoch = optimizer_checkpoint["epoch"]
+            self.log.info("Load optimizer from {}".format(os.path.abspath(optimizer_path)))
+        # Load the scheduler
+        self.init_scheduler()
+        scheduler_path = os.path.join(path, "scheduler.pt") if os.path.isdir(path) else None
+        if scheduler_path and os.path.exists(scheduler_path):
+            self.scheduler.load_state_dict(torch.load(scheduler_path, map_location=torch.device("cpu")))
+            self.log.info("Load scheduler from {}".format(scheduler_path))
+        # Load the statistics
+        statistics_path = os.path.join(path, "statistics.pt") if os.path.isdir(path) else None
+        if statistics_path and os.path.exists(statistics_path):
+            self.training_statistics = torch.load(statistics_path)
+            self.log.info("Load training statistics from {}".format(statistics_path))
+    
+    
     # ---- Main Functions ----
     def train_epoch(self, data_queue=None, epoch=0):
         self.model.train()
@@ -205,8 +330,8 @@ class FinalTrainer(object):
 
     def init_component(self):
         """
-        Init all the components, including model, dataset, dataloader, optimizer, scheduler and objective.
-        Note that schedule is optional.
+         Init all the components, including model, dataset, dataloader, optimizer, scheduler and objective.
+         Note that schedule is optional.
         """
         if self.model is None:
             self.init_model()
@@ -218,108 +343,3 @@ class FinalTrainer(object):
             self.init_scheduler()
         if self.objective is None:
             self.init_objective()
-
-    # ---- API ----
-
-    def train(self):
-        self.log.info("DLtorch Train : FinalTrainer  Start training···")
-        self.init_component()
-
-        if self.early_stop:
-            self.log.info("Using early stopping.")
-            best_reward, best_epoch, best_loss, best_acc, best_perf = 0, 0, 0, 0, 0
-
-        for epoch in range(self.last_epoch, self.epochs):
-
-            # Print the current learning rate.
-            if self.scheduler is None:
-                self.log.info("epoch: {} learning rate: {}".format(epoch, self.optimizer_kwargs["lr"]))
-            else:
-                self.log.info("epoch: {} learning rate: {}".format(epoch, self.scheduler.get_lr()[0]))
-
-            # Train on training set for one epoch.
-            loss, accuracy, perf, reward = self.train_epoch(self.dataloader["train"], epoch)
-
-            # Step the learning rate if scheduler isn't none.
-            if self.scheduler_type is not None:
-                self.scheduler.step()
-
-            # Save the current model.
-            if (epoch + 1) % self.save_every == 0 and self.path is not None:
-                save_path = os.path.join(self.path, str(epoch))
-                self.save(save_path)
-
-            # Test on validation set and save the model with the best performance.
-            if (epoch + 1) % self.valid_every == 0 and self.early_stop:
-                loss, accuracy, perf, reward = self.infer(self.dataloader["valid"], epoch, "valid")
-                if reward > best_reward or best_reward == 0:
-                    best_reward, best_loss, best_acc, best_perf, best_epoch = reward, loss, accuracy, perf, epoch
-                    if self.path is not None:
-                        save_path = os.path.join(self.path, "best")
-                        self.save(save_path)
-                self.log.info("best_valid_epoch: {} acc:{:.5f} loss:{:.5f} reward:{:.5f} perf: {}".
-                              format(best_epoch + 1, best_acc, best_loss, best_reward,
-                                     ";".join(["{}: {:.3f}".format(n, v) for n, v in zip(self.objective.perf_names, best_perf)])))
-
-            # Test on test dataset
-            if (epoch + 1) % self.test_every == 0:
-                loss, accuracy, perf, reward = self.infer(self.dataloader["test"], epoch, "test")
-
-            self.last_epoch += 1
-
-    def test(self, dataset=["train", "test"]):
-        self.log.info("DLtorch Trainer : FinalTrainer  Start testing···")
-        assert self.model is not None and self.optimizer is not None, \
-            "At least one component in 'model, optimizer' isn't available. Please load or initialize them before testing."
-        if self.dataset is None:
-            self.init_dataset()
-        if self.objective is None:
-            self.init_objective()
-        assert "valid" not in dataset or self.early_stop, \
-            "No validation dataset available or early_stop hasn't set to be true. Check the configuration."
-        for data_type in dataset:
-            loss, accuracy, perf, reward = self.infer(self.dataloader[data_type], 0, data_type)
-
-    def save(self, path):
-        if not os.path.exists(path):
-            os.makedirs(path)
-        # Save the model
-        if self.save_as_state_dict:
-            model_path = os.path.join(path, "model_state.pt")
-            torch.save(self.model.state_dict(), model_path)
-        else:
-            model_path = os.path.join(path, "model.pt")
-            torch.save(self.model, model_path)
-        # Save the optimizer
-        torch.save({"epoch": self.last_epoch, "optimizer": self.optimizer.state_dict()}, os.path.join(path, "optimizer.pt"))
-        # Save the scheduler
-        if self.scheduler is not None:
-            torch.save(self.scheduler.state_dict(), os.path.join(path, "scheduler.pt"))
-        self.log.info("Save the checkpoint at {}".format(os.path.abspath(path)))
-
-    def load(self, path):
-        assert os.path.exists(path), "The loading path '{}' doesn't exist.".format(path)
-        # Load the model
-        model_path = os.path.join(path, "model.pt") if os.path.isdir(path) else path
-        if os.path.exists(model_path):
-            self.model = torch.load(model_path, map_location=torch.device("cpu"))
-        else:
-            model_path = os.path.join(path, "model_state.pt")
-            self.init_model()
-            self.model.load_state_dict(model_path)
-        self.model.to(self.device)
-        self.log.info("Load model from {}".format(os.path.abspath(model_path)))
-        # Load the optimzier
-        self.init_optimizer()
-        optimizer_path = os.path.join(path, "optimizer.pt") if os.path.isdir(path) else None
-        if optimizer_path and os.path.exists(optimizer_path):
-            optimizer_checkpoint = torch.load(optimizer_path, map_location=torch.device("cpu"))
-            self.optimizer.load_state_dict(optimizer_checkpoint["optimizer"])
-            self.last_epoch = optimizer_checkpoint["epoch"]
-            self.log.info("Load optimizer from {}".format(os.path.abspath(optimizer_path)))
-        # Load the scheduler
-        self.init_scheduler()
-        scheduler_path = os.path.join(path, "scheduler.pt") if os.path.isdir(path) else None
-        if scheduler_path and os.path.exists(scheduler_path):
-            self.scheduler.load_state_dict(torch.load(scheduler_path, map_location=torch.device("cpu")))
-            self.log.info("Load scheduler from {}".format(scheduler_path))

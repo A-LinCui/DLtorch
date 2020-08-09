@@ -32,8 +32,8 @@ dataset_kwargs:
     - 0.26158768
   whether_valid: True
   portion:
-    - 0.9
     - 0.1
+    - 0.9
 dataloader_kwargs:
   trainset:
     batch_size: 64
