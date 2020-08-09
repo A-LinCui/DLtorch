@@ -11,7 +11,7 @@ def prepare(config, device, dir, gpus):
         config["path"] = dir
     if gpus is not None:
         config["gpus"] = gpus
-    if not os.path.exists(dir):
+    if dir is not None and not os.path.exists(dir):
         os.mkdir(dir)
     return config
 

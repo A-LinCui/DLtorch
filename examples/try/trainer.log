@@ -1,0 +1,12 @@
+2020-08-07 01:38:43,325 INFO DLtorch Framework: Constructing FinalTrainer ，，，
+2020-08-07 01:38:43,326 INFO GPU information: 0
+2020-08-07 01:38:43,327 INFO DLtorch Train : FinalTrainer  Start training，，，
+2020-08-07 01:38:43,327 INFO Initialize Model: Cifar10_resnet18
+2020-08-07 01:38:45,998 INFO Initialize Dataset: Cifar10
+2020-08-07 01:38:47,692 INFO Initialize Dataloader.
+2020-08-07 01:38:47,692 INFO Initialize Optimizer: SGD
+2020-08-07 01:38:47,693 INFO Initialize Scheduler: MultiStepLR
+2020-08-07 01:38:47,694 INFO Initialize Objective: ClassificationObjective
+2020-08-07 01:38:47,694 INFO Using early stopping.
+2020-08-07 01:38:47,695 INFO epoch: 0 learning rate: 0.001
+2020-08-07 01:39:36,938 INFO train_epoch: 1 process: 140 / 704 acc: 0.26964 loss:0.03080 reward:0.26964 perf: correct: 0.270

@@ -2,3 +2,5 @@ Dataset:
   Cifar10: E:\DLtorch\DLtorch\datasets\data\cifar10
   FashionMNIST: E:\DLtorch\DLtorch\datasets\data\FashionMNIST
   MNIST: E:\DLtorch\DLtorch\datasets\data\MNIST
+  Cifar100: E:\DLtorch\DLtorch\datasets\data\cifar100
+  SVHN: E:\DLtorch\DLtorch\datasets\data\SVHN

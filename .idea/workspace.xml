@@ -2,17 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="68802071-83ee-4ce1-8e91-b86542920aa6" name="默认更改列表" comment="">
-      <change afterPath="$PROJECT_DIR$/DLtorch/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DLtorch/datasets/Cifar100.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DLtorch/datasets/SVHN.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DLtorch/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DLtorch/component/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/component/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DLtorch/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DLtorch/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DLtorch/datasets/Cifar10.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/datasets/Cifar10.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DLtorch/datasets/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/datasets/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DLtorch/datasets/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/datasets/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DLtorch/models/Cifar10/resnet.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/models/Cifar10/resnet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DLtorch/train/final_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/train/final_trainer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DLtorch/utils/python_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/utils/python_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DLtorch/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/examples/example_train.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/example_train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/train_config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/examples/train_config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +53,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/examples" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -240,7 +239,9 @@
       <workItem from="1596451900549" duration="3641000" />
       <workItem from="1596456009796" duration="8290000" />
       <workItem from="1596692203107" duration="14530000" />
-      <workItem from="1596727800598" duration="5663000" />
+      <workItem from="1596727800598" duration="5841000" />
+      <workItem from="1596821702964" duration="66000" />
+      <workItem from="1596956449316" duration="4109000" />
     </task>
     <servers />
   </component>
@@ -264,38 +265,38 @@
       <screen x="0" y="0" width="1440" height="920" />
     </state>
     <state x="685" y="56" key="CommitChangelistDialog2/0.0.1440.920@0.0.1440.920" timestamp="1596378271514" />
-    <state x="501" y="216" key="FileChooserDialogImpl" timestamp="1596721908220">
+    <state x="501" y="216" key="FileChooserDialogImpl" timestamp="1596821766692">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state x="501" y="216" key="FileChooserDialogImpl/0.0.1440.920@0.0.1440.920" timestamp="1596721908220" />
+    <state x="501" y="216" key="FileChooserDialogImpl/0.0.1440.920@0.0.1440.920" timestamp="1596821766692" />
     <state x="586" y="351" width="269" height="290" key="Github.ShareDialog" timestamp="1596213807541">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
     <state x="586" y="351" width="269" height="290" key="Github.ShareDialog/0.0.1440.920@0.0.1440.920" timestamp="1596213807541" />
-    <state width="677" height="240" key="GridCell.Tab.0.bottom" timestamp="1596734864890">
+    <state width="677" height="240" key="GridCell.Tab.0.bottom" timestamp="1596735041907">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state width="677" height="240" key="GridCell.Tab.0.bottom/0.0.1440.920@0.0.1440.920" timestamp="1596734864890" />
-    <state width="677" height="240" key="GridCell.Tab.0.center" timestamp="1596734864890">
+    <state width="677" height="240" key="GridCell.Tab.0.bottom/0.0.1440.920@0.0.1440.920" timestamp="1596735041907" />
+    <state width="677" height="240" key="GridCell.Tab.0.center" timestamp="1596735041907">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state width="677" height="240" key="GridCell.Tab.0.center/0.0.1440.920@0.0.1440.920" timestamp="1596734864890" />
-    <state width="677" height="240" key="GridCell.Tab.0.left" timestamp="1596734864889">
+    <state width="677" height="240" key="GridCell.Tab.0.center/0.0.1440.920@0.0.1440.920" timestamp="1596735041907" />
+    <state width="677" height="240" key="GridCell.Tab.0.left" timestamp="1596735041906">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state width="677" height="240" key="GridCell.Tab.0.left/0.0.1440.920@0.0.1440.920" timestamp="1596734864889" />
-    <state width="677" height="240" key="GridCell.Tab.0.right" timestamp="1596734864890">
+    <state width="677" height="240" key="GridCell.Tab.0.left/0.0.1440.920@0.0.1440.920" timestamp="1596735041906" />
+    <state width="677" height="240" key="GridCell.Tab.0.right" timestamp="1596735041907">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state width="677" height="240" key="GridCell.Tab.0.right/0.0.1440.920@0.0.1440.920" timestamp="1596734864890" />
+    <state width="677" height="240" key="GridCell.Tab.0.right/0.0.1440.920@0.0.1440.920" timestamp="1596735041907" />
     <state x="222" y="103" key="SettingsEditor" timestamp="1596288573564">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
     <state x="222" y="103" key="SettingsEditor/0.0.1440.920@0.0.1440.920" timestamp="1596288573564" />
-    <state x="420" y="285" key="com.intellij.ide.util.TipDialog" timestamp="1596456014304">
+    <state x="420" y="285" key="com.intellij.ide.util.TipDialog" timestamp="1596821702710">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state x="420" y="285" key="com.intellij.ide.util.TipDialog/0.0.1440.920@0.0.1440.920" timestamp="1596456014304" />
+    <state x="420" y="285" key="com.intellij.ide.util.TipDialog/0.0.1440.920@0.0.1440.920" timestamp="1596821702709" />
     <state x="21" y="0" width="690" height="927" key="dock-window-1" timestamp="1596462905131">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
