@@ -3,11 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="68802071-83ee-4ce1-8e91-b86542920aa6" name="默认更改列表" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DLtorch/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DLtorch/train/final_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/train/final_trainer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/example_train.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/example_train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/train_config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/examples/train_config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/try/train_config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/examples/try/train_config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/try/trainer.log" beforeDir="false" afterPath="$PROJECT_DIR$/examples/try/trainer.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DLtorch/utils/torch_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/utils/torch_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/TEST/trainer.log" beforeDir="false" afterPath="$PROJECT_DIR$/examples/TEST/trainer.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -238,6 +238,7 @@
       <workItem from="1596727800598" duration="5841000" />
       <workItem from="1596821702964" duration="66000" />
       <workItem from="1596956449316" duration="7456000" />
+      <workItem from="1596972411115" duration="2279000" />
     </task>
     <servers />
   </component>
@@ -269,30 +270,30 @@
       <screen x="0" y="0" width="1440" height="920" />
     </state>
     <state x="586" y="351" width="269" height="290" key="Github.ShareDialog/0.0.1440.920@0.0.1440.920" timestamp="1596213807541" />
-    <state width="1397" height="237" key="GridCell.Tab.0.bottom" timestamp="1596965486605">
+    <state width="1397" height="237" key="GridCell.Tab.0.bottom" timestamp="1596974835287">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state width="1397" height="237" key="GridCell.Tab.0.bottom/0.0.1440.920@0.0.1440.920" timestamp="1596965486605" />
-    <state width="1397" height="237" key="GridCell.Tab.0.center" timestamp="1596965486604">
+    <state width="1397" height="237" key="GridCell.Tab.0.bottom/0.0.1440.920@0.0.1440.920" timestamp="1596974835287" />
+    <state width="1397" height="237" key="GridCell.Tab.0.center" timestamp="1596974835287">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state width="1397" height="237" key="GridCell.Tab.0.center/0.0.1440.920@0.0.1440.920" timestamp="1596965486604" />
-    <state width="1397" height="237" key="GridCell.Tab.0.left" timestamp="1596965486604">
+    <state width="1397" height="237" key="GridCell.Tab.0.center/0.0.1440.920@0.0.1440.920" timestamp="1596974835287" />
+    <state width="1397" height="237" key="GridCell.Tab.0.left" timestamp="1596974835287">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state width="1397" height="237" key="GridCell.Tab.0.left/0.0.1440.920@0.0.1440.920" timestamp="1596965486604" />
-    <state width="1397" height="237" key="GridCell.Tab.0.right" timestamp="1596965486605">
+    <state width="1397" height="237" key="GridCell.Tab.0.left/0.0.1440.920@0.0.1440.920" timestamp="1596974835287" />
+    <state width="1397" height="237" key="GridCell.Tab.0.right" timestamp="1596974835287">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state width="1397" height="237" key="GridCell.Tab.0.right/0.0.1440.920@0.0.1440.920" timestamp="1596965486605" />
+    <state width="1397" height="237" key="GridCell.Tab.0.right/0.0.1440.920@0.0.1440.920" timestamp="1596974835287" />
     <state x="222" y="103" key="SettingsEditor" timestamp="1596288573564">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
     <state x="222" y="103" key="SettingsEditor/0.0.1440.920@0.0.1440.920" timestamp="1596288573564" />
-    <state x="420" y="285" key="com.intellij.ide.util.TipDialog" timestamp="1596821702710">
+    <state x="420" y="285" key="com.intellij.ide.util.TipDialog" timestamp="1596972429357">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
-    <state x="420" y="285" key="com.intellij.ide.util.TipDialog/0.0.1440.920@0.0.1440.920" timestamp="1596821702709" />
+    <state x="420" y="285" key="com.intellij.ide.util.TipDialog/0.0.1440.920@0.0.1440.920" timestamp="1596972429357" />
     <state x="21" y="0" width="690" height="927" key="dock-window-1" timestamp="1596462905131">
       <screen x="0" y="0" width="1440" height="920" />
     </state>
@@ -312,7 +313,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/DLtorch$test__1_.coverage" NAME="example_train Coverage Results" MODIFIED="1596467159872" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
-    <SUITE FILE_PATH="coverage/DLtorch$example_train__1_.coverage" NAME="example_train (1) Coverage Results" MODIFIED="1596965486597" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
+    <SUITE FILE_PATH="coverage/DLtorch$example_train__1_.coverage" NAME="example_train (1) Coverage Results" MODIFIED="1596974751286" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/DLtorch$Cifar10.coverage" NAME="Cifar10 Coverage Results" MODIFIED="1596216510869" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch/datasets" />
     <SUITE FILE_PATH="coverage/DLtorch$objective.coverage" NAME="objective Coverage Results" MODIFIED="1596460994731" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch/component" />
     <SUITE FILE_PATH="coverage/DLtorch$DenseNet.coverage" NAME="DenseNet Coverage Results" MODIFIED="1596253465802" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DLtorch/models/cifar10_models" />

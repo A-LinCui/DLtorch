@@ -25,3 +25,9 @@ def primary_test(model, dataloader, criterion):
             correct += accuracy(outputs, labels) * batch_size
             loss += criterion(outputs, labels).item()
     return loss / total, correct / total
+
+def get_params(model, only_trainable=False):
+    if only_trainable:
+        return sum(p.numel() for p in model.parameters())
+    else:
+        sum(p.numel() for p in model.parameters() if p.requires_grad)

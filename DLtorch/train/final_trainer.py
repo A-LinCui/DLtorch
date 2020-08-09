@@ -7,6 +7,7 @@ import DLtorch.utils as utils
 import DLtorch.component as component
 from DLtorch.utils.logger import logger
 from DLtorch.utils.python_utils import *
+from DLtorch.utils.torch_utils import get_params
 
 class FinalTrainer(object):
     NAME = "FinalTrainer"
@@ -76,15 +77,22 @@ class FinalTrainer(object):
             self.training_statistics[name][key].append(consequence)
             self.training_statistics[name]["epoch"].append(epoch)
 
+    def count_param(self):
+        self.param = get_params(self.model, only_trainable=False)
+        self.log.info("Parameter number for current model: {}".format(self.param))
+
     def train(self):
         self.log.info("DLtorch Train : FinalTrainer  Start training···")
         self.init_component()
+        self.count_param()
 
         if self.early_stop:
             self.log.info("Using early stopping.")
             best_reward, best_epoch, best_loss, best_acc, best_perf = 0, 0, 0, 0, 0
-            # If we load the checkpoint before training and there is no validation statistics in the checkpoint,
-            # there will be no key called "valid" in self.training_statistics. Therefore, we should add it.
+            """
+            If we load the checkpoint before training and there is no validation statistics in the checkpoint,
+            there will be no key called "valid" in self.training_statistics. Therefore, we should add it.
+            """
             if "valid" not in list(self.training_statistics.keys()):
                 self.training_statistics["valid"] = {"epoch": [], "acc": [], "loss": [], "reward": [], "perf": []}
 
@@ -129,6 +137,7 @@ class FinalTrainer(object):
 
     def test(self, dataset=["train", "test"]):
         self.log.info("DLtorch Trainer : FinalTrainer  Start testing···")
+        self.count_param()
         assert self.model is not None and self.optimizer is not None, \
             "At least one component in 'model, optimizer' isn't available. Please load or initialize them before testing."
         if self.dataset is None:
@@ -190,7 +199,6 @@ class FinalTrainer(object):
         if statistics_path and os.path.exists(statistics_path):
             self.training_statistics = torch.load(statistics_path)
             self.log.info("Load training statistics from {}".format(statistics_path))
-    
     
     # ---- Main Functions ----
     def train_epoch(self, data_queue=None, epoch=0):
