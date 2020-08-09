@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="68802071-83ee-4ce1-8e91-b86542920aa6" name="默认更改列表" comment="">
-      <change afterPath="$PROJECT_DIR$/DLtorch/datasets/Cifar100.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DLtorch/datasets/SVHN.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DLtorch/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DLtorch/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DLtorch/datasets/Cifar10.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/datasets/Cifar10.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DLtorch/datasets/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/datasets/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DLtorch/datasets/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/datasets/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DLtorch/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/DLtorch/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/example_train.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/example_train.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -241,7 +233,7 @@
       <workItem from="1596692203107" duration="14530000" />
       <workItem from="1596727800598" duration="5841000" />
       <workItem from="1596821702964" duration="66000" />
-      <workItem from="1596956449316" duration="4109000" />
+      <workItem from="1596956449316" duration="4292000" />
     </task>
     <servers />
   </component>
