@@ -11,7 +11,7 @@ def prepare(config, device, dir, gpus):
         config["path"] = dir
     if gpus is not None:
         config["gpus"] = gpus
-    if not os.path.exists(dir):
+    if dir is not None and not os.path.exists(dir):
         os.mkdir(dir)
     return config
 
@@ -23,6 +23,7 @@ def train(config, traindir=None, device=None, gpus=None, checkpoint_path=None):
     if checkpoint_path is not None:
         Trainer.load(checkpoint_path)
     Trainer.train()
+    return Trainer
 
 def test(config, testdir=None, checkpoint_path=None, device=None, gpus=None, dataset=["train", "test"]):
     assert checkpoint_path is not None, "No available checkpoint."
@@ -32,3 +33,4 @@ def test(config, testdir=None, checkpoint_path=None, device=None, gpus=None, dat
     Trainer = get_trainer(config["trainer_type"], **config)
     Trainer.load(checkpoint_path)
     Trainer.test(dataset)
+    return Trainer

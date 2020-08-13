@@ -1,10 +1,10 @@
 # Example Config for FinalTrainer
 
 # ---- Basic Settings ----
-trainer_type: FinalTrainer
+trainer_type: CNNFinalTrainer
 device: cuda
 gpus: 0
-epochs: 1
+epochs: 100
 grad_clip: 5.0
 eval_no_grad: True
 early_stop: True
@@ -32,8 +32,8 @@ dataset_kwargs:
     - 0.26158768
   whether_valid: True
   portion:
-    - 0.1
-    - 0.9
+    - 0.90
+    - 0.10
 dataloader_kwargs:
   trainset:
     batch_size: 64

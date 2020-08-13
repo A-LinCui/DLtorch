@@ -27,7 +27,7 @@ def primary_test(model, dataloader, criterion):
     return loss / total, correct / total
 
 def get_params(model, only_trainable=False):
-    if only_trainable:
+    if not only_trainable:
         return sum(p.numel() for p in model.parameters())
     else:
         sum(p.numel() for p in model.parameters() if p.requires_grad)

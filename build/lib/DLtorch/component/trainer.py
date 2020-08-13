@@ -1,6 +1,6 @@
 from DLtorch.train import *
 
-Trainer = {"FinalTrainer": lambda **kwargs: FinalTrainer(**kwargs)}
+Trainer = {"CNNFinalTrainer": lambda **kwargs: CNNFinalTrainer(**kwargs)}
 
 def get_trainer(_type, **kwargs):
     assert _type in Trainer.keys(), "NO Trainer: ".format(_type)

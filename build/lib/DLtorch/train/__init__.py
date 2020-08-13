@@ -1,1 +1,1 @@
-from DLtorch.train.final_trainer import *
+from DLtorch.train.CNNFinalTrainer import *

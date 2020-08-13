@@ -1,3 +1,5 @@
+import abc
+
 import torch.nn as nn
 
 class BaseObjective(object):
@@ -5,11 +7,22 @@ class BaseObjective(object):
     def __init__(self):
         self._criterion = nn.CrossEntropyLoss()
 
+    # ---- virtual APIs to be implemented in subclasses ----
+    @abc.abstractmethod
     def perf_names(self):
-        pass
+        """
+        The names of the perf.
+        """
 
+
+    @abc.abstractmethod
     def get_perfs(self, inputs, outputs, targets, model):
-        pass
+        """
+        Get the perfs.
+        """
 
+    @abc.abstractmethod
     def get_loss(self, inputs, outputs, targets, model):
-        pass
+        """
+        Get the loss of a batch.
+        """

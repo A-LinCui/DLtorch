@@ -30,10 +30,11 @@ class config(object):
     def init(self):
         self.config_all = {}
         # Set the datasets
-        self.dataset = {}
-        self.dataset["Cifar10"] = os.path.abspath(os.path.join(self.basic_path, "./datasets/data/cifar10"))
-        self.dataset["MNIST"] = os.path.abspath(os.path.join(self.basic_path, "./datasets/data/MNIST"))
-        self.dataset["FashionMNIST"] = os.path.abspath(os.path.join(self.basic_path, "./datasets/data/FashionMNIST"))
+        self.dataset = {"Cifar10": os.path.abspath(os.path.join(self.basic_path, "./datasets/data/cifar10")),
+                        "MNIST": os.path.abspath(os.path.join(self.basic_path, "./datasets/data/MNIST")),
+                        "FashionMNIST": os.path.abspath(os.path.join(self.basic_path, "./datasets/data/FashionMNIST")),
+                        "Cifar100": os.path.abspath(os.path.join(self.basic_path, "./datasets/data/cifar100")),
+                        "SVHN": os.path.abspath(os.path.join(self.basic_path, "./datasets/data/SVHN"))}
         self.config_all["Dataset"] = self.dataset
         with open(self.dir, "w", encoding="utf-8") as f:
             yaml.dump(self.config_all, f)

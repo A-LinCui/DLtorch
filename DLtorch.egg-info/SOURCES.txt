@@ -16,6 +16,8 @@ DLtorch/component/objective.py
 DLtorch/component/optimizer.py
 DLtorch/component/trainer.py
 DLtorch/datasets/Cifar10.py
+DLtorch/datasets/Cifar100.py
+DLtorch/datasets/SVHN.py
 DLtorch/datasets/__init__.py
 DLtorch/datasets/base.py
 DLtorch/models/__init__.py
@@ -27,8 +29,9 @@ DLtorch/models/Cifar10/resnet.py
 DLtorch/objective/__init__.py
 DLtorch/objective/base.py
 DLtorch/objective/classification_objective.py
+DLtorch/train/CNNFinalTrainer.py
 DLtorch/train/__init__.py
-DLtorch/train/final_trainer.py
+DLtorch/train/base.py
 DLtorch/utils/__init__.py
 DLtorch/utils/logger.py
 DLtorch/utils/python_utils.py

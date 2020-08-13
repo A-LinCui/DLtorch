@@ -1,57 +1,29 @@
 # !bai/usr/bin/python
 import os
 
+import matplotlib.pyplot as plt
 import torch
 
+from DLtorch.train.base import BaseFinalTrainer
 import DLtorch.utils as utils
-import DLtorch.component as component
-from DLtorch.utils.logger import logger
 from DLtorch.utils.python_utils import *
-from DLtorch.utils.torch_utils import get_params
 
-class FinalTrainer(object):
-    NAME = "FinalTrainer"
+class CNNFinalTrainer(BaseFinalTrainer):
+    NAME = "CNNFinalTrainer"
 
     def __init__(self, device, gpus,
-                 epochs=200, grad_clip=None, eval_no_grad=True, early_stop=False,
-                 model=None, model_kwargs=None,
-                 dataset=None, dataset_kwargs=None, dataloader_kwargs=None,
-                 objective=None, objective_kwargs=None,
-                 optimizer_type=None, optimizer_kwargs=None,
-                 scheduler=None, scheduler_kwargs=None,
-                 save_as_state_dict=False, path=None,
-                 test_every=1, valid_every=1, save_every=1, report_every=0.2, trainer_type="FinalTrainer"
+                 epochs, grad_clip, eval_no_grad, early_stop,
+                 model, model_kwargs,
+                 dataset, dataset_kwargs, dataloader_kwargs,
+                 objective, objective_kwargs,
+                 optimizer_type, optimizer_kwargs,
+                 scheduler, scheduler_kwargs,
+                 save_as_state_dict, path,
+                 test_every, valid_every, save_every, report_every, trainer_type="CNNFinalTrainer"
                  ):
-
-        # Makedir
-        self.path = path
-        if path is not None and not os.path.exists(self.path):
-            os.mkdir(self.path)
-
-        # Set the log
-        self.log = logger(name="FinalTrainer", save_path=os.path.join(self.path, "trainer.log"),
-                          whether_stream=True, whether_file=True) if path is not None else \
-            logger(name="Final Training", whether_stream=True)
-        self.log.info("DLtorch Framework: Constructing FinalTrainer ···")
-
-        # Set the device
-        self.device = device
-        self.gpus = gpus
-        self.set_gpus()
-
-        # Set all the components
-        self.model_type = model
-        self.model_kwargs = model_kwargs
-        self.dataset_type = dataset
-        self.dataset_kwargs = dataset_kwargs
-        self.dataloader_kwargs = dataloader_kwargs
-        self.optimizer_type = optimizer_type
-        self.optimizer_kwargs = optimizer_kwargs
-        self.scheduler_type = scheduler
-        self.scheduler_kwargs = scheduler_kwargs
-        self.objective_type = objective
-        self.objective_kwargs = objective_kwargs
-        self.model, self.dataset, self.optimizer, self.scheduler, self.objective = None, None, None, None, None
+        super(CNNFinalTrainer, self).__init__(device, gpus, model, model_kwargs, dataset, dataset_kwargs, dataloader_kwargs,
+                                           objective, objective_kwargs, optimizer_type, optimizer_kwargs,
+                                           scheduler, scheduler_kwargs, path, trainer_type)
 
         # Set other training configs
         self.epochs = epochs
@@ -59,7 +31,6 @@ class FinalTrainer(object):
         self.valid_every = valid_every
         self.save_every = save_every
         self.report_every = report_every
-
         # Other configs
         self.save_as_state_dict = save_as_state_dict
         self.early_stop = early_stop
@@ -68,19 +39,9 @@ class FinalTrainer(object):
 
         self.last_epoch = 0
         name = ["train", "test", "valid"] if self.early_stop else ["train", "test"]
-        self.training_statistics = {item: {"epoch": [], "acc": [], "loss": [], "reward": [], "perf": []} for item in name}
+        self.training_statistics = {item: {"epoch": [], "loss": [], "acc": [], "reward": [], "perf": []} for item in name}
         
     # ---- API ----
-    def update_statistics(self, name, epoch, statistic):
-        # Save the statistics after training, testing or validating for an epoch
-        for key, consequence in zip(list(self.training_statistics[name].keys())[1:], statistic):
-            self.training_statistics[name][key].append(consequence)
-            self.training_statistics[name]["epoch"].append(epoch)
-
-    def count_param(self):
-        self.param = get_params(self.model, only_trainable=False)
-        self.log.info("Parameter number for current model: {}".format(self.param))
-
     def train(self):
         self.log.info("DLtorch Train : FinalTrainer  Start training···")
         self.init_component()
@@ -99,8 +60,8 @@ class FinalTrainer(object):
         for epoch in range(self.last_epoch, self.epochs):
 
             # Print the current learning rate.
-            if self.scheduler is None:
-                self.log.info("epoch: {} learning rate: {}".format(epoch, self.optimizer_kwargs["lr"]))
+            if not hasattr(self, "scheduler"):
+                self.log.info("epoch: {} learning rate: {}".format(epoch, self.component_kwargs["optimizer"]["lr"]))
             else:
                 self.log.info("epoch: {} learning rate: {}".format(epoch, self.scheduler.get_lr()[0]))
 
@@ -108,7 +69,7 @@ class FinalTrainer(object):
             self.update_statistics("train", epoch + 1, self.train_epoch(self.dataloader["train"], epoch))
 
             # Step the learning rate if scheduler isn't none.
-            if self.scheduler_type is not None:
+            if hasattr(self, "scheduler"):
                 self.scheduler.step()
 
             # Test on validation set and save the model with the best performance.
@@ -135,15 +96,12 @@ class FinalTrainer(object):
 
             self.last_epoch += 1
 
-    def test(self, dataset=["train", "test"]):
+    def test(self, dataset):
         self.log.info("DLtorch Trainer : FinalTrainer  Start testing···")
         self.count_param()
-        assert self.model is not None and self.optimizer is not None, \
+        self.init_component()
+        assert hasattr(self, "model") and hasattr(self, "optimizer"), \
             "At least one component in 'model, optimizer' isn't available. Please load or initialize them before testing."
-        if self.dataset is None:
-            self.init_dataset()
-        if self.objective is None:
-            self.init_objective()
         assert "valid" not in dataset or self.early_stop, \
             "No validation dataset available or early_stop hasn't set to be true. Check the configuration."
         for data_type in dataset:
@@ -166,6 +124,7 @@ class FinalTrainer(object):
             torch.save(self.scheduler.state_dict(), os.path.join(path, "scheduler.pt"))
         # Save the training statistics
         torch.save(self.training_statistics, os.path.join(path, "statistics.pt"))
+        self.draw_curves(path, show=True)
         self.log.info("Save the checkpoint at {}".format(os.path.abspath(path)))
 
     def load(self, path):
@@ -180,7 +139,7 @@ class FinalTrainer(object):
             self.model.load_state_dict(model_path)
         self.model.to(self.device)
         self.log.info("Load model from {}".format(os.path.abspath(model_path)))
-        # Load the optimzier
+        # Load the optimizer
         self.init_optimizer()
         optimizer_path = os.path.join(path, "optimizer.pt") if os.path.isdir(path) else None
         if optimizer_path and os.path.exists(optimizer_path):
@@ -199,8 +158,52 @@ class FinalTrainer(object):
         if statistics_path and os.path.exists(statistics_path):
             self.training_statistics = torch.load(statistics_path)
             self.log.info("Load training statistics from {}".format(statistics_path))
-    
-    # ---- Main Functions ----
+
+    def update_statistics(self, name, epoch, statistic):
+        # Save the statistics after training, testing or validating for an epoch
+        self.training_statistics[name]["epoch"].append(epoch)
+        for key, consequence in zip(list(self.training_statistics[name].keys())[1:], statistic):
+            self.training_statistics[name][key].append(consequence if key != "perf" else [consequence])
+
+    def draw_curves(self, path=None, show=False):
+        """
+        Draw curves for all the statistics.
+        """
+        plt.figure()
+        item_num = len(self.training_statistics["train"].keys()) + len(self.objective.perf_names) - 2
+        line_num = len(self.training_statistics.keys())
+
+        row = 1
+        for item in self.training_statistics["train"].keys():
+            if item not in ["epoch", "perf"]:
+                line = 1
+                for dataset in self.training_statistics.keys():
+                    plt.subplot(line_num, item_num, row + item_num * (line -1))
+                    plt.plot(self.training_statistics[dataset]["epoch"], self.training_statistics[dataset][item], color="red")
+                    plt.xlabel("epoch")
+                    plt.ylabel("{}-{}".format(dataset, item))
+                    line += 1
+                row += 1
+
+        for item in range(len(self.objective.perf_names)):
+            line = 1
+            for dataset in self.training_statistics.keys():
+                plt.subplot(line_num, item_num, row + item_num * (line-1))
+                try:
+                    perf = [self.training_statistics[dataset]["perf"][num][item] for num in range(len(self.training_statistics[dataset]["epoch"]))]
+                    plt.plot(self.training_statistics[dataset]["epoch"], perf, color="red")
+                    plt.xlabel("epoch")
+                    plt.ylabel("{}-perf-{}".format(dataset, self.objective.perf_names[item]))
+                    line += 1
+                except:
+                    line += 1
+
+        if path is not None:
+            plt.savefig(os.path.join(path, "curves.png"))
+        if show:
+            plt.show()
+
+    # ---- Inner Functions ----
     def train_epoch(self, data_queue=None, epoch=0):
         self.model.train()
         start_train = False
@@ -283,71 +286,3 @@ class FinalTrainer(object):
                 ["{}: {:.3f}".format(n, v) for n, v in zip(self.objective.perf_names, perf)])))
 
         return loss, accuracy, perf, reward
-
-    # ---- Construction Helper ----
-    def set_gpus(self):
-        os.environ["CUDA_VISIBLE_DEVICES"] = str(self.gpus)
-        self.log.info("GPU information: {}".format(self.gpus))
-
-    def init_model(self):
-        if self.model_type is not None:
-            self.log.info("Initialize Model: {}".format(self.model_type))
-            if self.model_kwargs is not None:
-                self.model = component.get_model(self.model_type, **self.model_kwargs).to(self.device)
-            else:
-                self.model = component.get_model(self.model_type).to(self.device)
-            if len(str(self.gpus)) > 1:
-                self.model = torch.nn.DataParallel(self.model)
-
-    def init_optimizer(self):
-        assert self.optimizer_type is not None, "Available optimizer not found. Check the configuration."
-        self.log.info("Initialize Optimizer: {}".format(self.optimizer_type))
-        if self.optimizer_kwargs is not None:
-            self.optimizer = component.get_optimizer(self.optimizer_type, params=list(self.model.parameters()),
-                                                     **self.optimizer_kwargs)
-        else:
-            self.optimizer = component.get_optimizer(self.optimizer_type, params=list(self.model.parameters()))
-
-    def init_scheduler(self):
-        # Initialize the scheduler
-        if self.scheduler_type is not None:
-            self.log.info("Initialize Scheduler: {}".format(self.scheduler_type))
-            if self.scheduler_kwargs is not None:
-                self.scheduler = component.get_scheduler(self.scheduler_type, optimizer=self.optimizer, **self.scheduler_kwargs)
-            else:
-                self.scheduler = component.get_scheduler(self.scheduler_type, optimizer=self.optimizer)
-
-    def init_objective(self):
-        assert self.objective_type is not None, "Available objective not found. Check the configuration."
-        self.log.info("Initialize Objective: {}".format(self.objective_type))
-        if self.objective_kwargs is not None:
-            self.objective = component.objective.get_objective(self.objective_type, **self.objective_kwargs)
-        else:
-            self.objective = component.get_objective(self.objective_type)
-
-    def init_dataset(self):
-        assert self.dataset_type is not None, "Available dataset not found. Check the configuration."
-        self.log.info("Initialize Dataset: {}".format(self.dataset_type))
-        if self.dataset_kwargs is not None:
-            self.dataset = component.get_dataset(self.dataset_type, **self.dataset_kwargs)
-        else:
-            component.get_dataset_cls(self.dataset_type)()
-        assert self.dataset_kwargs is not None, "Available dataloader config not found. Check the configuration."
-        self.log.info("Initialize Dataloader.")
-        self.dataloader = self.dataset.dataloader(**self.dataloader_kwargs)
-
-    def init_component(self):
-        """
-         Init all the components, including model, dataset, dataloader, optimizer, scheduler and objective.
-         Note that schedule is optional.
-        """
-        if self.model is None:
-            self.init_model()
-        if self.dataset is None:
-            self.init_dataset()
-        if self.optimizer is None:
-            self.init_optimizer()
-        if self.scheduler is None:
-            self.init_scheduler()
-        if self.objective is None:
-            self.init_objective()
