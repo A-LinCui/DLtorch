@@ -1,12 +1,11 @@
 # !bai/usr/bin/python
 import os
 
-import matplotlib.pyplot as plt
 import torch
 
 from DLtorch.train.base import BaseFinalTrainer
-import DLtorch.utils as utils
 from DLtorch.utils.python_utils import *
+from DLtorch.utils.torch_utils import accuracy
 
 class CNNFinalTrainer(BaseFinalTrainer):
     NAME = "CNNFinalTrainer"
@@ -38,59 +37,59 @@ class CNNFinalTrainer(BaseFinalTrainer):
         self.eval_no_grad = eval_no_grad
 
         self.last_epoch = 0
-        name = ["train", "test", "valid"] if self.early_stop else ["train", "test"]
-        self.training_statistics = {item: {"epoch": [], "loss": [], "acc": [], "reward": [], "perf": []} for item in name}
         
     # ---- API ----
     def train(self):
-        self.log.info("DLtorch Train : FinalTrainer  Start training···")
-        self.init_component()
-        self.count_param()
 
+        self.log.info("DLtorch Train : FinalTrainer  Start training···")
+        # Init the all of the components.
+        self.init_component()
+        # Count the parameters of the mode to be trained.
+        self.count_param()
+        # Add statistics recorder
+        self.recorder = train_recorder(types=["train", "test"], list_names=["loss", "top-1-acc", "top-5-acc", "reward"],
+                                       perfs_names=self.objective.perf_names)
+
+        # If using early stop, add validation part to training statistics.
         if self.early_stop:
             self.log.info("Using early stopping.")
-            best_reward, best_epoch, best_loss, best_acc, best_perf = 0, 0, 0, 0, 0
-            """
-            If we load the checkpoint before training and there is no validation statistics in the checkpoint,
-            there will be no key called "valid" in self.training_statistics. Therefore, we should add it.
-            """
-            if "valid" not in list(self.training_statistics.keys()):
-                self.training_statistics["valid"] = {"epoch": [], "acc": [], "loss": [], "reward": [], "perf": []}
+            self.recorder.add_type("valid")
 
-        for epoch in range(self.last_epoch, self.epochs):
+        for epoch in range(self.last_epoch + 1, self.epochs + 1):
 
             # Print the current learning rate.
-            if not hasattr(self, "scheduler"):
-                self.log.info("epoch: {} learning rate: {}".format(epoch, self.component_kwargs["optimizer"]["lr"]))
-            else:
-                self.log.info("epoch: {} learning rate: {}".format(epoch, self.scheduler.get_lr()[0]))
+            self.log.info("epoch: {} learning rate: {}".format(epoch, self.optimizer_kwargs["lr"] if not hasattr(self, "scheduler") else self.scheduler.get_lr()[0]))
 
             # Train on training set for one epoch.
-            self.update_statistics("train", epoch + 1, self.train_epoch(self.dataloader["train"], epoch))
+            loss, accs, perfs, reward = self.train_epoch(self.dataloader["train"])
+            self.recorder.update("train", epoch, [loss, accs["top-1"], accs["top-5"], reward, perfs])
 
             # Step the learning rate if scheduler isn't none.
             if hasattr(self, "scheduler"):
                 self.scheduler.step()
 
             # Test on validation set and save the model with the best performance.
-            if (epoch + 1) % self.valid_every == 0 and self.early_stop:
-                loss, accuracy, perf, reward = self.infer(self.dataloader["valid"], epoch, "valid")
-                self.update_statistics("valid", epoch + 1, (loss, accuracy, perf, reward))
-                if reward > best_reward or best_reward == 0:
-                    best_reward, best_loss, best_acc, best_perf, best_epoch = reward, loss, accuracy, perf, epoch
+            if self.early_stop and epoch % self.valid_every == 0:
+                loss, accs, perfs, reward = self.infer(self.dataloader["valid"], "valid")
+                self.recorder.update("valid", epoch, [loss, accs["top-1"], accs["top-5"], reward, perfs])
+                if not hasattr(self, "best_reward") or reward > self.best_reward or self.best_reward == 0:
+                    self.best_reward, self.best_loss, self.best_acc, self.best_perf, self.best_epoch = \
+                        reward, loss, accs, perfs, epoch
+
                     if self.path is not None:
                         save_path = os.path.join(self.path, "best")
                         self.save(save_path)
-                self.log.info("best_valid_epoch: {} acc:{:.5f} loss:{:.5f} reward:{:.5f} perf: {}".
-                              format(best_epoch + 1, best_acc, best_loss, best_reward,
-                                     ";".join(["{}: {:.3f}".format(n, v) for n, v in zip(self.objective.perf_names, best_perf)])))
+                self.log.info("best_valid_epoch: {} top-1: {:.5f} top-5: {:.5f} loss: {:.5f} reward:{:.5f} perf: {}".
+                              format(self.best_epoch, self.best_acc["top-1"], self.best_acc["top-5"], self.best_loss,
+                                     self.best_reward, ";".join(["{}: {:.3f}".format(n, v) for n, v in self.best_perf.items()])))
 
             # Test on test dataset
-            if (epoch + 1) % self.test_every == 0:
-                self.update_statistics("test", epoch + 1, self.infer(self.dataloader["test"], epoch))
+            if epoch % self.test_every == 0:
+                loss, accs, perfs, reward = self.infer(self.dataloader["test"])
+                self.recorder.update("test", epoch, [loss, accs["top-1"], accs["top-5"], reward, perfs])
 
             # Save the current model.
-            if (epoch + 1) % self.save_every == 0 and self.path is not None:
+            if epoch % self.save_every == 0 and self.path is not None:
                 save_path = os.path.join(self.path, str(epoch))
                 self.save(save_path)
 
@@ -105,7 +104,7 @@ class CNNFinalTrainer(BaseFinalTrainer):
         assert "valid" not in dataset or self.early_stop, \
             "No validation dataset available or early_stop hasn't set to be true. Check the configuration."
         for data_type in dataset:
-            loss, accuracy, perf, reward = self.infer(self.dataloader[data_type], 0, data_type)
+            loss, accs, perfs, reward = self.infer(self.dataloader[data_type], data_type)
 
     def save(self, path):
         if not os.path.exists(path):
@@ -122,9 +121,9 @@ class CNNFinalTrainer(BaseFinalTrainer):
         # Save the scheduler
         if self.scheduler is not None:
             torch.save(self.scheduler.state_dict(), os.path.join(path, "scheduler.pt"))
-        # Save the training statistics
-        torch.save(self.training_statistics, os.path.join(path, "statistics.pt"))
-        self.draw_curves(path, show=True)
+        # Save the statistics
+        torch.save(self.recorder, os.path.join(path, "statistics.pt"))
+        self.recorder.draw_curves(path, show=True)
         self.log.info("Save the checkpoint at {}".format(os.path.abspath(path)))
 
     def load(self, path):
@@ -156,133 +155,85 @@ class CNNFinalTrainer(BaseFinalTrainer):
         # Load the statistics
         statistics_path = os.path.join(path, "statistics.pt") if os.path.isdir(path) else None
         if statistics_path and os.path.exists(statistics_path):
-            self.training_statistics = torch.load(statistics_path)
-            self.log.info("Load training statistics from {}".format(statistics_path))
-
-    def update_statistics(self, name, epoch, statistic):
-        # Save the statistics after training, testing or validating for an epoch
-        self.training_statistics[name]["epoch"].append(epoch)
-        for key, consequence in zip(list(self.training_statistics[name].keys())[1:], statistic):
-            self.training_statistics[name][key].append(consequence if key != "perf" else [consequence])
-
-    def draw_curves(self, path=None, show=False):
-        """
-        Draw curves for all the statistics.
-        """
-        plt.figure()
-        item_num = len(self.training_statistics["train"].keys()) + len(self.objective.perf_names) - 2
-        line_num = len(self.training_statistics.keys())
-
-        row = 1
-        for item in self.training_statistics["train"].keys():
-            if item not in ["epoch", "perf"]:
-                line = 1
-                for dataset in self.training_statistics.keys():
-                    plt.subplot(line_num, item_num, row + item_num * (line -1))
-                    plt.plot(self.training_statistics[dataset]["epoch"], self.training_statistics[dataset][item], color="red")
-                    plt.xlabel("epoch")
-                    plt.ylabel("{}-{}".format(dataset, item))
-                    line += 1
-                row += 1
-
-        for item in range(len(self.objective.perf_names)):
-            line = 1
-            for dataset in self.training_statistics.keys():
-                plt.subplot(line_num, item_num, row + item_num * (line-1))
-                try:
-                    perf = [self.training_statistics[dataset]["perf"][num][item] for num in range(len(self.training_statistics[dataset]["epoch"]))]
-                    plt.plot(self.training_statistics[dataset]["epoch"], perf, color="red")
-                    plt.xlabel("epoch")
-                    plt.ylabel("{}-perf-{}".format(dataset, self.objective.perf_names[item]))
-                    line += 1
-                except:
-                    line += 1
-
-        if path is not None:
-            plt.savefig(os.path.join(path, "curves.png"))
-        if show:
-            plt.show()
+            self.recorder = torch.load(statistics_path)
+            self.log.info("Load statistic recorder from {}".format(statistics_path))
 
     # ---- Inner Functions ----
-    def train_epoch(self, data_queue=None, epoch=0):
+    def train_epoch(self, data_queue):
         self.model.train()
-        start_train = False
-        report_batch = [int(i * self.report_every * len(data_queue)) for i in range(1, int(1 / self.report_every))]
-        batch_num = 0
-        for (inputs, targets) in data_queue:
-            if not start_train:
-                loss, correct, total, perf, reward = self.train_batch(inputs, targets)
-                start_train = True
-            else:
-                batch_loss, batch_correct, batch_size, batch_perf, batch_reward = self.train_batch(inputs, targets)
-                loss += batch_loss
-                correct += batch_correct
-                total += batch_size
-                perf = list_merge(perf, batch_perf)
-                reward += batch_reward
-            batch_num += 1
-            if batch_num in report_batch:
-                self.log.info("train_epoch: {} process: {} / {} acc: {:.5f} loss:{:.5f} reward:{:.5f} perf: {}".
-                              format(epoch + 1, batch_num, len(data_queue), correct / total, loss / total, reward / total,
-                                     ";".join(["{}: {:.3f}".format(n, v) for n, v in zip(self.objective.perf_names,
-                                                                                     list_average(perf, total))])))
-        loss, accuracy, reward, perf = float(loss / total), float(correct / total), float(reward / total), list_average(perf, total)
-        self.log.info("train_epoch: {} process: {} / {} acc: {:.5f} loss:{:.5f} reward:{:.5f} perf: {}".
-                      format(epoch + 1, batch_num, len(data_queue), accuracy, loss, reward,
-                             ";".join(["{}: {:.3f}".format(n, v) for n, v in zip(self.objective.perf_names, perf)])))
+        data_queue_length, batch_num = len(data_queue), 0
+        loss, reward = AvgrageMeter(), AvgrageMeter()
+        accs, perfs = EnsembleAverageMeters(), EnsembleAverageMeters()
+        report_batch = [int(i * self.report_every * data_queue_length) for i in range(1, int(1 / self.report_every))]
 
-        return loss, accuracy, perf, reward
+        for (inputs, targets) in data_queue:
+
+            batch_size = len(targets)
+            batch_num += 1
+
+            batch_loss, batch_accs, batch_perfs, batch_reward = self.train_batch(inputs, targets)
+            loss.update(batch_loss, batch_size)
+            reward.update(batch_reward, batch_size)
+            accs.update(batch_accs, batch_size)
+            perfs.update(batch_perfs, batch_size)
+
+            if batch_num in report_batch or batch_num == data_queue_length:
+                self.log.info("train_epoch: {} process: {} / {} top-1: {:.5f} top-5: {:.5f} loss:{:.5f} "
+                              "reward:{:.5f} perf: {}".format(self.last_epoch + 1, batch_num, len(data_queue), accs.avgs()["top-1"],
+                accs.avgs()["top-5"], loss.avg, reward.avg, ";".join(["{}: {:.3f}".format(n, v) for n, v in perfs.avgs().items()])))
+
+        return loss.avg, accs.avgs(), perfs.avgs(), reward.avg
 
     def train_batch(self, inputs, targets):
         inputs, targets = inputs.to(self.device), targets.to(self.device)
         outputs = self.model(inputs)
+        prec1, prec5 = accuracy(outputs, targets, topk=(1, 5))
+        accs = OrderedDict({"top-1": prec1, "top-5": prec5})
         loss = self.objective.get_loss(inputs, outputs, targets, self.model)
-        perf = self.objective.get_perfs(inputs, outputs, targets, self.model)
-        reward = self.objective.get_reward(perf)
+        perfs_value = self.objective.get_perfs(inputs, outputs, targets, self.model)
+        perfs = OrderedDict([(name, perf) for name, perf in zip(self.objective.perf_names, perfs_value)])
+        reward = self.objective.get_reward(perfs_value)
         self.optimizer.zero_grad()
         loss.backward()
         if self.grad_clip is not None:
             torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.grad_clip)
         self.optimizer.step()
-        return loss.item(), utils.correct(outputs, targets), len(inputs), perf, reward
+        return loss.item(), accs, perfs, reward
 
     def infer_batch(self, inputs, targets):
         inputs, targets = inputs.to(self.device), targets.to(self.device)
         outputs = self.model(inputs)
+        prec1, prec5 = accuracy(outputs, targets, topk=(1, 5))
+        accs = OrderedDict({"top-1": prec1, "top-5": prec5})
         loss = self.objective.get_loss(inputs, outputs, targets, self.model)
-        perf = self.objective.get_perfs(inputs, outputs, targets, self.model)
-        reward = self.objective.get_reward(perf)
-        return loss.item(), utils.correct(outputs, targets), len(inputs), perf, reward
+        perfs_value = self.objective.get_perfs(inputs, outputs, targets, self.model)
+        perfs = OrderedDict([(name, perf) for name, perf in zip(self.objective.perf_names, perfs_value)])
+        reward = self.objective.get_reward(perfs_value)
+        return loss.item(), accs, perfs, reward
 
-    def infer(self, data_queue=None, epoch=0, _type="test"):
+    def infer(self, data_queue, _type="test"):
+
         self.model.eval()
-        start_infer = False
-        report_batch = [int(i * self.report_every * len(data_queue)) for i in range(1, int(1 / self.report_every))]
-        batch_num = 0
+        data_queue_length, total, batch_num = len(data_queue), 0, 0
+        loss, reward = AvgrageMeter(), AvgrageMeter()
+        accs, perfs = EnsembleAverageMeters(), EnsembleAverageMeters()
+        report_batch = [int(i * self.report_every * data_queue_length) for i in range(1, int(1 / self.report_every))]
         context = torch.no_grad() if self.eval_no_grad else nullcontext()
 
         with context:
             for (inputs, targets) in data_queue:
-                if not start_infer:
-                    loss, correct, total, perf, reward = self.infer_batch(inputs, targets)
-                    start_infer = True
-                else:
-                    batch_loss, batch_correct, batch_size, batch_perf, batch_reward = self.infer_batch(inputs, targets)
-                    loss += batch_loss
-                    correct += batch_correct
-                    total += batch_size
-                    perf = list_merge(perf, batch_perf)
-                    reward += batch_reward
+                batch_size = len(targets)
                 batch_num += 1
-                if batch_num in report_batch:
-                    self.log.info("{}_epoch: {} process: {} / {} acc: {:.5f} loss:{:.5f} reward:{:.5f} perf: {}".format(
-                        _type, epoch + 1, batch_num, len(data_queue), correct / total, loss / total, reward / total, ";".
-                            join(["{}: {:.3f}".format(n, v) for n, v in zip(self.objective.perf_names, list_average(perf, total))])))
+                batch_loss, batch_accs, batch_perfs, batch_reward = self.infer_batch(inputs, targets)
+                loss.update(batch_loss, batch_size)
+                reward.update(batch_reward, batch_size)
+                accs.update(batch_accs, batch_size)
+                perfs.update(batch_perfs, batch_size)
 
-        loss, accuracy, reward, perf = float(loss / total), float(correct / total), float(reward / total), list_average(
-            perf, total)
-        self.log.info("{}_epoch: {} process: {} / {} acc: {:.5f} loss:{:.5f} reward:{:.5f} perf:{}".format(
-            _type, epoch + 1, batch_num, len(data_queue), accuracy, loss, reward, ";".join(
-                ["{}: {:.3f}".format(n, v) for n, v in zip(self.objective.perf_names, perf)])))
-
-        return loss, accuracy, perf, reward
+                if batch_num in report_batch or batch_num == data_queue_length:
+                    self.log.info("{}_epoch: {} process: {} / {} top-1: {:.5f} top-5: {:.5f} loss:{:.5f} reward:{:.5f} "
+                                  "perf: {}".format(_type, self.last_epoch + 1, batch_num, len(data_queue),
+                                                   accs.avgs()["top-1"], accs.avgs()["top-5"], loss.avg, reward.avg,
+                                           ";".join(["{}: {:.3f}".format(n, v) for n, v in perfs.avgs().items()])))
+                break
+        return loss.avg, accs.avgs(), perfs.avgs(), reward.avg

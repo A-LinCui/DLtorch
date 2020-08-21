@@ -1,17 +1,5 @@
 import torch
 
-def accuracy(outputs, labels):
-    assert len(outputs) == len(labels), "Dimensions of outputs and labels must correspond. Outputs size: {} Labels size:{}".format(outputs.shape, labels.shape)
-    _, predicted = torch.max(outputs.data, 1)
-    correct = (predicted == labels).sum().item()
-    return correct / len(outputs)
-
-def correct(outputs, labels):
-    assert len(outputs) == len(labels), "Dimensions of outputs and labels must correspond. Outputs size: {} Labels size:{}".format(outputs.shape, labels.shape)
-    _, predicted = torch.max(outputs.data, 1)
-    correct = (predicted == labels).sum().item()
-    return correct
-
 def primary_test(model, dataloader, criterion):
     model.eval()
     correct, total, loss = 0, 0, 0
@@ -31,3 +19,15 @@ def get_params(model, only_trainable=False):
         return sum(p.numel() for p in model.parameters())
     else:
         sum(p.numel() for p in model.parameters() if p.requires_grad)
+
+def accuracy(outputs, targets, topk=(1,)):
+  maxk = max(topk)
+  batch_size = len(targets)
+  _, predicts = outputs.topk(maxk, 1, True, True)
+  predicts = predicts.t()
+  correct = predicts.eq(targets.view(1, -1).expand_as(predicts))
+  res = []
+  for k in topk:
+    correct_k = correct[:k].view(-1).float().sum(0)
+    res.append(correct_k.mul_(1.0/batch_size).item())
+  return res

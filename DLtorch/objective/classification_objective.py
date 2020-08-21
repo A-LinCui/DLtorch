@@ -1,5 +1,5 @@
 import torch.nn as nn
-from DLtorch.utils.torch_utils import correct
+from DLtorch.utils import accuracy
 from DLtorch.objective.base import BaseObjective
 
 class ClassificationObjective(BaseObjective):
@@ -11,10 +11,10 @@ class ClassificationObjective(BaseObjective):
 
     @ property
     def perf_names(self):
-        return ["correct"]
+        return ["acc"]
 
     def get_perfs(self, inputs, outputs, targets, model, **kwargs):
-        return [correct(outputs, targets)]
+        return [accuracy(outputs, targets)[0]]  # Top-1 accuracy
 
     def get_loss(self, inputs, outputs, targets, model):
         return self._criterion(outputs, targets)

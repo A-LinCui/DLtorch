@@ -73,7 +73,7 @@ class BaseFinalTrainer(object):
         """
 
     @abc.abstractmethod
-    def infer(self, data_queue, epoch, _type):
+    def infer(self, data_queue, _type):
         """
         Infer the model.
         """
