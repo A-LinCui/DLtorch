@@ -235,5 +235,5 @@ class CNNFinalTrainer(BaseFinalTrainer):
                                   "perf: {}".format(_type, self.last_epoch + 1, batch_num, len(data_queue),
                                                    accs.avgs()["top-1"], accs.avgs()["top-5"], loss.avg, reward.avg,
                                            ";".join(["{}: {:.3f}".format(n, v) for n, v in perfs.avgs().items()])))
-                break
+
         return loss.avg, accs.avgs(), perfs.avgs(), reward.avg
