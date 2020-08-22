@@ -6,9 +6,9 @@ from DLtorch.datasets.base import base_dataset
 class SVHN(base_dataset):
     NAME = "SVHN"
 
-    def __init__(self, mean=[0.4377, 0.4438, 0.4728], std=[0.1980, 0.2010, 0.1970],
+    def __init__(self, dir, mean=[0.4377, 0.4438, 0.4728], std=[0.1980, 0.2010, 0.1970],
                  train_transform=None, test_transform=None, extra_transform=None, whether_valid=False, portion=None):
-        super(SVHN, self).__init__(mean=mean, std=std, datatype="image", whether_valid=whether_valid, portion=portion)
+        super(SVHN, self).__init__(dir=dir, mean=mean, std=std, datatype="image", whether_valid=whether_valid, portion=portion)
 
         self.train_transform = train_transform if train_transform is not None else \
             transforms.Compose([
@@ -26,9 +26,9 @@ class SVHN(base_dataset):
                 transforms.Normalize(self.mean, self.std),
             ])
 
-        self.datasets["train"] = datasets.SVHN(root=self.datasets_dir["SVHN"], split="train", download=True, transform=self.train_transform)
-        self.datasets["test"] = datasets.SVHN(root=self.datasets_dir["SVHN"], split="test", download=True, transform=self.test_transform)
-        self.datasets["extra"] = datasets.SVHN(root=self.datasets_dir["SVHN"], split="extra", download=True, transform=self.extra_transform)
+        self.datasets["train"] = datasets.SVHN(root=self.dir, split="train", download=True, transform=self.train_transform)
+        self.datasets["test"] = datasets.SVHN(root=self.dir, split="test", download=True, transform=self.test_transform)
+        self.datasets["extra"] = datasets.SVHN(root=self.dir, split="extra", download=True, transform=self.extra_transform)
         self.datalength["train"] = len(self.datasets["train"])
         self.datalength["test"] = len(self.datasets["test"])
         self.datalength["extra"] = len(self.datasets["extra"])
