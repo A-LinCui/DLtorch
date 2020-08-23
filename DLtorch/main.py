@@ -40,8 +40,7 @@ def prepare(config, device, dir, gpus, seed):
     return config
 
 click.option = functools.partial(click.option, show_default=True)
-@click.group(help="The awnas NAS framework command line interface. "
-             "Use `AWNAS_LOG_LEVEL` environment variable to modify the log level.")
+@click.group(help="The DLtorch framework command line interface.")
 @click.version_option(version=__version__)
 @click.option("--local_rank", default=-1, type=int,
               help="the rank of this process")
