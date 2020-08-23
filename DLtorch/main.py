@@ -3,10 +3,26 @@ from __future__ import print_function
 import os
 import functools
 import click
+import importlib
+import sys
 
 from DLtorch.component import *
 from DLtorch.utils import set_seed, load_yaml, write_yaml
 from DLtorch.version import __version__
+
+def register(path):
+    # Automatically run the "register" function defined in the "path(.py)" file to register new components into DLtorch.
+    p, f = os.path.split(os.path.abspath(path))
+    sys.path.append(p)
+    module = importlib.import_module(f[:-3])
+    module.register()
+    sys.path.remove(p)
+
+def register_components(path):
+    if isinstance(path, str):
+        register(path)
+    else:
+        [register(one_path) for one_path in path]
 
 def prepare(config, device, dir, gpus, seed):
     if device is not None:
@@ -42,8 +58,12 @@ def main(local_rank):
 @click.option('--device', default="cuda", type=str,
               help="cpu or cuda")
 @click.option('--gpus', default="0", type=str, help="gpus")
-def train(cfg_file, traindir, device, gpus, load, seed):
+@click.option('--register_file', default=None, type=str or list, help="register_file(s)")
+
+def train(cfg_file, traindir, device, gpus, load, seed, register_file):
     set_seed(seed)
+    if register_file is not None:
+        register_components(register_file)
     config = load_yaml(cfg_file)
     config = prepare(config, device, traindir, gpus, seed)
     if traindir is not None:
@@ -67,9 +87,12 @@ main.add_command(train)
               help="cpu or cuda")
 @click.option('--gpus', default="0", type=str, help="gpus")
 @click.option('--dataset', default=["train", "test"], type=list, help="datasets to test on")
-def test(cfg_file, testdir, load, device, gpus, dataset, seed):
+@click.option('--register_file', default=None, type=str or list, help="register_file(s)")
+def test(cfg_file, testdir, load, device, gpus, dataset, seed, register_file):
     assert load is not None, "No available checkpoint."
     set_seed(seed)
+    if register_file is not None:
+        register_components(register_file)
     config = load_yaml(cfg_file)
     config = prepare(config, device, testdir, gpus, seed)
     if testdir is not None:
