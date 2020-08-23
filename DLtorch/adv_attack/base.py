@@ -7,7 +7,7 @@ class BaseAdvGenerator(object):
         self.criterion = getattr(torch.nn, criterion_type)()
 
     @abc.abstractmethod
-    def generate_adv(self, inputs, outputs, targets, net):
+    def generate_adv(self, net, inputs, targets, outputs):
         """
         Generate adversarial types of the inputs.
         """

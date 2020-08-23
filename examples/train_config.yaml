@@ -6,13 +6,13 @@ device: cuda
 gpus: 0
 epochs: 100
 grad_clip: 5.0
-eval_no_grad: True
+eval_no_grad: False
 early_stop: True
 save_as_state_dict: False
 path: test
 test_every: 1
 valid_every: 1
-save_every: 1
+save_every: 20
 report_every: 0.2
 
 # ---- Config for model
@@ -22,34 +22,42 @@ model_kwargs: NULL
 # ---- Config for dataset and dataloader ----
 dataset: Cifar10
 dataset_kwargs:
+  dir: E:/datasets/CIFAR10
   mean:
-    - 0.49139968
-    - 0.48215827
-    - 0.44653124
+    - 0
+    - 0
+    - 0
   std:
-    - 0.24703233
-    - 0.24348505
-    - 0.26158768
+    - 1
+    - 1
+    - 1
   whether_valid: True
   portion:
     - 0.90
     - 0.10
 dataloader_kwargs:
   trainset:
-    batch_size: 64
+    batch_size: 16
     num_workers: 0
     shuffle: True
     drop_last: False
   testset:
-    batch_size: 64
+    batch_size: 16
     num_workers: 0
     shuffle: False
     drop_last: False
 
 # ---- Config for objective ----
-objective: ClassificationObjective
-objective_kwargs: NULL
-
+objective: ClassificationAdversarialObjective
+objective_kwargs:
+  adversary_type: FGSM
+  adversary_kwargs:
+    rand_init: True
+    criterion_type: CrossEntropyLoss
+    epsilon: 0.031
+  adv_loss_coef: 0.5
+  adv_reward_coef: 0.5
+  criterion_type: CrossEntropyLoss
 # ---- Config for optimizer ----
 optimizer_type: SGD
 optimizer_kwargs:

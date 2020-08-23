@@ -1,0 +1,3 @@
+[console_scripts]
+DLtorch = DLtorch.main:main
+

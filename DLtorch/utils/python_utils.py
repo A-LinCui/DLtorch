@@ -28,7 +28,6 @@ def list_merge(list_1, list_2):
 def do_nothing():
     pass
 
-
 class AvgrageMeter(object):
 
     def __init__(self):

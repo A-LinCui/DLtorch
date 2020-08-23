@@ -1,13 +1,11 @@
-import torch.nn as nn
 from DLtorch.utils import accuracy
 from DLtorch.objective.base import BaseObjective
 
 class ClassificationObjective(BaseObjective):
     NAME = "ClassificationObjective"
 
-    def __init__(self):
-        super(ClassificationObjective, self).__init__()
-        self._criterion = nn.CrossEntropyLoss()
+    def __init__(self, criterion_type="CrossEntropyLoss"):
+        super(ClassificationObjective, self).__init__(criterion_type)
 
     @ property
     def perf_names(self):

@@ -1,7 +1,9 @@
 from DLtorch.adv_attack.base import BaseAdvGenerator
 from DLtorch.adv_attack.FGSM import FGSM
+from DLtorch.adv_attack.PGD import PGD
 
-Attacker = {"FGSM": lambda epsilon, rand_init, criterion_type: FGSM(epsilon, rand_init, criterion_type)}
+Attacker = {"FGSM": lambda epsilon, rand_init, criterion_type="CrossEntropyLoss": FGSM(epsilon, rand_init, criterion_type),
+            "PGD": lambda epsilon, n_step, step_size, rand_init, criterion_type="CrossEntropyLoss": PGD(epsilon, n_step, step_size, rand_init, criterion_type)}
 
 def get_attaker(_type, **kwargs):
     assert _type in Attacker.keys(), "NO Attacker: ".format(_type)

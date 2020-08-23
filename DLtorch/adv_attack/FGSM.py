@@ -1,5 +1,4 @@
 import torch
-from torch.autograd import Variable
 
 from DLtorch.adv_attack import BaseAdvGenerator
 
@@ -9,13 +8,14 @@ class FGSM(BaseAdvGenerator):
         self.epsilon = epsilon
         self.rand_init = rand_init
 
-    def generate_adv(self, inputs, outputs, targets, net):
+    def generate_adv(self, net, inputs, targets, outputs=None):
         if self.rand_init:
             eta = inputs.new(inputs.size()).uniform_(-self.epsilon, self.epsilon)
             inputs.data = inputs + eta
 
+        inputs.requires_grad = True
         outputs = net(inputs)
-        loss = self.criterion(outputs, Variable(targets))
+        loss = self.criterion(outputs, targets)
         loss.backward()
         eta = self.epsilon * inputs.grad.data.sign()
         inputs.data = inputs + eta
