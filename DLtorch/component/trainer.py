@@ -8,3 +8,6 @@ def get_trainer(_type, **kwargs):
 
 def regist_trainer(name, fun):
     Trainer[name] = fun
+
+def get_trainer_attrs():
+    return list(Trainer.keys())

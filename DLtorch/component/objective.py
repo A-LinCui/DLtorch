@@ -12,3 +12,6 @@ def get_objective(_type, **kwargs):
 
 def regist_objective(name, fun):
     Objective[name] = fun
+
+def get_objective_attrs():
+    return list(Objective.keys())

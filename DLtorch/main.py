@@ -7,6 +7,7 @@ import importlib
 import sys
 
 from DLtorch.component import *
+from DLtorch.adv_attack import *
 from DLtorch.utils import set_seed, load_yaml, write_yaml
 from DLtorch.version import __version__
 
@@ -102,6 +103,21 @@ def test(cfg_file, testdir, load, device, gpus, dataset, seed, register_file):
     Trainer.test(dataset)
     return Trainer
 main.add_command(test)
+
+@click.command(help="Show All The Registered Components")
+@click.option('--register_file', default=None, type=str or list, help="register_file(s)")
+def components(register_file):
+    if register_file is not None:
+        register_components(register_file)
+    print("DLtorch Components")
+    print('-- Adv Attackers:', get_attacker_attrs())
+    print('-- Datasets:', get_dataset_attr())
+    print('-- Lr_Scedulers:', get_scheduler_attrs())
+    print('-- Objectives', get_objective_attrs())
+    print('-- Optimizers:', get_optimizer_attrs())
+    print('-- Trainers:', get_trainer_attrs())
+    print('-- Models:', get_model_attrs())
+main.add_command(components)
 
 if __name__ == '__main__':
     main()

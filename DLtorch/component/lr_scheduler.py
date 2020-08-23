@@ -10,3 +10,6 @@ def get_scheduler(_type, **kwargs):
 
 def regist_scheduler(name, fun):
     Scheduler[name] = fun
+
+def get_scheduler_attrs():
+    return list(Scheduler.keys())

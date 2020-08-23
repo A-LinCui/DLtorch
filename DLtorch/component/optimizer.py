@@ -10,3 +10,6 @@ def get_optimizer(_type, **kwargs):
 
 def regist_optimizer(name, fun):
     Optimizer[name] = fun
+
+def get_optimizer_attrs():
+    return list(Optimizer.keys())

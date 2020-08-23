@@ -11,3 +11,6 @@ def get_attaker(_type, **kwargs):
 
 def regist_attacker(name, fun):
     Attacker[name] = fun
+
+def get_attacker_attrs():
+    return list(Attacker.keys())

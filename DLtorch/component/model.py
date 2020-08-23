@@ -19,3 +19,6 @@ def get_model(_type, **kwargs):
 
 def regist_model(name, fun):
     Models[name] = fun
+
+def get_model_attrs():
+    return list(Models.keys())
