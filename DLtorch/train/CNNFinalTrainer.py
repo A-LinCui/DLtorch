@@ -122,7 +122,7 @@ class CNNFinalTrainer(BaseFinalTrainer):
             torch.save(self.scheduler.state_dict(), os.path.join(path, "scheduler.pt"))
         # Save the statistics
         torch.save(self.recorder, os.path.join(path, "statistics.pt"))
-        self.recorder.draw_curves(path, show=True)
+        self.recorder.draw_curves(path, show=False)
         self.log.info("Save the checkpoint at {}".format(os.path.abspath(path)))
 
     def load(self, path):

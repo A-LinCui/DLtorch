@@ -6,7 +6,7 @@ device: cuda
 gpus: 0
 epochs: 100
 grad_clip: 5.0
-eval_no_grad: False
+eval_no_grad: Trie
 early_stop: False
 save_as_state_dict: False
 path: test
@@ -26,12 +26,12 @@ dataset_kwargs:
   whether_valid: False
 dataloader_kwargs:
   trainset:
-    batch_size: 48
+    batch_size: 64
     num_workers: 0
     shuffle: True
     drop_last: False
   testset:
-    batch_size: 48
+    batch_size: 96
     num_workers: 0
     shuffle: False
     drop_last: False
@@ -43,7 +43,7 @@ objective_kwargs:
 # ---- Config for optimizer ----
 optimizer_type: SGD
 optimizer_kwargs:
-  lr: 0.0001
+  lr: 0.001
   momentum: 0.9
   nesterov: True
   weight_decay: 0.0003
@@ -53,6 +53,7 @@ scheduler: MultiStepLR
 scheduler_kwargs:
   milestones:
     - 10
+    - 20
+    - 30
     - 40
-    - 100
   gamma: 0.1
