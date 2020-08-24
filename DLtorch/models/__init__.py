@@ -1,1 +1,2 @@
-from DLtorch.models.Cifar10 import *
+from DLtorch.models.cifar import *
+from DLtorch.models.MNIST import *

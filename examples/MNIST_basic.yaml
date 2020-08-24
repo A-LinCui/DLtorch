@@ -7,7 +7,7 @@ gpus: 0
 epochs: 100
 grad_clip: 5.0
 eval_no_grad: False
-early_stop: True
+early_stop: False
 save_as_state_dict: False
 path: test
 test_every: 1
@@ -16,52 +16,34 @@ save_every: 20
 report_every: 0.2
 
 # ---- Config for model
-model: Cifar_resnet18
+model: MNIST_LeNet
 model_kwargs: NULL
 
 # ---- Config for dataset and dataloader ----
-dataset: cifar10
+dataset: MNIST
 dataset_kwargs:
-  dir: E:/datasets/CIFAR10
-  mean:
-    - 0
-    - 0
-    - 0
-  std:
-    - 1
-    - 1
-    - 1
-  whether_valid: True
-  portion:
-    - 0.90
-    - 0.10
+  dir: E:/DLtorch/DLtorch/datasets/data/MNIST
+  whether_valid: False
 dataloader_kwargs:
   trainset:
-    batch_size: 16
+    batch_size: 48
     num_workers: 0
     shuffle: True
     drop_last: False
   testset:
-    batch_size: 16
+    batch_size: 48
     num_workers: 0
     shuffle: False
     drop_last: False
 
 # ---- Config for objective ----
-objective: ClassificationAdversarialObjective
+objective: ClassificationObjective
 objective_kwargs:
-  adversary_type: FGSM
-  adversary_kwargs:
-    rand_init: True
-    criterion_type: CrossEntropyLoss
-    epsilon: 0.031
-  adv_loss_coef: 0.5
-  adv_reward_coef: 0.5
   criterion_type: CrossEntropyLoss
 # ---- Config for optimizer ----
 optimizer_type: SGD
 optimizer_kwargs:
-  lr: 0.001
+  lr: 0.0001
   momentum: 0.9
   nesterov: True
   weight_decay: 0.0003

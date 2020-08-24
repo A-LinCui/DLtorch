@@ -8,8 +8,10 @@ class SVHN(base_dataset):
 
     def __init__(self, dir, mean=[0.4377, 0.4438, 0.4728], std=[0.1980, 0.2010, 0.1970],
                  train_transform=None, test_transform=None, extra_transform=None, whether_valid=False, portion=None):
-        super(SVHN, self).__init__(dir=dir, mean=mean, std=std, datatype="image", whether_valid=whether_valid, portion=portion)
-
+        super(SVHN, self).__init__(datatype="image", whether_valid=whether_valid, portion=portion)
+        self.dir = dir
+        self.mean = mean
+        self.std = std
         self.train_transform = train_transform if train_transform is not None else \
             transforms.Compose([
                 transforms.ToTensor(),

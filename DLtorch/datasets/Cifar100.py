@@ -10,8 +10,10 @@ class Cifar100(base_dataset):
                  std=[0.26733428587924063, 0.25643846291708833, 0.27615047132568393],
                  train_transform=None, test_transform=None,
                  whether_valid=False, portion=None):
-        super(Cifar100, self).__init__(dir=dir, mean=mean, std=std, datatype="image", whether_valid=whether_valid, portion=portion)
-
+        super(Cifar100, self).__init__(datatype="image", whether_valid=whether_valid, portion=portion)
+        self.dir = dir
+        self.mean = mean
+        self.std = std
         self.train_transform = train_transform if train_transform is not None else \
             transforms.Compose([
                 transforms.RandomCrop(32, padding=4),

@@ -16,7 +16,7 @@ save_every: 20
 report_every: 0.2
 
 # ---- Config for model
-model: Cifar10_resnet18
+model: Cifar_resnet18
 model_kwargs: NULL
 
 # ---- Config for dataset and dataloader ----
