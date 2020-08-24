@@ -102,8 +102,11 @@ class CNNFinalTrainer(BaseFinalTrainer):
             "At least one component in 'model, optimizer' isn't available. Please load or initialize them before testing."
         assert "valid" not in dataset or self.early_stop, \
             "No validation dataset available or early_stop hasn't set to be true. Check the configuration."
-        for data_type in dataset:
-            loss, accs, perfs, reward = self.infer(self.dataloader[data_type], data_type)
+        if isinstance(dataset, list):
+            for data_type in dataset:
+                loss, accs, perfs, reward = self.infer(self.dataloader[data_type], data_type)
+        elif isinstance(dataset, str):
+            loss, accs, perfs, reward = self.infer(self.dataloader[dataset], dataset)
 
     def save(self, path):
         if not os.path.exists(path):

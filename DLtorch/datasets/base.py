@@ -2,17 +2,12 @@ import torch.utils.data as data
 import torch
 
 class base_dataset(object):
-    def __init__(self, dir, mean, std, whether_valid, portion, datatype):
+    def __init__(self, whether_valid, portion, datatype):
         self.datatype = datatype
         self.whether_valid = whether_valid
-
-        self.mean = mean
-        self.std = std
         self.portion = portion
-
         self.datasets = {}
         self.datalength = {}
-        self.dir = dir
 
     @property
     def get_datatype(self):

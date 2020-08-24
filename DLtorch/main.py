@@ -58,12 +58,12 @@ def main(local_rank):
 @click.option('--device', default="cuda", type=str,
               help="cpu or cuda")
 @click.option('--gpus', default="0", type=str, help="gpus")
-@click.option('--register_file', default=None, type=str or list, help="register_file(s)")
+@click.option('--register_file', default=None, type=str, help="register_file(s)")
 
 def train(cfg_file, traindir, device, gpus, load, seed, register_file):
     set_seed(seed)
     if register_file is not None:
-        register_components(register_file)
+        register(register_file)
     config = load_yaml(cfg_file)
     config = prepare(config, device, traindir, gpus, seed)
     if traindir is not None:
@@ -86,13 +86,13 @@ main.add_command(train)
 @click.option('--device', default="cuda", type=str,
               help="cpu or cuda")
 @click.option('--gpus', default="0", type=str, help="gpus")
-@click.option('--dataset', default=["train", "test"], type=list, help="datasets to test on")
-@click.option('--register_file', default=None, type=str or list, help="register_file(s)")
-def test(cfg_file, testdir, load, device, gpus, dataset, seed, register_file):
+@click.option('--dataset', default="test", type=str, help="datasets to test on")
+@click.option('--register_file', default=None, type=str, help="register_file(s)")
+def test(cfg_file, testdir, load, device, gpus, dataset, seed, register_file=None):
     assert load is not None, "No available checkpoint."
     set_seed(seed)
     if register_file is not None:
-        register_components(register_file)
+        register(register_file)
     config = load_yaml(cfg_file)
     config = prepare(config, device, testdir, gpus, seed)
     if testdir is not None:
@@ -104,10 +104,10 @@ def test(cfg_file, testdir, load, device, gpus, dataset, seed, register_file):
 main.add_command(test)
 
 @click.command(help="Show All The Registered Components")
-@click.option('--register_file', default=None, type=str or list, help="register_file(s)")
+@click.option('--register_file', default=None, type=str, help="register_file(s)")
 def components(register_file):
     if register_file is not None:
-        register_components(register_file)
+        register(register_file)
     print("DLtorch Components")
     print('-- Adv Attackers:', get_attacker_attrs())
     print('-- Datasets:', get_dataset_attr())

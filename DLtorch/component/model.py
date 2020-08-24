@@ -10,7 +10,8 @@ Models = {"Cifar_DenseNet121": lambda: DenseNet121(),
           "Cifar_resnet50": lambda: ResNet50(),
           "Cifar_resnet101": lambda: ResNet101(),
           "Cifar_resnet152": lambda: ResNet152(),
-          "Cifar_WideResNet": lambda depth, num_classes, widen_factor, drop_rate: WideResNet(depth, num_classes, widen_factor, drop_rate)
+          "Cifar_WideResNet": lambda depth, num_classes, widen_factor, drop_rate: WideResNet(depth, num_classes, widen_factor, drop_rate),
+          "MNIST_LeNet": lambda: MNIST_LeNet()
 }
 
 def get_model(_type, **kwargs):

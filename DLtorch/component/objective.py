@@ -1,6 +1,6 @@
 from DLtorch.objective import *
 
-Objective = {"BaseObjective": lambda: BaseObjective(),
+Objective = {"BaseObjective": lambda criterion_type="CrossEntropyLoss": BaseObjective(criterion_type),
              "ClassificationObjective": lambda **kwargs: ClassificationObjective(**kwargs),
              "ClassificationAdversarialObjective": lambda adversary_type, adversary_kwargs=None, adv_loss_coef=0.5,
                                                           adv_reward_coef=0.5, criterion_type="CrossEntropyLoss":
