@@ -96,6 +96,10 @@ class CNNFinalTrainer(BaseFinalTrainer):
 
             self.last_epoch += 1
 
+        if self.path is not None:
+            save_path = os.path.join(self.path, "final")
+            self.save(save_path)
+
     def test(self, dataset):
         self.log.info("DLtorch Trainer : FinalTrainer  Start testing···")
         self.count_param()
