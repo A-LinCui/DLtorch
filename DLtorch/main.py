@@ -121,5 +121,4 @@ def components(register_file):
 main.add_command(components)
 
 if __name__ == '__main__':
-    components()
-    #main()
+    main()
