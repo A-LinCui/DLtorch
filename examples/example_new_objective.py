@@ -1,3 +1,6 @@
+# DLtorch Framework
+# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
+
 from DLtorch.utils import accuracy
 from DLtorch.objective.base import BaseObjective
 from DLtorch.component import regist_objective
@@ -21,6 +24,18 @@ class ExampleNewObjective(BaseObjective):
     def get_reward(self, perf):
         # By default, consider the first item in perf as reward
         return perf[0]
+
+
+# Note that "register" function will be ran to regist all new components into DLtorch framework."
+# We define value API to register different kinds of components.
+"""
+from DLtorch.component import regist_objective
+from DLtorch.component import regist_scheduler
+from DLtorch.component import regist_model
+from DLtorch.component import regist_objective
+from DLtorch.component import regist_optimizer
+from DLtorch.component import regist_trainer
+"""
 
 def register():
     regist_objective("ExampleNewObjective", ExampleNewObjective)
