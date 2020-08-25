@@ -14,7 +14,7 @@ INSTALL_REQUIRES = [
 
 setuptools.setup(
     name="DLtorch",
-    version="0.1.0",
+    version="1.0.0",
     author="Junbo Zhao",
     author_email="zhaojb17@mails.tsinghua.edu.cn",
     description="Deep Learning Framework based on Pytorch",

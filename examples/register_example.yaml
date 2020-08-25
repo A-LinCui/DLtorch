@@ -1,30 +1,34 @@
-# Example Config for FinalTrainer
+# Example Config for register new components.
+
+# DLtorch Framework
+# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
+
+# An Example Configuration for Adversarial Training Cifar10.
 
 # ---- Basic Settings ----
-trainer_type: CNNFinalTrainer
-device: cuda
-gpus: 0
-epochs: 100
-grad_clip: 5.0
-eval_no_grad: False
-early_stop: False
-save_as_state_dict: False
-path: test
-test_every: 1
-valid_every: 1
-save_every: 20
-report_every: 0.2
+trainer_type: CNNFinalTrainer      # Type of trainer to use.
+device: cuda                       # Device to use. ["cpu","cuda"]
+gpus: 0                            # Gpus to use. If a list, for example, "[0, 1]" is given, computation will automatically be paralleled.
+epochs: 100                        # Total epoch number to train.
+grad_clip: 5.0                     # Grad clip. Won't do clip if it's not given.
+eval_no_grad: False                # Whether to close grad while inference. Grad needed for adversarial attack.
+early_stop: False                  # Whether use early stop. Remember to set "whether_valid" to be true, if use.
+save_as_state_dict: False          # Saving file layout.
+path: test                         # Path to save. Will be automatically modified if use "DLtorch test" command.
+test_every: 1                      # Number of training epochs to test on testset once.
+save_every: 50                     # Number of training epochs to save once.
+report_every: 0.5                  # Reporting frequency.
 
-# ---- Config for model
-model: Cifar_resnet18
-model_kwargs: NULL
+# ---- Config for model ----
+model: Cifar_resnet18              # Model to train or test.
+model_kwargs: NULL                 # Model kwargs.
 
 # ---- Config for dataset and dataloader ----
-dataset: SVHN
+dataset: Cifar10                   # Dataset to load.
 dataset_kwargs:
-  dir: E:/DLtorch/DLtorch/datasets/data/SVHN
-  whether_valid: False
-dataloader_kwargs:
+  dir: E:/DLtorch/DLtorch/datasets/data/cifar10 # Path
+  whether_valid: False                        # If true, the training set will be devided according to portion.
+dataloader_kwargs:                            # Dataloader kwargs.
   trainset:
     batch_size: 16
     num_workers: 0
@@ -39,20 +43,19 @@ dataloader_kwargs:
 # ---- Config for objective ----
 objective: ExampleNewObjective
 objective_kwargs:
-  criterion_type: CrossEntropyLoss
+  criterion_type: CrossEntropyLoss # Objective type.
+  # criterion_kwargs: None
+
 # ---- Config for optimizer ----
-optimizer_type: SGD
-optimizer_kwargs:
-  lr: 0.001
+optimizer_type: SGD                           # Optimizer type.
+optimizer_kwargs:                             # Optimizer kwargs.
+  lr: 0.1
   momentum: 0.9
   nesterov: True
-  weight_decay: 0.0003
+  weight_decay: 0.0001
 
 # ---- Config for scheduler ----
-scheduler: MultiStepLR
-scheduler_kwargs:
-  milestones:
-    - 10
-    - 40
-    - 100
-  gamma: 0.1
+scheduler: CosineAnnealingLR                  # Scheduler type.
+scheduler_kwargs:                             # Scheduler kwargs.
+  T_max: 100
+  eta_min: 0.0

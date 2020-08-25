@@ -5,8 +5,8 @@ from DLtorch.component import regist_objective
 class ExampleNewObjective(BaseObjective):
     NAME = "ExampleNewObjective"
 
-    def __init__(self, criterion_type="CrossEntropyLoss"):
-        super(ExampleNewObjective, self).__init__(criterion_type)
+    def __init__(self, criterion_type="CrossEntropyLoss", criterion_kwargs=None):
+        super(ExampleNewObjective, self).__init__(criterion_type, criterion_kwargs)
 
     @ property
     def perf_names(self):
