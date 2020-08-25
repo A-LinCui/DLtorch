@@ -3,12 +3,13 @@
 
 import abc
 
-import torch
+from DLtorch.component.criterion import get_criterion
 
 class BaseObjective(object):
     NAME = "BaseObjective"
-    def __init__(self, criterion_type):
-        self._criterion = getattr(torch.nn, criterion_type)()
+    def __init__(self, criterion_type, criterion_kwargs=None):
+        self._criterion = get_criterion(criterion_type, **criterion_kwargs) \
+            if criterion_kwargs is not None else get_criterion(criterion_type)
 
     # ---- virtual APIs to be implemented in subclasses ----
     @abc.abstractmethod

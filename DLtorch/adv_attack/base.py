@@ -3,11 +3,12 @@
 
 import abc
 
-import torch
+from DLtorch.component.criterion import get_criterion
 
 class BaseAdvGenerator(object):
-    def __init__(self, criterion_type="CrossEntropyLoss"):
-        self.criterion = getattr(torch.nn, criterion_type)()
+    def __init__(self, criterion_type="CrossEntropyLoss", criterion_kwargs=None):
+        self.criterion = get_criterion(criterion_type, **criterion_kwargs) if criterion_kwargs is not None \
+            else get_criterion(criterion_type)
 
     @abc.abstractmethod
     def generate_adv(self, net, inputs, targets, outputs):

@@ -1,6 +1,10 @@
+# DLtorch Framework
+# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
+
 import torch
 
 def primary_test(model, dataloader, criterion):
+    # Test a model's accuracy on the dataset basically.
     model.eval()
     correct, total, loss = 0, 0, 0
     with torch.no_grad():
@@ -15,19 +19,22 @@ def primary_test(model, dataloader, criterion):
     return loss / total, correct / total
 
 def get_params(model, only_trainable=False):
+    # Get the parameter number of the model.
+    # If only_trainable is true, only trainable parameters will be counted.
     if not only_trainable:
         return sum(p.numel() for p in model.parameters())
     else:
         sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 def accuracy(outputs, targets, topk=(1,)):
-  maxk = max(topk)
-  batch_size = len(targets)
-  _, predicts = outputs.topk(maxk, 1, True, True)
-  predicts = predicts.t()
-  correct = predicts.eq(targets.view(1, -1).expand_as(predicts))
-  res = []
-  for k in topk:
-    correct_k = correct[:k].view(-1).float().sum(0)
-    res.append(correct_k.mul_(1.0/batch_size).item())
-  return res
+    # Get top-k accuracy on the data batch.
+    maxk = max(topk)
+    batch_size = len(targets)
+    _, predicts = outputs.topk(maxk, 1, True, True)
+    predicts = predicts.t()
+    correct = predicts.eq(targets.view(1, -1).expand_as(predicts))
+    res = []
+    for k in topk:
+        correct_k = correct[:k].view(-1).float().sum(0)
+        res.append(correct_k.mul_(1.0/batch_size).item())
+    return res

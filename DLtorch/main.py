@@ -41,7 +41,7 @@ def prepare(config, device, dir, gpus, save_every):
     if gpus is not None:
         config["gpus"] = gpus
     if save_every is not None:
-        config["save-every"] = save_every
+        config["save_every"] = save_every
     if dir is not None and not os.path.exists(dir):
         os.mkdir(dir)
     return config

@@ -1,15 +1,27 @@
 # DLtorch Framework
 # Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
 
-import DLtorch.datasets
+from DLtorch.datasets import *
 
-def get_dataset_cls(_type):
-    return getattr(DLtorch.datasets, _type)
+datasets = {
+    "Cifar10": lambda **kwargs: Cifar10(**kwargs),
+    "Cifar100": lambda **kwargs: Cifar100(**kwargs),
+    "FashionMNIST": lambda **kwargs: FashionMNIST(**kwargs),
+    "MNIST": lambda **kwargs: MNIST(**kwargs),
+    "ImageNet": lambda **kwargs: Imagenet(**kwargs),
+    "SVHN": lambda **kwargs: SVHN(**kwargs)
+}
 
 def get_dataset(_type, **kwargs):
-    return get_dataset_cls(_type)(**kwargs)
+    # Get a criterion from DLtorch framework.
+    assert _type in datasets.keys(), "No dataset: {}".format(_type)
+    return datasets[_type](**kwargs)
 
 def get_dataset_attr():
-    attrs = list(DLtorch.datasets.__dict__.keys())
-    start_idx = attrs.index("base_dataset")
-    return list(DLtorch.datasets.__dict__.keys())[start_idx + 1:]
+    # Get all the dataset types.
+    # Used in "main.components".
+    return list(datasets.keys())
+
+def regist_dataset(name, fun):
+    # Regist a dataset into DLtorch Framework.
+    datasets[name] = fun

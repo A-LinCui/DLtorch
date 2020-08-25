@@ -1,7 +1,9 @@
+# DLtorch Framework
+# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
+
 import yaml
 import os
 from contextlib import contextmanager
-from collections import OrderedDict
 
 import matplotlib.pyplot as plt
 
@@ -10,63 +12,24 @@ def nullcontext():
     yield
 
 def load_yaml(path):
+    # Load a yaml file
     with open(path, 'r') as f:
         file = yaml.load(f, Loader=yaml.FullLoader)
     return file
 
 def write_yaml(path, config):
+    # Write a yaml file. Overwrite if the file exists.
     with open(path, "w", encoding="utf-8") as f:
         yaml.dump(config, f)
 
-def list_average(list, total):
-    return [list[i] / total for i in range(len(list))]
-
 def list_merge(list_1, list_2):
+    # Add the values of the corresponding positions of the two lists.
     assert len(list_1) == len(list_2), "The length of two lists is different."
     return [list_1[i] + list_2[i] for i in range(len(list_1))]
 
 def do_nothing():
+    # Do nothing.
     pass
-
-class AvgrageMeter(object):
-
-    def __init__(self):
-        self.reset()
-
-    def reset(self):
-        self.avg = 0
-        self.sum = 0
-        self.cnt = 0
-
-    def update(self, val, n=1):
-        self.sum += val * n
-        self.cnt += n
-        self.avg = self.sum / self.cnt
-
-    def is_empty(self):
-        return self.cnt == 0
-
-class EnsembleAverageMeters(object):
-
-    def __init__(self):
-        self.AverageMeters = None
-
-    def is_empty(self):
-        return self.AverageMeters is None
-
-    def update(self, perfs, n=1):
-        if self.is_empty():
-            self.AverageMeters = OrderedDict([(name, AvgrageMeter()) for name in perfs])
-        [self.AverageMeters[name].update(val, n) for name, val in perfs.items()]
-
-    def avgs(self):
-        return OrderedDict((name, val.avg) for name, val in self.AverageMeters.items()) if not self.is_empty() else None
-
-    def items(self):
-        return self.AverageMeters.items() if not self.is_empty() else None
-
-    def reset(self):
-        self.AverageMeters = None
 
 class recorder(object):
     def __init__(self, list_names=None, perfs_names=None):
