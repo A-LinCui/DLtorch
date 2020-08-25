@@ -11,7 +11,7 @@ def get_dataset(_type, **kwargs):
     # Get a dataset from DLtorch framework.
     return get_dataset_cls(_type)(**kwargs)
 
-def get_dataset_attr():
+def get_dataset_attrs():
     # Get all the dataset types.
     # Used in "main.components".
     attrs = list(DLtorch.datasets.__dict__.keys())
