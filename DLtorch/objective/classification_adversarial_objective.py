@@ -1,6 +1,8 @@
 # DLtorch Framework
 # Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
 
+import torch
+
 from DLtorch.utils import accuracy
 from DLtorch.objective.base import BaseObjective
 from DLtorch.adv_attack import get_attaker
@@ -9,8 +11,8 @@ class ClassificationAdversarialObjective(BaseObjective):
     NAME = "ClassificationAdversarialObjective"
 
     def __init__(self, adversary_type, adversary_kwargs=None,
-                 adv_loss_coef=0.5, adv_reward_coef=0.5, criterion_type="CrossEntropyLoss"):
-        super(ClassificationAdversarialObjective, self).__init__(criterion_type)
+                 adv_loss_coef=0.5, adv_reward_coef=0.5, criterion_type="CrossEntropyLoss", criterion_kwargs=None):
+        super(ClassificationAdversarialObjective, self).__init__(criterion_type, criterion_kwargs)
         self.adversary_type = adversary_type
         self.adversary_kwargs = adversary_kwargs
         self.adversary = get_attaker(self.adversary_type, **self.adversary_kwargs)
@@ -44,4 +46,4 @@ class ClassificationAdversarialObjective(BaseObjective):
             return (1 - self.adv_loss_coef) * natural_loss + self.adv_loss_coef * adv_loss
 
     def get_reward(self, perf):
-        return (1 - self.adv_loss_coef) * perf[0] + self.adv_loss_coef * perf[1]
+        return (1 - self.adv_reward_coef) * perf[0] + self.adv_reward_coef * perf[1]

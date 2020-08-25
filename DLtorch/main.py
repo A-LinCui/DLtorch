@@ -41,7 +41,7 @@ def prepare(config, device, dir, gpus, save_every):
     if gpus is not None:
         config["gpus"] = gpus
     if save_every is not None:
-        config["save-every"] = save_every
+        config["save_every"] = save_every
     if dir is not None and not os.path.exists(dir):
         os.mkdir(dir)
     return config
@@ -110,13 +110,13 @@ def components(register_file):
     if register_file is not None:
         register(register_file)
     print("DLtorch Components")
-    print('-- Adv Attackers:', get_attacker_attrs())
-    print('-- Datasets:', get_dataset_attr())
-    print('-- Lr_Scedulers:', get_scheduler_attrs())
-    print('-- Objectives', get_objective_attrs())
-    print('-- Optimizers:', get_optimizer_attrs())
-    print('-- Trainers:', get_trainer_attrs())
-    print('-- Models:', get_model_attrs())
+    print('-- Adv Attackers:', get_attacker_attrs() if len(get_attacker_attrs()) != 0 else None)
+    print('-- Datasets:', get_dataset_attrs() if len(get_dataset_attrs()) != 0 else None)
+    print('-- Lr_Scedulers:', get_scheduler_attrs() if len(get_scheduler_attrs()) != 0 else None)
+    print('-- Objectives', get_objective_attrs() if len(get_objective_attrs()) != 0 else None)
+    print('-- Optimizers:', get_optimizer_attrs() if len(get_optimizer_attrs()) != 0 else None)
+    print('-- Trainers:', get_trainer_attrs()) if len(get_trainer_attrs()) != 0 else None
+    print('-- Models:', get_model_attrs() if len(get_model_attrs()) != 0 else None)
 
 main.add_command(components)
 

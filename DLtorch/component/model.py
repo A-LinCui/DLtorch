@@ -18,11 +18,15 @@ Models = {"Cifar_DenseNet121": lambda: DenseNet121(),
 }
 
 def get_model(_type, **kwargs):
+    # Get a model from DLtorch framework.
     assert _type in Models.keys(), "NO Model: ".format(_type)
     return Models[_type](**kwargs)
 
 def regist_model(name, fun):
+    # Regist a model into DLtorch framework.
     Models[name] = fun
 
 def get_model_attrs():
+    # Get all the model types.
+    # Used in "main.components".
     return list(Models.keys())

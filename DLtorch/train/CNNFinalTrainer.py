@@ -4,6 +4,7 @@
 import torch
 
 from DLtorch.train.base import BaseFinalTrainer
+from DLtorch.utils.common_utils import *
 from DLtorch.utils.python_utils import *
 from DLtorch.utils.torch_utils import accuracy
 
@@ -18,7 +19,7 @@ class CNNFinalTrainer(BaseFinalTrainer):
                  optimizer_type, optimizer_kwargs,
                  scheduler, scheduler_kwargs,
                  save_as_state_dict, path,
-                 test_every, valid_every, save_every, report_every, trainer_type="CNNFinalTrainer"
+                 test_every=1, valid_every=None, save_every=None, report_every=0.5, trainer_type="CNNFinalTrainer"
                  ):
         super(CNNFinalTrainer, self).__init__(device, gpus, model, model_kwargs, dataset, dataset_kwargs, dataloader_kwargs,
                                            objective, objective_kwargs, optimizer_type, optimizer_kwargs,
@@ -94,6 +95,10 @@ class CNNFinalTrainer(BaseFinalTrainer):
                 self.save(save_path)
 
             self.last_epoch += 1
+
+        if self.path is not None:
+            save_path = os.path.join(self.path, "final")
+            self.save(save_path)
 
     def test(self, dataset):
         self.log.info("DLtorch Trainer : FinalTrainer  Start testing···")

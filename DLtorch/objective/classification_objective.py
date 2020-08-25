@@ -7,8 +7,8 @@ from DLtorch.objective.base import BaseObjective
 class ClassificationObjective(BaseObjective):
     NAME = "ClassificationObjective"
 
-    def __init__(self, criterion_type="CrossEntropyLoss"):
-        super(ClassificationObjective, self).__init__(criterion_type)
+    def __init__(self, criterion_type="CrossEntropyLoss", criterion_kwargs=None):
+        super(ClassificationObjective, self).__init__(criterion_type, criterion_kwargs)
 
     @ property
     def perf_names(self):
