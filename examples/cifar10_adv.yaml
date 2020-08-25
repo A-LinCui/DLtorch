@@ -1,7 +1,7 @@
 # DLtorch Framework
 # Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
 
-# An Example Configuration for Training MNIST.
+# An Example Configuration for Adversarial Training Cifar10.
 
 # ---- Basic Settings ----
 trainer_type: CNNFinalTrainer      # Type of trainer to use.
@@ -9,49 +9,63 @@ device: cuda                       # Device to use. ["cpu","cuda"]
 gpus: 0                            # Gpus to use. If a list, for example, "[0, 1]" is given, computation will automatically be paralleled.
 epochs: 100                        # Total epoch number to train.
 grad_clip: 5.0                     # Grad clip. Won't do clip if it's not given.
-eval_no_grad: True                 # Whether to close grad while inference.
-early_stop: True                   # Whether use early stop. Remember to set "whether_valid" to be true, if use.
+eval_no_grad: False                # Whether to close grad while inference. Grad needed for adversarial attack.
+early_stop: False                  # Whether use early stop. Remember to set "whether_valid" to be true, if use.
 save_as_state_dict: False          # Saving file layout.
 path: test                         # Path to save. Will be automatically modified if use "DLtorch test" command.
 test_every: 1                      # Number of training epochs to test on testset once.
-valid_every: 1                     # Number of training epochs to test on validation set once.
 save_every: 50                     # Number of training epochs to save once.
 report_every: 0.5                  # Reporting frequency.
-portion:                           # How to devide training set into trainset and validation set.
-  - 0.9                            # Train set.
-  - 0.1                            # Validation set.
 
 # ---- Config for model ----
-model: MNIST_LeNet                 # Model to train or test.
+model: Cifar_resnet18              # Model to train or test.
 model_kwargs: NULL                 # Model kwargs.
 
 # ---- Config for dataset and dataloader ----
-dataset: MNIST                     # Dataset to load.
+dataset: Cifar10                   # Dataset to load.
 dataset_kwargs:
-  dir: E:/DLtorch/DLtorch/datasets/data/MNIST # Path
+  dir: E:/DLtorch/DLtorch/datasets/data/cifar10 # Path
   whether_valid: False                        # If true, the training set will be devided according to portion.
 dataloader_kwargs:                            # Dataloader kwargs.
   trainset:
-    batch_size: 128
+    batch_size: 16
     num_workers: 0
     shuffle: True
     drop_last: False
   testset:
-    batch_size: 96
+    batch_size: 16
     num_workers: 0
     shuffle: False
     drop_last: False
 
 # ---- Config for objective ----
-objective: ClassificationObjective            # Objective type.
+objective: ClassificationAdversarialObjective # Objective type.
 objective_kwargs:                             # Objective kwargs.
+  adversary_type: PGD
+  adversary_kwargs:
+    mean:
+      - 0.49139968
+      - 0.48215827
+      - 0.44653124
+    std:
+      - 0.24703233
+      - 0.24348505
+      - 0.26158768
+    epsilon: 0.0078
+    n_step: 7
+    step_size: 0.0078
+    rand_init: True
+    criterion_type: CrossEntropyLoss
+    # criterion_kwargs: None
   criterion_type: CrossEntropyLoss            # Criterion type.
-  criterion_kwargs: None                      # Criterion kwargs.
+  # criterion_kwargs: None                    # Criterion kwargs.
+  adv_loss_coef: 0.5
+  adv_reward_coef: 0.5
 
 # ---- Config for optimizer ----
 optimizer_type: SGD                           # Optimizer type.
 optimizer_kwargs:                             # Optimizer kwargs.
-  lr: 0.001
+  lr: 0.1
   momentum: 0.9
   nesterov: True
   weight_decay: 0.0001

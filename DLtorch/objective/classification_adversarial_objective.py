@@ -46,4 +46,4 @@ class ClassificationAdversarialObjective(BaseObjective):
             return (1 - self.adv_loss_coef) * natural_loss + self.adv_loss_coef * adv_loss
 
     def get_reward(self, perf):
-        return (1 - self.adv_loss_coef) * perf[0] + self.adv_loss_coef * perf[1]
+        return (1 - self.adv_reward_coef) * perf[0] + self.adv_reward_coef * perf[1]
