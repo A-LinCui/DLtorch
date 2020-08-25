@@ -1,3 +1,6 @@
+# DLtorch Framework
+# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
+
 from DLtorch.utils import accuracy
 from DLtorch.objective.base import BaseObjective
 

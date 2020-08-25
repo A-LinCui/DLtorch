@@ -1,4 +1,5 @@
-# !bai/usr/bin/python
+# DLtorch Framework
+# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
 
 import torch
 

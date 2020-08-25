@@ -1,3 +1,6 @@
+# DLtorch Framework
+# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
+
 import torch
 
 from DLtorch.adv_attack import BaseAdvGenerator

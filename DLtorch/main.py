@@ -1,3 +1,6 @@
+# DLtorch Framework
+# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
+
 from __future__ import print_function
 
 import os
@@ -11,7 +14,6 @@ from DLtorch.adv_attack import *
 from DLtorch.utils import set_seed, load_yaml, write_yaml
 from DLtorch.version import __version__
 
-
 def register(path):
     # Automatically run the "register" function defined in the "path(.py)" file to register new components into DLtorch.
     p, f = os.path.split(os.path.abspath(path))
@@ -20,15 +22,15 @@ def register(path):
     module.register()
     sys.path.remove(p)
 
-
 def register_components(path):
+    # Register all the given files.
     if isinstance(path, str):
         register(path)
     else:
         [register(one_path) for one_path in path]
 
-
 def prepare(config, device, dir, gpus, save_every):
+    # Prepare working folder for the process and modify the configuration.
     if device is not None:
         assert device in ["cuda", "cpu"], "Device should be 'cuda' or 'cpu'."
         config["device"] = device
@@ -44,16 +46,12 @@ def prepare(config, device, dir, gpus, save_every):
         os.mkdir(dir)
     return config
 
-
 click.option = functools.partial(click.option, show_default=True)
-
-
 @click.group(help="The DLtorch framework command line interface.")
 @click.version_option(version=__version__)
 @click.option("--local_rank", default=-1, type=int, help="The rank of this process")
 def main(local_rank):
     pass
-
 
 @click.command(help="Train Model")
 @click.argument("cfg_file", required=True, type=str)
@@ -78,9 +76,7 @@ def train(cfg_file, traindir, device, gpus, load, seed, register_file, save_ever
     Trainer.train()
     return Trainer
 
-
 main.add_command(train)
-
 
 @click.command(help="Test Model")
 @click.argument("cfg_file", required=True, type=str)
@@ -105,7 +101,6 @@ def test(cfg_file, testdir, load, device, gpus, dataset, seed, register_file=Non
     Trainer.test(dataset)
     return Trainer
 
-
 main.add_command(test)
 
 
@@ -122,7 +117,6 @@ def components(register_file):
     print('-- Optimizers:', get_optimizer_attrs())
     print('-- Trainers:', get_trainer_attrs())
     print('-- Models:', get_model_attrs())
-
 
 main.add_command(components)
 

@@ -1,3 +1,6 @@
+# DLtorch Framework
+# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
+
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 

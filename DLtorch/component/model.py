@@ -1,3 +1,6 @@
+# DLtorch Framework
+# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
+
 from DLtorch.models import *
 
 Models = {"Cifar_DenseNet121": lambda: DenseNet121(),
