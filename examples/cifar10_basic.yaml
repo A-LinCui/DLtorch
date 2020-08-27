@@ -26,7 +26,7 @@ model: Cifar_resnet18                 # Model to train or test.
 model_kwargs: NULL                 # Model kwargs.
 
 # ---- Config for dataset and dataloader ----
-dataset: MNIST                     # Dataset to load.
+dataset: Cifar10                                # Dataset to load.
 dataset_kwargs:
   dir: E:/DLtorch/DLtorch/datasets/data/Cifar10 # Path
   whether_valid: False                          # If true, the training set will be devided according to portion.

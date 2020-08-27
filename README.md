@@ -120,3 +120,9 @@ DLtorch.components.regist_objective
 DLtorch.components.regist_optimizer
 DLtorch.components.regist_trainer
 ```
+
+For examples, try training a ResNet-18 net on cifar10 from scratch using a new designed component `ExampleNewObjective` defined and registed in `examples/example_new_objective.py`.
+
+```
+DLtorch train examples/register_example.yaml --gpus 0 --seed 123 --save-every <SAVE_EVERY> --train-dir <TRAIN_DIR> --register_file examples/example_new_objective.py 
+```
