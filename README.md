@@ -25,7 +25,7 @@ Components:
 Using a virtual python environment is encouraged. For example, with Anaconda, you could run `conda create -n DLtorch python==3.7.3 pip` first.
 * Supported python versions: 3.6, 3.7
 * Supported Pytorch versions: >=1.0.0, <1.5.0
-To install `DLtorch`, run `pip install DLtorch` directly or `python setup.py build && python setup.py install` after clone this project.
+To install `DLtorch`, run `pip install DLtorch` directly or `python setup.py build && python setup.py install` after cloning this project.
 
 ## Usage
 After installation, you can run `DLtorch --help` to see what sub-commands are available.
@@ -47,7 +47,7 @@ Commands:
 ```
 
 ### Run DNN Training
-you can run `DLtorch train --help` to see how to train a model.
+You can run `DLtorch train --help` to see how to train a model.
 Output of an example run (version 1.0.0):
 ```
 Usage: DLtorch [OPTIONS] COMMAND [ARGS]...
@@ -71,7 +71,7 @@ DLtorch train examples/cifar10_basic.yaml --gpus 0 --seed 123 --save-every <SAVE
 ```
 
 ### Run DNN Testing
-you can run `DLtorch test --help` to see how to test a model.
+You can run `DLtorch test --help` to see how to test a model.
 Output of an example run (version 1.0.0):
 ```
 Usage: DLtorch [OPTIONS] COMMAND [ARGS]...
@@ -113,12 +113,12 @@ In command line, we provide a registeration interface `--register_file`. To use 
 We provide APIs for registering different components as below. Details can be seen in our code.
 
 ```
-DLtorch.components.regist_Criterion
-DLtorch.components.regist_scheduler
-DLtorch.components.regist_model
-DLtorch.components.regist_objective
-DLtorch.components.regist_optimizer
-DLtorch.components.regist_trainer
+DLtorch.components.regist_Criterion  # Regist a criterion
+DLtorch.components.regist_scheduler  # Regist a learning rate scheduler
+DLtorch.components.regist_model      # Regist a model
+DLtorch.components.regist_objective  # Regist an objective
+DLtorch.components.regist_optimizer  # Regist an optimizer
+DLtorch.components.regist_trainer    # Regist a trainer
 ```
 
 For examples, try training a ResNet-18 net on cifar10 from scratch using a new designed component `ExampleNewObjective` defined and registed in `examples/example_new_objective.py`.
@@ -126,3 +126,12 @@ For examples, try training a ResNet-18 net on cifar10 from scratch using a new d
 ```
 DLtorch train examples/register_example.yaml --gpus 0 --seed 123 --save-every <SAVE_EVERY> --train-dir <TRAIN_DIR> --register_file examples/example_new_objective.py 
 ```
+
+### Notation
+* At present, DLtorch framework only support CNN. Welcome to help improve this framework, whether it's contributing code or proposing improvement plans. 
+* Due to developer's level limitation, there may be bugs in the code. If you encounter, please contact to resolve.
+
+### Acknowlegdements
+Our implementation refers to the codes in repositories below. Thanks for their help.
+* [DARTS](https://github.com/quark0/darts)
+* [awnas](https://github.com/walkerning/aw_nas)
