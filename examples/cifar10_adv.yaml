@@ -51,7 +51,7 @@ objective_kwargs:                             # Objective kwargs.
       - 0.24703233
       - 0.24348505
       - 0.26158768
-    epsilon: 0.0078
+    epsilon: 0.031
     n_step: 7
     step_size: 0.0078
     rand_init: True
