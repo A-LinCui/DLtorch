@@ -20,6 +20,8 @@ Components:
   -- objective           Define the loss, accuracy, reward and other statistics while training.
   -- trainer             Define how to train a model.
 ```
+Flow of DLtorch is shown below.
+![Flow](flow.png)
 
 ## Install
 Using a virtual python environment is encouraged. For example, with Anaconda, you could run `conda create -n DLtorch python==3.7.3 pip` first.
