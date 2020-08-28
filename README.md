@@ -20,6 +20,8 @@ Components:
   -- objective           Define the loss, accuracy, reward and other statistics while training.
   -- trainer             Define how to train a model.
 ```
+Flow of DLtorch is shown below.
+![Flow](flow.png)
 
 ## Install
 Using a virtual python environment is encouraged. For example, with Anaconda, you could run `conda create -n DLtorch python==3.7.3 pip` first.
@@ -116,9 +118,9 @@ We provide APIs for registering different components as below. Details can be se
 DLtorch.components.regist_Criterion  # Regist a criterion
 DLtorch.components.regist_scheduler  # Regist a learning rate scheduler
 DLtorch.components.regist_model      # Regist a model
-DLtorch.components.regist_objective  # Regist an objective
+DLtorch.components.regist_objective  # Regist an objective (subclass "BaseObjective")
 DLtorch.components.regist_optimizer  # Regist an optimizer
-DLtorch.components.regist_trainer    # Regist a trainer
+DLtorch.components.regist_trainer    # Regist a trainer (subclass "BaseFinalTrainer")
 ```
 
 For examples, try training a ResNet-18 net on cifar10 from scratch using a new designed component `ExampleNewObjective` defined and registed in `examples/example_new_objective.py`.
@@ -133,7 +135,7 @@ We implement adversarial attack and adversarial training in our framework. It's 
 Try adversarially training a resnet-18 net on cifar10 with PGD method.
 
 ```
-DLtorch test examples/cifar10_adv.yaml --gpus 0 --load <CHECKPOINT_DIR> --dataset test --device cuda --testdir <TEST_DIR>
+DLtorch test examples/cifar10_adv.yaml --gpus 0 --seed 123 --save-every <SAVE_EVERY> --train-dir <TRAIN_DIR>
 ```
 
 ### Notation
