@@ -2,6 +2,7 @@
 # Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
 
 import torch
+from torchviz import make_dot
 
 def primary_test(model, dataloader, criterion):
     # Test a model's accuracy on the dataset basically.
@@ -38,3 +39,15 @@ def accuracy(outputs, targets, topk=(1,)):
         correct_k = correct[:k].view(-1).float().sum(0)
         res.append(correct_k.mul_(1.0/batch_size).item())
     return res
+
+def random_tensor(shape):
+    # Randomly generate a tensor with the given shape
+    return torch.randn(shape)
+
+def plot_arch(net, shape, device):
+    # Plot the architecture of the given model. Input shape supported by the model should be given as "shape".
+    # For example, to plot a typical cifar10 model, the given shape should be (1, 3, 32, 32).
+    # Current device of the net should be given.
+    x = random_tensor(shape).to(device)
+    vis_graph = make_dot(net(x), params=dict(net.named_parameters()))
+    vis_graph.view()
