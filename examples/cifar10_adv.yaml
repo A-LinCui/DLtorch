@@ -56,9 +56,9 @@ objective_kwargs:                             # Objective kwargs.
     step_size: 0.0078
     rand_init: True
     criterion_type: CrossEntropyLoss
-    # criterion_kwargs: None
+    criterion_kwargs: NULL
   criterion_type: CrossEntropyLoss            # Criterion type.
-  # criterion_kwargs: None                    # Criterion kwargs.
+  criterion_kwargs: NULL                      # Criterion kwargs.
   adv_loss_coef: 0.5
   adv_reward_coef: 0.5
 

@@ -17,9 +17,6 @@ test_every: 1                      # Number of training epochs to test on testse
 valid_every: 1                     # Number of training epochs to test on validation set once.
 save_every: 50                     # Number of training epochs to save once.
 report_every: 0.5                  # Reporting frequency.
-portion:                           # How to devide training set into trainset and validation set.
-  - 0.9                            # Train set.
-  - 0.1                            # Validation set.
 
 # ---- Config for model ----
 model: MNIST_LeNet                 # Model to train or test.
@@ -29,7 +26,10 @@ model_kwargs: NULL                 # Model kwargs.
 dataset: MNIST                     # Dataset to load.
 dataset_kwargs:
   dir: E:/DLtorch/DLtorch/datasets/data/MNIST # Path
-  whether_valid: False                        # If true, the training set will be devided according to portion.
+  whether_valid: True                         # If true, the training set will be devided according to portion.
+  portion:                                    # How to devide training set into trainset and validation set.
+    - 0.9                                     # Train set.
+    - 0.1                                     # Validation set.
 dataloader_kwargs:                            # Dataloader kwargs.
   trainset:
     batch_size: 128
@@ -46,7 +46,7 @@ dataloader_kwargs:                            # Dataloader kwargs.
 objective: ClassificationObjective            # Objective type.
 objective_kwargs:                             # Objective kwargs.
   criterion_type: CrossEntropyLoss            # Criterion type.
-  criterion_kwargs: None                      # Criterion kwargs.
+  criterion_kwargs: NULL                      # Criterion kwargs.
 
 # ---- Config for optimizer ----
 optimizer_type: SGD                           # Optimizer type.
