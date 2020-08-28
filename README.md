@@ -1,3 +1,4 @@
+![](https://img.shields.io/badge/version-1.0.0-yellow)
 ## DLtorch: An Extensible Deep Learning Framework based on Pytorch
 
 ## Introduction
