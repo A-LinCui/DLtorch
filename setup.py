@@ -9,7 +9,8 @@ INSTALL_REQUIRES = [
     "torchvision>=0.4.0",
     "numpy",
     "click",
-    "matplotlib"
+    "matplotlib",
+    "torchviz"
 ]
 
 setuptools.setup(

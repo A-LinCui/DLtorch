@@ -1,3 +1,4 @@
+torchviz
 matplotlib
 numpy
 setproctitle
