@@ -11,7 +11,7 @@ Objective = {"BaseObjective": lambda criterion_type="CrossEntropyLoss", criterio
 
 def get_objective(_type, **kwargs):
     # Get an objective from DLtorch framework.
-    assert _type in Objective.keys(), "NO Objective: ".format(_type)
+    assert _type in Objective.keys(), "NO Objective: {}".format(_type)
     return Objective[_type](**kwargs)
 
 def regist_objective(name, fun):
