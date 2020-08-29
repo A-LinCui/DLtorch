@@ -64,13 +64,13 @@ Options:
   --device [cpu|cuda]      cpu or cuda [default: cuda]
   --gpus  TEXT             Gpus to use [default: 0]
   --register_file TEXT     Register_file
-  --save-every INTEGER     Number of epochs to save once
+  --save_every INTEGER     Number of epochs to save once
   --help                   Show this message and exit.
 ```
 Try training a ResNet-18 net on cifar10 from scratch, the results (including configuration backup, training log, checkpoints, statistics, training curves) will be saved in `<TRAIN_DIR>`). Nothing will be saved if `<TRAIN_DIR>` isn't given.
 
 ```
-DLtorch train examples/cifar10_basic.yaml --gpus 0 --seed 123 --save-every <SAVE_EVERY> --train-dir <TRAIN_DIR>
+DLtorch train examples/cifar10_basic.yaml --gpus 0 --seed 123 --save_every <SAVE_EVERY> --train-dir <TRAIN_DIR>
 ```
 
 ### Run DNN Testing
@@ -127,7 +127,7 @@ DLtorch.components.regist_trainer    # Regist a trainer (subclass "BaseFinalTrai
 For examples, try training a ResNet-18 net on cifar10 from scratch using a new designed component `ExampleNewObjective` defined and registed in `examples/example_new_objective.py`.
 
 ```
-DLtorch train examples/register_example.yaml --gpus 0 --seed 123 --save-every <SAVE_EVERY> --train-dir <TRAIN_DIR> --register_file examples/example_new_objective.py 
+DLtorch train examples/register_example.yaml --gpus 0 --seed 123 --save_every <SAVE_EVERY> --train-dir <TRAIN_DIR> --register_file examples/example_new_objective.py 
 ```
 
 ### Adversarial Attack & Adversarial Training
@@ -136,7 +136,7 @@ We implement adversarial attack and adversarial training in our framework. It's 
 Try adversarially training a resnet-18 net on cifar10 with PGD method.
 
 ```
-DLtorch test examples/cifar10_adv.yaml --gpus 0 --seed 123 --save-every <SAVE_EVERY> --train-dir <TRAIN_DIR>
+DLtorch test examples/cifar10_adv.yaml --gpus 0 --seed 123 --save_every <SAVE_EVERY> --train-dir <TRAIN_DIR>
 ```
 
 ### Notation
