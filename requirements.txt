@@ -5,3 +5,4 @@ setproctitle
 click
 torchvision
 torch
+pyyaml

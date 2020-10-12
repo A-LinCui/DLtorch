@@ -5,12 +5,14 @@ with open("README.md", "r") as file:
 
 # dependencies
 INSTALL_REQUIRES = [
-    "torch>=1.0.0,<1.5.0",
+    "torch",
     "torchvision>=0.4.0",
     "numpy",
     "click",
     "matplotlib",
-    "torchviz"
+    "torchviz",
+    "pyyaml",
+    "setproctitle"
 ]
 
 setuptools.setup(
