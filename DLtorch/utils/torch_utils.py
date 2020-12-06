@@ -2,7 +2,23 @@
 # Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
 
 import torch
+import torch.nn as nn
 from torchviz import make_dot
+
+class CrossEntropyLabelSmooth(nn.Module):
+    """CrossEntropy with Label Smoothing."""
+    
+    def __init__(self, epsilon):
+        super(CrossEntropyLabelSmooth, self).__init__()
+        self.smooth = smooth
+    
+    def forward(self, inputs, targets):
+        num_classes = int(inputs.shape[-1])
+        log_probs = nn.LogSoftmax(dim=1)(inputs)
+        targets = torch.zeros_like(log_probs).scatter_(1, targets.unsqueeze(1), 1)
+        targets = (1 - self.smooth) * targets + self.smooth / num_classes
+        loss = - (targets * log_probs).mean(0).sum()
+        return loss
 
 def primary_test(model, dataloader, criterion):
     # Test a model's accuracy on the dataset basically.
