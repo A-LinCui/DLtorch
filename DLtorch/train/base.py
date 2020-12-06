@@ -7,10 +7,11 @@ import abc
 import torch
 
 import DLtorch.component as component
+from DLtorch.component import BaseComponent
 from DLtorch.utils.logger import logger
 from DLtorch.utils.torch_utils import get_params
 
-class BaseFinalTrainer(object):
+class BaseFinalTrainer(BaseComponent):
     NAME = "BaseFinalTrainer"
 
     def __init__(self, device, gpus, model, model_kwargs,
@@ -19,17 +20,14 @@ class BaseFinalTrainer(object):
                  optimizer_type, optimizer_kwargs,
                  scheduler, scheduler_kwargs, path, trainer_type
                  ):
+        super(BaseComponent, self).__init__()
 
         # Makedir
         self.path = path
         if path is not None and not os.path.exists(self.path):
             os.mkdir(self.path)
 
-        # Set the log
-        self.log = logger(name=trainer_type, save_path=os.path.join(self.path, "trainer.log"),
-                          whether_stream=True, whether_file=True) if path is not None else \
-            logger(name="Final Training", whether_stream=True)
-        self.log.info("DLtorch Framework: Constructing {} ···".format(trainer_type))
+        self.logger.info("DLtorch Framework: Constructing {} ···".format(trainer_type))
 
         # Set all the components
         self.model_type = model
@@ -84,9 +82,9 @@ class BaseFinalTrainer(object):
     def set_gpus(self):
         if self.device == "cuda":
             os.environ["CUDA_VISIBLE_DEVICES"] = str(self.gpus)
-            self.log.info("GPU information: {}".format(self.gpus))
+            self.logger.info("GPU information: {}".format(self.gpus))
         else:
-            self.log.info("Using CPU.")
+            self.logger.info("Using CPU.")
 
     def count_param(self, only_trainable=False):
         """
