@@ -7,12 +7,11 @@ from collections import OrderedDict
 
 import torch
 
-def set_seed(seed):
-    # Set seed for system, numpy and pytorch.
-    if seed is not None:
-        np.random.seed(seed)
-        random.seed(seed)
-        torch.manual_seed(seed)
+def _set_seed(seed):
+    """ Set seed for system, numpy and pytorch. """
+    np.random.seed(seed)
+    random.seed(seed)
+    torch.manual_seed(seed)
 
 class AvgrageMeter(object):
     def __init__(self):
