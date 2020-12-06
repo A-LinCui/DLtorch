@@ -1,32 +1,25 @@
 # DLtorch Framework
 # Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
 
-import logging
+import os
 import sys
+import logging
 
-class logger(object):
-    def __init__(self, name, save_path=None, whether_stream=True, whether_file=False):
-        # Check
-        assert whether_stream or whether_file, "This log is meaningless."
-        assert not (whether_file and save_path is None), "Log path is required, if you want to save the log."
+__all__ = ["logger", "getLogger"]
 
-        # Set the log
-        self.log = logging.getLogger(name)
-        self.log.setLevel(logging.INFO)
-        self.formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+LEVEL = "info"
+LEVEL = getattr(logging, LEVEL.upper())
+LOG_FORMAT = "%(asctime)s %(name)-16s %(levelname)7s: %(message)s"
 
-        if whether_stream:
-            stream_handler = logging.StreamHandler(sys.stdout)
-            stream_handler.setFormatter(self.formatter)
-            self.log.addHandler(stream_handler)
+logging.basicConfig(stream=sys.stdout, level=LEVEL, format=LOG_FORMAT, datefmt="%m/%d %I:%M:%S %p")
+logger = logging.getLogger()
 
-        if whether_file:
-            file_handler = logging.FileHandler(save_path, mode='w')
-            file_handler.setFormatter(self.formatter)
-            self.log.addHandler(file_handler)
+def addFile(self, filename):
+    handler = logging.FileHandler(filename)
+    handler.setFormatter(logging.Formatter(LOG_FORMAT))
+    self.addHandler(handler)
 
-    def info(self, message):
-        self.log.info(message)
+logging.Logger.addFile = addFile
 
-    def setLevel(self, level):
-        self.log.setLevel(level)
+def getLogger(name):
+    return logger.getChild(name)
