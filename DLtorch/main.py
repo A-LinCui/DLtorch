@@ -59,8 +59,6 @@ click.option = functools.partial(click.option, show_default=True)
 
 # Set the logger
 LOGGER = _logger.getChild("Main")
-# Set the device
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 @click.group(help="The DLtorch framework command line interface.")
@@ -86,16 +84,20 @@ def train(cfg_file, train_dir, gpus, load, seed, register_file, save_every):
     else:
         _set_gpu(gpu_list[0])
         device = torch.device("cuda:{}".format(gpu_list[0]) if torch.cuda.is_available() else "cpu")
+    
     # Register from the file
     if register_file is not None:
         register(register_file)
+    
     # Set the seed
     if seed is not None:
         LOGGER.info("Setting random seed: %d.", seed)
         _set_seed(seed)
+    
     # Load the configuration
     config = load_yaml(cfg_file)
     config = prepare(config, DEVICE, train-dir, gpus, save_every)
+    
     # Make the train dir
     if train_dir is not None:
         write_yaml(os.path.join(train_dir, "train_config.yaml"), config)
@@ -129,16 +131,20 @@ def test(cfg_file, test_dir, load, device, gpus, dataset, seed, register_file=No
     else:
         _set_gpu(gpu_list[0])
         device = torch.device("cuda:{}".format(gpu_list[0]) if torch.cuda.is_available() else "cpu")  
+    
     # Register from the file
     if register_file is not None:
         register(register_file)
+    
     # Set the seed
     if seed is not None:
         LOGGER.info("Setting random seed: %d.", seed)
         _set_seed(seed)
+    
     # Load the configuration
     config = load_yaml(cfg_file)
     config = prepare(config, device, testdir, gpus, save_every=None)
+    
     # Make the test dir
     if test_dir is not None:
         write_yaml(os.path.join(test_dir, "test_config.yaml"), config)
