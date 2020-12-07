@@ -1,9 +1,14 @@
 # DLtorch Framework
 # Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
 
-import torch
+"""
+Fast Gradient Sign Method (FGSM)
+Goodfellow, Ian J., Jonathon Shlens, and Christian Szegedy. "Explaining and harnessing adversarial examples." arXiv preprint arXiv:1412.6572 (2014).
+"""
 
+import torch
 from DLtorch.objective.adversary import BaseAdvGenerator
+
 
 class FGSM(BaseAdvGenerator):
     def __init__(self, epsilon, criterion, eval_mode):

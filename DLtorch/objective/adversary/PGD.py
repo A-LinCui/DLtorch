@@ -1,6 +1,11 @@
 # DLtorch Framework
 # Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
 
+"""
+Project Gradient Descent
+Madry, Aleksander, et al. "Towards deep learning models resistant to adversarial attacks." arXiv preprint arXiv:1706.06083 (2017).
+"""
+
 import torch
 from torch.autograd import Variable
 

@@ -4,7 +4,6 @@
 import abc
 from collections import OrderedDict
 
-from DLtorch.component.criterion import get_criterion
 
 class BaseAdvGenerator(object):
     def __init__(self, criterion, eval_mode: bool = True):
