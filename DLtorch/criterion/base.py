@@ -2,6 +2,9 @@ import abc
 
 import torch.nn as nn
 
-class BaseCriterion(nn.Module):
+from DLtorch.base import BaseComponent
+
+class BaseCriterion(nn.Module, BaseComponent):
     def __init__(self):
-        super().__init__()
+        nn.Module.__init__(self)
+        BaseComponent.__init__(self)
