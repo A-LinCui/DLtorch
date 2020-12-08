@@ -26,10 +26,16 @@ class Plugins(object):
                         setattr(DLtorch.objective.adversary, module.__name__, module)
                     elif issubclass(module, DLtorch.datasets.BaseDataset):
                         setattr(DLtorch.datasets, module.__name__, module)
-                    elif issubclass(module, nn.Module):
-                        setattr(DLtorch.models, module.__name__, module)
                     elif issubclass(module, DLtorch.trainer.BaseFinalTrainer):
                         setattr(DLtorch.trainer, module.__name__, module)
+                    elif issubclass(module, DLtorch.optimizer.BaseOptimizer):
+                        setattr(DLtorch.optimizer, module.__name__, module)
+                    elif issubclass(module, DLtorch.criterion.BaseCriterion):
+                        setattr(DLtorch.criterion, module.__name__, module)
+                    elif issubclass(module, DLtorch.lr_scheduler.BaseLrScheduler):
+                        setattr(DLtorch.lr_scheduler, module.__name__, module)
+                    elif issubclass(module, nn.Module):
+                        setattr(DLtorch.models, module.__name__, module)
         
     def _load_modules(self, root: str):
         """ Dynamically load modules from all the files ending with '.py' under current root and return a list. """
