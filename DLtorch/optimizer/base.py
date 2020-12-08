@@ -3,11 +3,12 @@
 
 import abc
 
-import torch.optim
+from torch.optim.optimizer import Optimizer, required
 
 from DLtorch.base import BaseComponent
 
-class BaseOptimizer(torch.optim, BaseComponent):
-    def __init__(self):
-        torch.optim.__init__(self)
+class BaseOptimizer(Optimizer, BaseComponent):
+    def __init__(self, params, lr=required):
+        defaults = dict(lr=lr)
+        Optimizer.__init__(self, params, defaults)
         BaseComponent.__init__(self)
