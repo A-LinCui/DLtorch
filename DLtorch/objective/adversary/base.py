@@ -4,9 +4,10 @@
 import abc
 from collections import OrderedDict
 
+import torch.nn as nn
 
 class BaseAdvGenerator(object):
-    def __init__(self, criterion, eval_mode: bool = True):
+    def __init__(self, criterion = nn.CrossEntropyLoss(), eval_mode: bool = True):
         self.criterion = criterion
         self.eval_mode = eval_mode
 

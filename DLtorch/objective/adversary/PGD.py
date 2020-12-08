@@ -7,12 +7,13 @@ Madry, Aleksander, et al. "Towards deep learning models resistant to adversarial
 """
 
 import torch
+import torch.nn as nn
 from torch.autograd import Variable
 
 from DLtorch.objective.adversary import BaseAdvGenerator
 
 class PGD(BaseAdvGenerator):
-    def __init__(self, epsilon: float, n_step: int, step_size: float, rand_init: bool, criterion, eval_mode: bool):
+    def __init__(self, epsilon: float = 8 / 255, n_step: int = 7, step_size: float = 2 / 255, rand_init: bool = True, criterion = nn.CrossEntropyLoss(), eval_mode: bool = True):
         super(PGD, self).__init__(criterion, eval_mode)
         self.epsilon = epsilon
         self.n_step = n_step

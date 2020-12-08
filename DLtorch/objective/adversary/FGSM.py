@@ -7,11 +7,12 @@ Goodfellow, Ian J., Jonathon Shlens, and Christian Szegedy. "Explaining and harn
 """
 
 import torch
+import torch.nn as nn
 from DLtorch.objective.adversary import BaseAdvGenerator
 
 
 class FGSM(BaseAdvGenerator):
-    def __init__(self, epsilon, criterion, eval_mode):
+    def __init__(self, epsilon: float = 8 / 255, criterion = nn.CrossEntropyLoss(), eval_mode: bool = True):
         super(FGSM, self).__init__(criterion, eval_mode)
         self.epsilon = epsilon
 
