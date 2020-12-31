@@ -19,6 +19,10 @@ from DLtorch.utils.common_utils import _set_seed
 from DLtorch.version import __version__
 
 
+install_path = os.path.dirname(os.path.abspath(__file__))
+root_file = os.path.join(install_path, "root.yaml")
+
+
 def _set_gpu(gpu):
     if torch.cuda.is_available():
         torch.cuda.set_device(gpu)
@@ -31,6 +35,23 @@ def _set_gpu(gpu):
 LOGGER = _logger.getChild("Main")
 
 
+# Check plugins
+if not os.path.exists(root_file):
+    plugin_root = os.path.join("~", "dltorch_plugin")
+    with open(root_file, "w") as f:
+        yaml.dump(os.path.abspath(plugin_root), f)
+    os.makedirs(plugin_root)
+    LOGGER.info("Initialize DLtorch with default plugin root: {}".format(os.path.join("~", "dltorch_plugin")))
+    LOGGER.info("All modules under the plugin root that is subclass of 'DLtorch.base.BaseComponent' will be automatically loaded.")
+    LOGGER.info("Able to change the plugin root with 'DLtorch setroot'.")
+else:
+    with open(root_file, "r") as f:
+        plugin_root = yaml.load(f, Loader=yaml.FullLoader)
+
+LOGGER.info("Check plugin under {}".format(os.path.abspath(plugin_root)))
+DLTORCH_PlUGINS = Plugins(plugin_root=plugin_root)    
+
+
 click.option = functools.partial(click.option, show_default=True)
 
 @click.group(help="The DLtorch framework command line interface.")
@@ -38,6 +59,18 @@ click.option = functools.partial(click.option, show_default=True)
 @click.option("--local_rank", default=-1, type=int, help="The rank of this process")
 def main(local_rank):
     pass
+
+
+@click.command(help="Set Plugins Root")
+@click.argument("root", required=True, type=str)
+def setroot(root):
+    root = os.path.abspath(root)
+    assert(os.path.exists(root)), "Root {} doesn't exist!".format(root)
+    with open(root_file, "w") as f:
+        yaml.dump(root, f)
+    LOGGER.info("Successful set plugin root: {}".format(root))
+
+main.add_command(setroot)
 
 
 @click.command(help="Train Model")
