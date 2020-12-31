@@ -6,60 +6,32 @@ from __future__ import print_function
 import os
 import functools
 import click
+import yaml
 import importlib
 import sys
 
+import torch
+
+import DLtorch
+from DLtorch.base import Plugins
 from DLtorch.utils import logger as _logger
-from DLtorch.component import *
-from DLtorch.adv_attack import *
-from DLtorch.utils import *
+from DLtorch.utils.common_utils import _set_seed
 from DLtorch.version import __version__
+
 
 def _set_gpu(gpu):
     if torch.cuda.is_available():
         torch.cuda.set_device(gpu)
-        LOGGER.info('GPU device = %d' % gpu)
+        LOGGER.info("GPU device = {}".format(gpu))
     else:
         LOGGER.warning('No GPU available, use CPU!!')
 
-def register(path):
-    # Automatically run the "register" function defined in the "path(.py)" file to register new components into DLtorch.
-    p, f = os.path.split(os.path.abspath(path))
-    sys.path.append(p)
-    module = importlib.import_module(f[:-3])
-    module.register()
-    sys.path.remove(p)
-
-def register_components(path):
-    # Register all the given files.
-    if isinstance(path, str):
-        register(path)
-    else:
-        [register(one_path) for one_path in path]
-
-def prepare(config, device, dir, gpus, save_every):
-    # Prepare working folder for the process and modify the configuration.
-    if device is not None:
-        assert device in ["cuda", "cpu"], "Device should be 'cuda' or 'cpu'."
-        config["device"] = device
-    if dir is not None:
-        config["path"] = dir
-    else:
-        config["path"] = None
-    if gpus is not None:
-        config["gpus"] = gpus
-    if save_every is not None:
-        config["save_every"] = save_every
-    if dir is not None and not os.path.exists(dir):
-        os.mkdir(dir)
-    return config
-
-
-click.option = functools.partial(click.option, show_default=True)
 
 # Set the logger
 LOGGER = _logger.getChild("Main")
 
+
+click.option = functools.partial(click.option, show_default=True)
 
 @click.group(help="The DLtorch framework command line interface.")
 @click.version_option(version=__version__)
@@ -67,15 +39,16 @@ LOGGER = _logger.getChild("Main")
 def main(local_rank):
     pass
 
+
 @click.command(help="Train Model")
 @click.argument("cfg_file", required=True, type=str)
-@click.option("--seed", default=100, type=int, help="The random seed to run training")
+@click.option("--seed", default=123, type=int, help="The random seed to run training")
 @click.option("--load", default=None, type=str, help="The directory to load checkpoint")
 @click.option("--train-dir", default=None, type=str, help="The directory to save checkpoints")
-@click.option('--gpus', default="0", type=str, help="Gpus to use")
-@click.option('--register-file', default=None, type=str, help="Register_file")
+@click.option('--gpus', default="0", type=str, help="GPUs to use")
 @click.option('--save-every', default=None, type=int, help="Number of epochs to save once")
-def train(cfg_file, train_dir, gpus, load, seed, register_file, save_every):
+@click.option('--report-every', default=50, type=int, help="Number of batches to report once in a epoch")
+def train(cfg_file, train_dir, gpus, load, seed, save_every, report_every):
     # Set the device
     gpu_list = [int(gpu) for gpu in gpus.split(",")]
     if not gpu_list:
@@ -85,44 +58,47 @@ def train(cfg_file, train_dir, gpus, load, seed, register_file, save_every):
         _set_gpu(gpu_list[0])
         device = torch.device("cuda:{}".format(gpu_list[0]) if torch.cuda.is_available() else "cpu")
     
-    # Register from the file
-    if register_file is not None:
-        register(register_file)
-    
     # Set the seed
     if seed is not None:
-        LOGGER.info("Setting random seed: %d.", seed)
+        LOGGER.info("Setting random seed: {}".format(seed))
         _set_seed(seed)
     
     # Load the configuration
-    config = load_yaml(cfg_file)
-    config = prepare(config, DEVICE, train-dir, gpus, save_every)
+    with open(cfg_file, "r") as f:
+        config = yaml.load(f, Loader=yaml.FullLoader)
     
-    # Make the train dir
-    if train_dir is not None:
-        write_yaml(os.path.join(train_dir, "train_config.yaml"), config)
-        log_file = os.path.join(train_dir, "train.log")
-        _logger.addFile(log_file)
+    # Makedir
+    os.makedirs(train_dir)
+    with open(os.path.join(train_dir, "train_config.yaml"), "w") as f:
+        yaml.dump(config, f)
+    log_file = os.path.join(train_dir, "train.log")
+    _logger.addFile(log_file)
+
+    # Init components
+    objective = getattr(DLtorch.objective, config["objective_type"])(**config["objective_kwargs"])
+    model = getattr(DLtorch.model, config["model_type"])(**config["model_kwargs"])
+    dataset = getattr(DLtorch.datasets, config["dataset_type"])(**config["dataset_kwargs"])
+    trainer = getattr(DLtorch.trainer, config["trainer_type"])(
+        **config["trainer_kwargs"], device=device, save_every=save_every, report_every=report_every,
+        model=model, dataset = dataset, objective = objective)
     
-    # Instantiate the trainer
-    Trainer = get_trainer(config["trainer_type"], **config)
     if load is not None:
-        Trainer.load(load)
-    Trainer.train()
-    return Trainer
+        trainer.load(load)
+    trainer.train()
+    
+    return trainer
 
 main.add_command(train)
 
+
 @click.command(help="Test Model")
 @click.argument("cfg_file", required=True, type=str)
-@click.option("--seed", default=None, type=int, help="The random seed to run testing")
+@click.option("--split", required=True, type=click.Choice(['train', 'test']), case_sensitive=False, help="Dataset split to test")
+@click.option("--seed", default=123, type=int, help="The random seed to run training")
 @click.option("--load", required=True, type=str, help="The directory to load checkpoint")
-@click.option("--test-dir", default=None, type=str, help="The directory to save log and configuration")
-@click.option('--device', default="cuda", type=click.Choice(['cpu', 'cuda']), help="cpu or cuda")
-@click.option('--gpus', default="0", type=str, help="Gpus to use")
-@click.option('--dataset', default="test", type=str, help="Datasets to test on")
-@click.option('--register-file', default=None, type=str, help="Register_file")
-def test(cfg_file, test_dir, load, device, gpus, dataset, seed, register_file=None):
+@click.option('--gpus', default="0", type=str, help="GPUs to use")
+@click.option('--report-every', default=50, type=int, help="Number of batches to report once in a epoch")
+def test(cfg_file, split, gpus, load, seed, save_every, report_every):
     # Set the device
     gpu_list = [int(gpu) for gpu in gpus.split(",")]
     if not gpu_list:
@@ -130,51 +106,32 @@ def test(cfg_file, test_dir, load, device, gpus, dataset, seed, register_file=No
         LOGGER.info("Current Device: CPU")
     else:
         _set_gpu(gpu_list[0])
-        device = torch.device("cuda:{}".format(gpu_list[0]) if torch.cuda.is_available() else "cpu")  
-    
-    # Register from the file
-    if register_file is not None:
-        register(register_file)
+        device = torch.device("cuda:{}".format(gpu_list[0]) if torch.cuda.is_available() else "cpu")
     
     # Set the seed
     if seed is not None:
-        LOGGER.info("Setting random seed: %d.", seed)
+        LOGGER.info("Setting random seed: {}".format(seed))
         _set_seed(seed)
     
     # Load the configuration
-    config = load_yaml(cfg_file)
-    config = prepare(config, device, testdir, gpus, save_every=None)
+    with open(cfg_file, "r") as f:
+        config = yaml.load(f, Loader=yaml.FullLoader)
+
+    # Init components
+    objective = getattr(DLtorch.objective, config["objective_type"])(**config["objective_kwargs"])
+    model = getattr(DLtorch.model, config["model_type"])(**config["model_kwargs"])
+    dataset = getattr(DLtorch.datasets, config["dataset_type"])(**config["dataset_kwargs"])
+    trainer = getattr(DLtorch.trainer, config["trainer_type"])(
+        **config["trainer_kwargs"], device=device, save_every=save_every, report_every=report_every,
+        model=model, dataset = dataset, objective = objective)
     
-    # Make the test dir
-    if test_dir is not None:
-        write_yaml(os.path.join(test_dir, "test_config.yaml"), config)
-        log_file = os.path.join(test_dir, "test.log")
-        _logger.addFile(log_file)
+    trainer.load(load)
+    trainer.test(split)
     
-    # Instantiate the trainer
-    Trainer = get_trainer(config["trainer_type"], **config)
-    Trainer.load(load)
-    Trainer.test(dataset)
-    return Trainer
+    return trainer
 
 main.add_command(test)
 
-
-@click.command(help="Show All The Registered Components")
-@click.option('--register_file', default=None, type=str, help="Register_file")
-def components(register_file):
-    if register_file is not None:
-        register(register_file)
-    print("DLtorch Components")
-    print('-- Adv Attackers:', get_attacker_attrs() if len(get_attacker_attrs()) != 0 else None)
-    print('-- Datasets:', get_dataset_attrs() if len(get_dataset_attrs()) != 0 else None)
-    print('-- Lr_Scedulers:', get_scheduler_attrs() if len(get_scheduler_attrs()) != 0 else None)
-    print('-- Objectives', get_objective_attrs() if len(get_objective_attrs()) != 0 else None)
-    print('-- Optimizers:', get_optimizer_attrs() if len(get_optimizer_attrs()) != 0 else None)
-    print('-- Trainers:', get_trainer_attrs()) if len(get_trainer_attrs()) != 0 else None
-    print('-- Models:', get_model_attrs() if len(get_model_attrs()) != 0 else None)
-
-main.add_command(components)
 
 if __name__ == '__main__':
     main()
