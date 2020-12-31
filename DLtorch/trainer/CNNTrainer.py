@@ -1,10 +1,14 @@
-import torch
+# -*- coding:utf-8 -*-
 
+import torch
+import torch.utils.data as data
+
+import DLtorch
 from DLtorch.trainer.base import BaseTrainer
 from DLtorch.utils.common_utils import *
 from DLtorch.utils.python_utils import *
 from DLtorch.utils.torch_utils import accuracy
-import DLtorch
+
 
 class CNNTrainer(BaseTrainer):
     def __init__(
@@ -12,18 +16,19 @@ class CNNTrainer(BaseTrainer):
         # Components
         model,
         dataset,
-        dataloader_kwargs,
+        dataloader_kwargs: dict,
         objective,
-        optimizer,
-        optimizer_kwargs,
-        lr_scheduler,
-        lr_scheduler_kwargs,
+        optimizer_type: str,
+        optimizer_kwargs: dict = {},
+        lr_scheduler_type: str = None,
+        lr_scheduler_kwargs: dict = {},
         # Training cfgs
         epochs: int = 100,
         save_every: int = 10,
         save_as_state_dict: bool = True,
         report_every: int = 50,
-        grad_clip: float = None,
+        test_every: int = 1,
+        grad_clip: float = 5.0,
         eval_no_grad: bool = True,
         early_stop: bool = False,
         trainset_portion: list = [0.8, 0.2]
@@ -32,23 +37,18 @@ class CNNTrainer(BaseTrainer):
             model, 
             dataset, dataloader_kwargs,
             objective,
-            optimizer, optimizer_kwargs,
-            lr_scheduler, lr_scheduler_kwargs,
+            optimizer_type, optimizer_kwargs,
+            lr_scheduler_type, lr_scheduler_kwargs,
             epochs, 
             save_every, save_as_state_dict,
             report_every,
+            test_every,
             grad_clip,
             eval_no_grad
             )
         
         self.early_stop = early_stop
         self.portion = trainset_portion
-
-        # Init components
-        self._criterion = getattr(DLtorch.criterion, self.criterion_type)(**self.criterion_kwargs)
-        self.optimizer = getattr(DLtorch.optimizer, self.optimizer_type)(**self.optimizer_kwargs, params=list(self.model.parameters()))
-        self.lr_scheduler = getattr(DLtorch.lr_scheduler, self.lr_scheduler_type)(**self.lr_scheduler_kwargs, optimizer=self.optimizer) \
-            if self.lr_scheduler_type is not None else None
 
         # Split the datasets and construct dataloaders
         if self.early_stop:
@@ -66,6 +66,7 @@ class CNNTrainer(BaseTrainer):
     # ---- API ----
     def train(self):
         self.logger.info("Start training···")
+        
         for epoch in range(self.last_epoch + 1, self.epochs + 1):
             self.logger.info("Epoch: {}; Learning rate: {}".format(epoch, 
                 self.optimizer_kwargs["lr"] if self.lr_scheduler is None else self.lr_scheduler.get_lr()[0])
@@ -73,10 +74,9 @@ class CNNTrainer(BaseTrainer):
 
             # Train on training set for one epoch.
             loss, accs, perfs, reward = self.train_epoch(self.dataloader["train"])
-            self.recorder.update("train", epoch, [loss, accs["top-1"], accs["top-5"], reward, perfs])
 
             # Step the learning rate if scheduler isn't none.
-            if hasattr(self, "scheduler"):
+            if self.lr_scheduler is not None:
                 self.scheduler.step()
 
             # Test on validation set and save the model with the best performance.
