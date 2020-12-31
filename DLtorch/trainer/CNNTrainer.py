@@ -4,7 +4,7 @@ from DLtorch.trainer.base import BaseTrainer
 from DLtorch.utils.common_utils import *
 from DLtorch.utils.python_utils import *
 from DLtorch.utils.torch_utils import accuracy
-
+import DLtorch
 
 class CNNTrainer(BaseTrainer):
     def __init__(
@@ -14,7 +14,6 @@ class CNNTrainer(BaseTrainer):
         dataset,
         dataloader_kwargs,
         objective,
-        objective_kwargs,
         optimizer,
         optimizer_kwargs,
         lr_scheduler,
@@ -32,7 +31,7 @@ class CNNTrainer(BaseTrainer):
         super(CNNTrainer, self).__init__(
             model, 
             dataset, dataloader_kwargs,
-            objective, objective_kwargs, 
+            objective,
             optimizer, optimizer_kwargs,
             lr_scheduler, lr_scheduler_kwargs,
             epochs, 
@@ -44,39 +43,33 @@ class CNNTrainer(BaseTrainer):
         
         self.early_stop = early_stop
         self.portion = trainset_portion
-        
+
+        # Init components
+        self._criterion = getattr(DLtorch.criterion, self.criterion_type)(**self.criterion_kwargs)
+        self.optimizer = getattr(DLtorch.optimizer, self.optimizer_type)(**self.optimizer_kwargs, params=list(self.model.parameters()))
+        self.lr_scheduler = getattr(DLtorch.lr_scheduler, self.lr_scheduler_type)(**self.lr_scheduler_kwargs, optimizer=self.optimizer) \
+            if self.lr_scheduler_type is not None else None
+
+        # Split the datasets and construct dataloaders
         if self.early_stop:
-            assert isinstance(self.portion, list), "Trainset_portion[list] is required for dividing the original training set if using early stop."
+            assert isinstance(self.portion, list), "'Trainset_portion'[list] is required for dividing the original training set if using early stop."
             assert sum(self.portion) == 1.0, "'Trainset_portion' invalid. The sum of it should be 1.0."
             self.logger.info("Using early stop. Split trainset into [train/valid] = {}".format(self.portion))
             self.dataset["train"], self.dataset["valid"] = torch.utils.data.random_split(
-                    self.dataset["train"], 
-                    [int(self.portion[0] * len(self.dataset["train"])), len(self.dataset["train"]) - int(self.portion[0] * len(self.dataset["train"]))]
-                    )
+                self.dataset["train"], [int(len(self.dataset["train"]) * _pt) for _pt in self.portion)])
+        dataloader = {}
+        for _dataset in self.dataset.keys():
+            dataloader[_dataset] = data.DataLoader(self.dataset[_dataset], **dataloader_kwargs)
         
         self.last_epoch = 0
     
     # ---- API ----
     def train(self):
-
-        self.log.info("DLtorch Train : FinalTrainer  Start training···")
-        # Init the all of the components.
-        self.init_component()
-        # Count the parameters of the mode to be trained.
-        self.count_param()
-        # Add statistics recorder
-        self.recorder = train_recorder(types=["train", "test"], list_names=["loss", "top-1-acc", "top-5-acc", "reward"],
-                                       perfs_names=self.objective.perf_names)
-
-        # If using early stop, add validation part to training statistics.
-        if self.early_stop:
-            self.log.info("Using early stopping.")
-            self.recorder.add_type("valid")
-
+        self.logger.info("Start training···")
         for epoch in range(self.last_epoch + 1, self.epochs + 1):
-
-            # Print the current learning rate.
-            self.log.info("epoch: {} learning rate: {}".format(epoch, self.optimizer_kwargs["lr"] if not hasattr(self, "scheduler") else self.scheduler.get_lr()[0]))
+            self.logger.info("Epoch: {}; Learning rate: {}".format(epoch, 
+                self.optimizer_kwargs["lr"] if self.lr_scheduler is None else self.lr_scheduler.get_lr()[0])
+                )
 
             # Train on training set for one epoch.
             loss, accs, perfs, reward = self.train_epoch(self.dataloader["train"])

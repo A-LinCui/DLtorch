@@ -17,7 +17,6 @@ class BaseTrainer(BaseComponent):
         dataset,
         dataloader_kwargs: dict,
         objective,
-        objective_kwargs: dict,
         optimizer,
         optimizer_kwargs: dict,
         lr_scheduler,
@@ -34,7 +33,6 @@ class BaseTrainer(BaseComponent):
         self.dataset = dataset
         self.dataloader_kwargs = dataloader_kwargs
         self.objective = objective
-        self.objective_kwargs = objective_kwargs
         self.optimizer = optimizer
         self.optimizer_kwargs = optimizer_kwargs
         self.lr_scheduler = lr_scheduler
