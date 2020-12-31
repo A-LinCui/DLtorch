@@ -1,18 +1,23 @@
-# DLtorch Framework
-# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
-
-"""
-Fast Gradient Sign Method (FGSM)
-Goodfellow, Ian J., Jonathon Shlens, and Christian Szegedy. "Explaining and harnessing adversarial examples." arXiv preprint arXiv:1412.6572 (2014).
-"""
+# -*- coding: utf-8 -*-
 
 import torch
 import torch.nn as nn
+
 from DLtorch.objective.adversary import BaseAdvGenerator
 
 
 class FGSM(BaseAdvGenerator):
-    def __init__(self, epsilon: float = 8 / 255, criterion = nn.CrossEntropyLoss(), eval_mode: bool = True):
+    """
+    Fast Gradient Sign Method (FGSM)
+    Goodfellow, Ian J., Jonathon Shlens, and Christian Szegedy. "Explaining and harnessing adversarial examples." arXiv preprint arXiv:1412.6572 (2014).
+    """
+
+    def __init__(
+        self,
+        epsilon: float = 8 / 255, 
+        criterion = nn.CrossEntropyLoss(), 
+        eval_mode: bool = True
+        ):
         super(FGSM, self).__init__(criterion, eval_mode)
         self.epsilon = epsilon
 

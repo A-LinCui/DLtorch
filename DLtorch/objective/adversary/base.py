@@ -1,13 +1,19 @@
-# DLtorch Framework
-# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
+# -*- coding: utf-8 -*-
 
 import abc
 from collections import OrderedDict
 
 import torch.nn as nn
 
-class BaseAdvGenerator(object):
-    def __init__(self, criterion = nn.CrossEntropyLoss(), eval_mode: bool = True):
+from DLtorch.base import BaseComponent
+
+
+class BaseAdvGenerator(BaseComponent):
+    def __init__(
+        self, 
+        criterion = nn.CrossEntropyLoss(), 
+        eval_mode: bool = True
+        ):
         self.criterion = criterion
         self.eval_mode = eval_mode
 
