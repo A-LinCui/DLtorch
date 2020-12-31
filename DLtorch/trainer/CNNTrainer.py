@@ -147,7 +147,7 @@ class CNNTrainer(BaseTrainer):
                     "best_reward": self.best_rward, 
                     "best_acc": self.best_acc, 
                     "best_loss": self.best_loss, 
-                    "best_epoch": self.bes_epoch, 
+                    "best_epoch": self.best_epoch, 
                     "best_perfs": self.best_perfs
                     },
                 os.path.join(path, "valid_info.pt")
