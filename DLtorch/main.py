@@ -37,18 +37,18 @@ LOGGER = _logger.getChild("Main")
 
 # Check plugins
 if not os.path.exists(root_file):
-    plugin_root = os.path.join("~", "dltorch_plugin")
+    plugin_root = os.path.join("~", "dltorch_plugins")
     with open(root_file, "w") as f:
         yaml.dump(os.path.abspath(plugin_root), f)
     os.makedirs(plugin_root)
-    LOGGER.info("Initialize DLtorch with default plugin root: {}".format(os.path.join("~", "dltorch_plugin")))
-    LOGGER.info("All modules under the plugin root that is subclass of 'DLtorch.base.BaseComponent' will be automatically loaded.")
-    LOGGER.info("Able to change the plugin root with 'DLtorch setroot'.")
+    LOGGER.info("Initialize DLtorch with default plugins root: {}".format(plugin_root))
+    LOGGER.info("All modules under the plugins root that is subclass of 'DLtorch.base.BaseComponent' will be automatically loaded.")
+    LOGGER.info("Able to change the plugins root with 'DLtorch setroot'.")
 else:
     with open(root_file, "r") as f:
         plugin_root = yaml.load(f, Loader=yaml.FullLoader)
 
-LOGGER.info("Check plugin under {}".format(os.path.abspath(plugin_root)))
+LOGGER.info("Check plugins under {}".format(os.path.abspath(plugin_root)))
 DLTORCH_PlUGINS = Plugins(plugin_root=plugin_root)    
 
 
