@@ -1,44 +1,61 @@
-# DLtorch Framework
-# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
-
 import torch
 
-from DLtorch.train.base import BaseFinalTrainer
+from DLtorch.trainer.base import BaseTrainer
 from DLtorch.utils.common_utils import *
 from DLtorch.utils.python_utils import *
 from DLtorch.utils.torch_utils import accuracy
 
-class CNNFinalTrainer(BaseFinalTrainer):
-    NAME = "CNNFinalTrainer"
 
-    def __init__(self, device, gpus,
-                 epochs, grad_clip, eval_no_grad, early_stop,
-                 model, model_kwargs,
-                 dataset, dataset_kwargs, dataloader_kwargs,
-                 objective, objective_kwargs,
-                 optimizer_type, optimizer_kwargs,
-                 scheduler, scheduler_kwargs,
-                 save_as_state_dict, path,
-                 test_every=1, valid_every=None, save_every=100, report_every=0.5, trainer_type="CNNFinalTrainer"
-                 ):
-        super(CNNFinalTrainer, self).__init__(device, gpus, model, model_kwargs, dataset, dataset_kwargs, dataloader_kwargs,
-                                           objective, objective_kwargs, optimizer_type, optimizer_kwargs,
-                                           scheduler, scheduler_kwargs, path, trainer_type)
-
-        # Set other training configs
-        self.epochs = epochs
-        self.test_every = test_every
-        self.valid_every = valid_every
-        self.save_every = save_every
-        self.report_every = report_every
-        # Other configs
-        self.save_as_state_dict = save_as_state_dict
-        self.early_stop = early_stop
-        self.grad_clip = grad_clip
-        self.eval_no_grad = eval_no_grad
-
-        self.last_epoch = 0
+class CNNTrainer(BaseTrainer):
+    def __init__(
+        self,
+        # Components
+        model,
+        dataset,
+        dataloader_kwargs,
+        objective,
+        objective_kwargs,
+        optimizer,
+        optimizer_kwargs,
+        lr_scheduler,
+        lr_scheduler_kwargs,
+        # Training cfgs
+        epochs: int = 100,
+        save_every: int = 10,
+        save_as_state_dict: bool = True,
+        report_every: int = 50,
+        grad_clip: float = None,
+        eval_no_grad: bool = True,
+        early_stop: bool = False,
+        trainset_portion: list = [0.8, 0.2]
+        ):
+        super(CNNTrainer, self).__init__(
+            model, 
+            dataset, dataloader_kwargs,
+            objective, objective_kwargs, 
+            optimizer, optimizer_kwargs,
+            lr_scheduler, lr_scheduler_kwargs,
+            epochs, 
+            save_every, save_as_state_dict,
+            report_every,
+            grad_clip,
+            eval_no_grad
+            )
         
+        self.early_stop = early_stop
+        self.portion = trainset_portion
+        
+        if self.early_stop:
+            assert isinstance(self.portion, list), "Trainset_portion[list] is required for dividing the original training set if using early stop."
+            assert sum(self.portion) == 1.0, "'Trainset_portion' invalid. The sum of it should be 1.0."
+            self.logger.info("Using early stop. Split trainset into [train/valid] = {}".format(self.portion))
+            self.dataset["train"], self.dataset["valid"] = torch.utils.data.random_split(
+                    self.dataset["train"], 
+                    [int(self.portion[0] * len(self.dataset["train"])), len(self.dataset["train"]) - int(self.portion[0] * len(self.dataset["train"]))]
+                    )
+        
+        self.last_epoch = 0
+    
     # ---- API ----
     def train(self):
 
