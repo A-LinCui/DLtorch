@@ -10,7 +10,7 @@ from DLtorch.base import BaseComponent
 
 class BaseDataset(BaseComponent):
     def __init__(self, path: str):
-        super(BaseDataset, self).__init__(self)
+        super(BaseDataset, self).__init__()
         self.path = path
         self.datasets = {}
         self.logger.info("Load dataset from {}".format(os.path.abspath(self.path)))
@@ -23,7 +23,7 @@ class BaseCVDataset(BaseDataset):
             train_transforms: dict = {},
             test_transforms: dict = {}
     ):
-        super(BaseCVDataset, self).__init__(self, path)
+        super(BaseCVDataset, self).__init__(path)
 
         # Assemble transforms from dicts 
         self.train_transforms = transforms.Compose([getattr(transforms, _trans)(**train_transforms[_trans]) for _trans in train_transforms.keys()])

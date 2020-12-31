@@ -14,6 +14,8 @@ class BaseAdvGenerator(BaseComponent):
         criterion = nn.CrossEntropyLoss(), 
         eval_mode: bool = True
         ):
+        super(BaseAdvGenerator, self).__init__()
+
         self.criterion = criterion
         self.eval_mode = eval_mode
 
