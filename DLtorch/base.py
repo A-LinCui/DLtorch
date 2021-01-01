@@ -3,6 +3,7 @@
 import sys
 import os
 import inspect
+import ast
 
 import torch.nn as nn
 
@@ -16,33 +17,35 @@ class Plugins(object):
         
         for root, dirs, files in os.walk(self.plugin_root, True):
             module_list = self._load_modules(root)
-            for modules in module_list:
-                modules = inspect.getmembers(modules, inspect.isclass)
-                for module in modules:
-                    if issubclass(module, DLtorch.objective.BaseObjective):
-                        setattr(DLtorch.objective, module.__name__, module)
-                    elif issubclass(module, DLtorch.objective.adversary.BaseAdvGenerator):
-                        setattr(DLtorch.objective.adversary, module.__name__, module)
-                    elif issubclass(module, DLtorch.dataset.BaseDataset):
-                        setattr(DLtorch.dataset, module.__name__, module)
-                    elif issubclass(module, DLtorch.trainer.BaseFinalTrainer):
-                        setattr(DLtorch.trainer, module.__name__, module)
-                    elif issubclass(module, DLtorch.optimizer.BaseOptimizer):
-                        setattr(DLtorch.optimizer, module.__name__, module)
-                    elif issubclass(module, DLtorch.criterion.BaseCriterion):
-                        setattr(DLtorch.criterion, module.__name__, module)
-                    elif issubclass(module, DLtorch.lr_scheduler.BaseLrScheduler):
-                        setattr(DLtorch.lr_scheduler, module.__name__, module)
-                    elif issubclass(module, DLtorch.model.BaseModel):
-                        setattr(DLtorch.model, module.__name__, module)
+            for module in module_list:
+                if issubclass(module, DLtorch.objective.BaseObjective):
+                    setattr(DLtorch.objective, module.__name__, module)
+                elif issubclass(module, DLtorch.objective.adversary.BaseAdvGenerator):
+                    setattr(DLtorch.objective.adversary, module.__name__, module)
+                elif issubclass(module, DLtorch.dataset.BaseDataset):
+                    setattr(DLtorch.dataset, module.__name__, module)
+                elif issubclass(module, DLtorch.trainer.BaseTrainer):
+                    setattr(DLtorch.trainer, module.__name__, module)
+                elif issubclass(module, DLtorch.optimizer.BaseOptimizer):
+                    setattr(DLtorch.optimizer, module.__name__, module)
+                elif issubclass(module, DLtorch.criterion.BaseCriterion):
+                    setattr(DLtorch.criterion, module.__name__, module)
+                elif issubclass(module, DLtorch.lr_scheduler.BaseLrScheduler):
+                    setattr(DLtorch.lr_scheduler, module.__name__, module)
+                elif issubclass(module, DLtorch.model.BaseModel):
+                    setattr(DLtorch.model, module.__name__, module)
         
+
     def _load_modules(self, root: str):
-        """ Dynamically load modules from all the files ending with '.py' under current root and return a list. """
+        """ 
+        Dynamically load modules from all the files ending with '.py' under current root and return a list. 
+        """
 
         modules = []
         for filename in os.listdir(root):
             if filename.endswith(".py"):
                 name = os.path.splitext(filename)[0]
+                filename = os.path.join(root, filename)
                 if name.isidentifier():
                     fh = None
                     try:
@@ -51,13 +54,17 @@ class Plugins(object):
                         module = type(sys)(name)
                         sys.modules[name] = module
                         exec(code, module.__dict__)
-                        modules.append(module)
+                        for _class in module.__dict__.values():
+                            try:
+                                if issubclass(_class, DLtorch.base.BaseComponent):
+                                    modules.append(_class)
+                            except:
+                                continue
                     except (EnvironmentError, SyntaxError) as err:
                         sys.modules.pop(name, None)
-                        print(err)
+                        print(err)            
                     finally:
-                        if fh is not None:
-                            fh.close()
+                        if fh is not None:fh.close()
         return modules
 
 
