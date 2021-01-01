@@ -7,6 +7,7 @@ import functools
 import click
 import yaml
 import importlib
+import shutil
 import sys
 
 import torch
@@ -101,7 +102,10 @@ def train(cfg_file, seed, load, train_dir, gpus, save_every, report_every):
         config = yaml.load(f, Loader=yaml.FullLoader)
     
     # Makedir
+    if os.path.exists(train_dir):
+        shutil.rmtree(train_dir)
     os.makedirs(train_dir)
+
     with open(os.path.join(train_dir, "train_config.yaml"), "w") as f:
         yaml.dump(config, f)
     log_file = os.path.join(train_dir, "train.log")
@@ -112,9 +116,9 @@ def train(cfg_file, seed, load, train_dir, gpus, save_every, report_every):
     if device != torch.device("cpu") and len(gpu_list) > 1:
         model = torch.nn.DataParallel(model)
     objective = getattr(DLtorch.objective, config["objective_type"])(**config["objective_kwargs"])
-    dataset = getattr(DLtorch.datasets, config["dataset_type"])(**config["dataset_kwargs"])
+    dataset = getattr(DLtorch.dataset, config["dataset_type"])(**config["dataset_kwargs"])
     trainer = getattr(DLtorch.trainer, config["trainer_type"])(
-        **config["trainer_kwargs"], device=device, gpu_list=gpu_list, save_every=save_every, report_every=report_every,
+        **config["trainer_kwargs"], path=train_dir, device=device, gpu_list=gpu_list, save_every=save_every, report_every=report_every,
         model=model, dataset=dataset, objective=objective)
     
     if load is not None:

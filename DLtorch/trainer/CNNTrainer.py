@@ -25,7 +25,9 @@ class CNNTrainer(BaseTrainer):
         lr_scheduler_type: str = None,
         lr_scheduler_kwargs: dict = {},
         # Training cfgs
+        path: str = None,
         device: str = "cuda",
+        gpu_list: list = [0],
         epochs: int = 100,
         save_every: int = 10,
         save_as_state_dict: bool = True,
@@ -42,14 +44,14 @@ class CNNTrainer(BaseTrainer):
             objective,
             optimizer_type, optimizer_kwargs,
             lr_scheduler_type, lr_scheduler_kwargs,
-            device,
+            path, 
+            device, gpu_list,
             epochs,
             save_every, save_as_state_dict,
             report_every, test_every,
             grad_clip,
             eval_no_grad
             )
-        
         self.early_stop = early_stop
         self.portion = trainset_portion
 
@@ -58,13 +60,13 @@ class CNNTrainer(BaseTrainer):
             assert isinstance(self.portion, list), "Early stop is used. 'Trainset_portion'[list] is required for dividing the original training set."
             assert sum(self.portion) == 1.0, "Early stop is used. 'Trainset_portion' invalid. The sum of it should be 1.0."
             self.logger.info("Early stop is used. Split trainset into [train/valid] = {}".format(self.portion))
-            self.dataset["train"], self.dataset["valid"] = torch.utils.data.random_split(
-                self.dataset["train"], [int(len(self.dataset["train"]) * _pt) for _pt in self.portion])
+            self.dataset.datasets["train"], self.dataset.datasets["valid"] = torch.utils.data.random_split(
+                self.dataset.datasets["train"], [int(len(self.dataset.datasets["train"]) * _pt) for _pt in self.portion])
             self.best_reward, self.best_acc, self.best_loss, self.best_epoch, self.best_perfs = 0, 0, 0, 0, None
 
-        dataloader = {}
-        for _dataset in self.dataset.keys():
-            dataloader[_dataset] = data.DataLoader(self.dataset[_dataset], **dataloader_kwargs)
+        self.dataloader = {}
+        for _dataset in self.dataset.datasets.keys():
+            self.dataloader[_dataset] = data.DataLoader(self.dataset.datasets[_dataset], **dataloader_kwargs)
         
         self.last_epoch = 0
 
@@ -137,13 +139,13 @@ class CNNTrainer(BaseTrainer):
         
         # Save the lr scheduler
         if self.lr_scheduler is not None:
-            torch.save(self.scheduler.state_dict(), os.path.join(path, "scheduler.pt"))
+            torch.save(self.lr_scheduler.state_dict(), os.path.join(path, "lr_scheduler.pt"))
 
         # Save valid information
         if self.early_stop:
             torch.save(
                 {
-                    "best_reward": self.best_rward, 
+                    "best_reward": self.best_reward, 
                     "best_acc": self.best_acc, 
                     "best_loss": self.best_loss, 
                     "best_epoch": self.best_epoch, 
@@ -211,7 +213,7 @@ class CNNTrainer(BaseTrainer):
             accs.update(batch_accs, batch_size)
             perfs.update(batch_perfs, batch_size)
 
-            if (i + 1) % self.report_every or i == len(data_queue) - 1:
+            if (i + 1) % self.report_every == 0 or i == len(data_queue) - 1:
                 self.logger.info("train_epoch: {}; process: {} / {}; top-1: {:.5f}; loss:{:.5f}; reward:{:.5f}; perfs: {}".\
                     format(self.last_epoch + 1, i + 1, len(data_queue), accs.avgs()["top-1"], loss.avg, reward.avg, ";".join(["{}: {:.3f}".format(n, v) for n, v in perfs.avgs().items()])))
 

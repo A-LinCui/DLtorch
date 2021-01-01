@@ -22,6 +22,7 @@ class BaseTrainer(BaseComponent):
         lr_scheduler_type: str = None,
         lr_scheduler_kwargs: dict = {},
         # Training cfgs
+        path: str = None,
         device: str = "cuda",
         gpu_list = [0],
         epochs: int = 100,
@@ -44,6 +45,7 @@ class BaseTrainer(BaseComponent):
         self.lr_scheduler_type = lr_scheduler_type
         self.lr_scheduler_kwargs = lr_scheduler_kwargs
 
+        self.path = path
         self.device = device
         self.gpu_list = gpu_list
         self.epochs = epochs
