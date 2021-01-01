@@ -15,6 +15,7 @@ class BaseAdvGenerator(BaseComponent):
         eval_mode: bool = True
         ):
         super(BaseAdvGenerator, self).__init__()
+        self.logger.info("Adversary Constructed.")
 
         self.criterion = criterion
         self.eval_mode = eval_mode

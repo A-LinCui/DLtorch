@@ -13,6 +13,7 @@ class BaseObjective(BaseComponent):
         criterion_kwargs: dict = {}
         ):
         super(BaseObjective, self).__init__()
+        self.logger.info("Objective Constructed.")
 
         self._criterion = getattr(DLtorch.criterion, criterion_type)(**criterion_kwargs)
 

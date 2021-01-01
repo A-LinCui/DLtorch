@@ -32,6 +32,7 @@ class BaseTrainer(BaseComponent):
         eval_no_grad: bool = True,
         ):
         super(BaseTrainer, self).__init__()
+        self.logger.info("Trainer Constructed.")
         
         self.model = model
         self.dataset = dataset

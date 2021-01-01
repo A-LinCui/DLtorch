@@ -12,3 +12,4 @@ class BaseOptimizer(Optimizer, BaseComponent):
         defaults = dict(lr=lr)
         Optimizer.__init__(self, params, defaults)
         BaseComponent.__init__(self)
+        self.logger.info("Optimizer Constructed.")
