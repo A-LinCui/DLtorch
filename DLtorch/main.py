@@ -80,7 +80,7 @@ main.add_command(setroot)
 @click.option("--load", default=None, type=str, help="The directory to load checkpoint")
 @click.option("--train-dir", default=None, type=str, help="The directory to save checkpoints")
 @click.option('--gpus', default="0", type=str, help="GPUs to use")
-@click.option('--save-every', default=None, type=int, help="Number of epochs to save once")
+@click.option('--save-every', default=20, type=int, help="Number of epochs to save once")
 @click.option('--report-every', default=50, type=int, help="Number of batches to report once in a epoch")
 def train(cfg_file, seed, load, train_dir, gpus, save_every, report_every):
     # Set the device
@@ -102,14 +102,15 @@ def train(cfg_file, seed, load, train_dir, gpus, save_every, report_every):
         config = yaml.load(f, Loader=yaml.FullLoader)
     
     # Makedir
-    if os.path.exists(train_dir):
-        shutil.rmtree(train_dir)
-    os.makedirs(train_dir)
+    if train_dir is not None:
+        if os.path.exists(train_dir):
+            shutil.rmtree(train_dir)
+        os.makedirs(train_dir)
 
-    with open(os.path.join(train_dir, "train_config.yaml"), "w") as f:
-        yaml.dump(config, f)
-    log_file = os.path.join(train_dir, "train.log")
-    _logger.addFile(log_file)
+        with open(os.path.join(train_dir, "train_config.yaml"), "w") as f:
+            yaml.dump(config, f)
+        log_file = os.path.join(train_dir, "train.log")
+        _logger.addFile(log_file)
 
     # Init components
     model = getattr(DLtorch.model, config["model_type"])(**config["model_kwargs"]).to(device)

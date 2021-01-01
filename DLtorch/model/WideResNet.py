@@ -105,12 +105,10 @@ class BaseCifarWideResNet(nn.Module):
 class CifarWideResNet(BaseModel, BaseCifarWideResNet):
     def __init__(
         self, 
-        model_kwargs: dict = {
-            "depth": 28,
-            "num_classes": 10,
-            "widen_factor": 1,
-            "drop_rate": 0.0
-        }
+        depth: 28,
+        num_classes: 10,
+        widen_factor: 1,
+        drop_rate: 0.0
         ):
-        BaseCifarWideResNet.__init__(self, **model_kwargs)
-        BaseModel.__init__(self, model_kwargs)
+        BaseCifarWideResNet.__init__(self, depth, num_classes, widen_factor, drop_rate)
+        BaseModel.__init__(self)

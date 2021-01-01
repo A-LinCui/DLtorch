@@ -94,16 +94,20 @@ class BaseCifarDenseNet(nn.Module):
 
 class CifarDenseNet(BaseModel, BaseCifarDenseNet):
     def __init__(
-        self, 
-        model_kwargs: dict = {
-            "n_block": [6, 12, 24, 16], 
-            "growth_rate": 32,
-            "reduction": 0.5,
-            "num_classes": 10
-        }
+        self,
+        n_blocks: list = [6, 12, 24, 16], 
+        growth_rate: int = 32,
+        reduction: float = 0.5,
+        num_classes: int = 10
         ):
-        BaseCifarDenseNet.__init__(self, **model_kwargs)
-        BaseModel.__init__(self, model_kwargs)
+        BaseCifarDenseNet.__init__(
+            self, 
+            n_blocks = n_blocks, 
+            growth_rate=growth_rate,
+            reduction=reduction,
+            num_classes=num_classes
+            )
+        BaseModel.__init__(self)
 
 
 """

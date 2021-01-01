@@ -26,7 +26,7 @@ class Cifar10(BaseCVDataset):
                 }
             }
         ):
-        super(Cifar10, self).__init__(path, train_transforms, test_tranforms)
+        super(Cifar10, self).__init__(path, train_transforms, test_transforms)
         
         # Load the dataset
         self.datasets["train"] = datasets.CIFAR10(root=self.path, train=True, download=True, transform=self.train_transforms)

@@ -14,7 +14,7 @@ Haykin, S. , & Kosko, B. . (0).  Intelligent Signal Processing. Wiley-IEEE Press
 class CifarLeNet(nn.Module, BaseModel):
     def __init__(
         self,
-        model_kwargs: dict = {}
+        **kwargs
         ):
         super(CifarLeNet, self).__init__()
         self.conv1 = nn.Conv2d(3, 6, 5)
@@ -22,7 +22,7 @@ class CifarLeNet(nn.Module, BaseModel):
         self.fc1 = nn.Linear(16*5*5, 120)
         self.fc2 = nn.Linear(120, 84)
         self.fc3 = nn.Linear(84, 10)
-        super(BaseModel).__init__(model_kwargs)
+        super(BaseModel).__init__(self)
 
 
     def forward(self, x):
@@ -40,7 +40,7 @@ class CifarLeNet(nn.Module, BaseModel):
 class MNISTLeNet(nn.Module, BaseModel):
     def __init__(
         self,
-        model_kwargs: dict = {}
+        **kwargs
         ):
         nn.Module.__init__(self)
         self.conv1 = nn.Sequential(
@@ -62,7 +62,7 @@ class MNISTLeNet(nn.Module, BaseModel):
             nn.ReLU()
         )
         self.fc3 = nn.Linear(84, 10)
-        BaseModel.__init__(self, model_kwargs)
+        BaseModel.__init__(self)
 
     def forward(self, x):
         x = self.conv1(x)

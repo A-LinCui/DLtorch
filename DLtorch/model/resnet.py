@@ -100,19 +100,16 @@ class BaseCifarResNet(nn.Module):
 class CifarResNet(BaseModel, BaseCifarResNet):
     def __init__(
         self,
-        model_kwargs: dict = {
-            "block": "BasicBlock",
-            "num_blocks": [2, 2, 2, 2, 2],
-            "num_classes": 10
-        }
+        block: str = "BasicBlock",
+        num_blocks: list = [2, 2, 2, 2, 2],
+        num_classes: int = 10
         ):
-        if model_kwargs["block"] == "BasicBlock":
-            model_kwargs["block"] = BasicBlock
-        elif model_kwargs["block"] == "Bottleneck":
-            model_kwargs["block"] = Bottleneck
-        BaseCifarResNet.__init__(self, **model_kwargs)
-        model_kwargs["block"] = str(model_kwargs["block"])
-        BaseModel.__init__(self, model_kwargs)
+        if block == "BasicBlock":
+            block = BasicBlock
+        elif block == "Bottleneck":
+            block = Bottleneck
+        BaseCifarResNet.__init__(self, block, num_blocks, num_classes)
+        BaseModel.__init__(self)
 
 
 """
