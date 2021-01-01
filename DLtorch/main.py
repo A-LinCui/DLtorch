@@ -74,6 +74,32 @@ def setroot(root):
 main.add_command(setroot)
 
 
+@click.command(help="Show Available Components")
+def registry():
+    component_list = [
+            (DLtorch.model, DLtorch.model.base.BaseModel), 
+            (DLtorch.lr_scheduler, DLtorch.lr_scheduler.base.BaseLrScheduler), 
+            (DLtorch.dataset, DLtorch.dataset.base.BaseDataset),
+            (DLtorch.criterion, DLtorch.criterion.base.BaseCriterion),
+            (DLtorch.objective, DLtorch.objective.BaseObjective),
+            (DLtorch.optimizer, DLtorch.optimizer.base.BaseOptimizer),
+            (DLtorch.trainer, DLtorch.trainer.base.BaseTrainer),
+            (DLtorch.objective.adversary, DLtorch.objective.adversary.base.BaseAdvGenerator)
+            ]
+    
+    for (component_type, parent_cls) in component_list:
+        cls_list = []
+        for _cls in component_type.__dict__.values():
+            try:
+                if issubclass(_cls, parent_cls):
+                    cls_list.append(_cls.__name__)
+            except:
+                pass
+        print("{}: {}".format(component_type.__name__, cls_list))
+
+main.add_command(registry)
+
+
 @click.command(help="Train Model")
 @click.argument("cfg_file", required=True, type=str)
 @click.option("--seed", default=123, type=int, help="The random seed to run training")
