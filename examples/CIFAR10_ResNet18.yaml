@@ -17,7 +17,7 @@ model_kwargs:
 # ---- Dataset ----
 dataset_type: Cifar10  # Dataset to load
 dataset_kwargs:
-  path: E:/dltorch_plugins/data/CIFAR10  # Path
+  path: ~/dltorch_plugins/data/CIFAR10  # Path
   train_transforms: {  # Trainset transforms
     "RandomCrop": {"size": 32, "padding": 4},
     "RandomHorizontalFlip": {},
@@ -40,8 +40,8 @@ trainer_type: CNNTrainer  # Trainer type
 trainer_kwargs:  # Trainer kwargs
   # Dataloader kwargs
   dataloader_kwargs:
-    batch_size: 12
-    num_workers: 0
+    batch_size: 128
+    num_workers: 2
     shuffle: true
     drop_last: false
   # Optimizer
@@ -50,17 +50,17 @@ trainer_kwargs:  # Trainer kwargs
     lr: 0.05
     momentum: 0.9
     nesterov: True
-    weight_decay: 0.0001
+    weight_decay: 0.0003
   # Lr scheduler
   lr_scheduler_type: CosineAnnealingLR  # Lr scheduler type
   lr_scheduler_kwargs:  # Lr scheduler kwargs
     T_max: 100
-    eta_min: 0.0
+    eta_min: 0.0001
   # Other cfgs
   epochs: 100
   save_as_state_dict: true
   test_every: 1
   grad_clip: 5.0
   eval_no_grad: true
-  early_stop: true
+  early_stop: false
   trainset_portion: [0.8, 0.2]

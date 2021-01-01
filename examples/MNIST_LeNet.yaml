@@ -13,7 +13,7 @@ model_kwargs: {}
 # ---- Dataset ----
 dataset_type: MNIST  # Dataset to load
 dataset_kwargs:
-  path: E:/dltorch_plugins/data/MNIST  # Path
+  path: ~/dltorch_plugins/data/MNIST  # Path
   train_transforms: {"ToTensor": {}}  # Trainset transforms
   test_transforms: {"ToTensor": {}}  # Testset transforms
 
