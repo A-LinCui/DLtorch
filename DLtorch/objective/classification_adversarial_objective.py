@@ -22,7 +22,7 @@ class ClassificationAdversarialObjective(BaseObjective):
             "criterion_kwargs": {},
             "eval_mode": True
         },
-        adv_loss_coef: float = 1.5, 
+        adv_loss_coef: float = 1.0, 
         adv_reward_coef: float = 0.5, 
         criterion_type: str = "CrossEntropyLoss", 
         criterion_kwargs: dict = {}

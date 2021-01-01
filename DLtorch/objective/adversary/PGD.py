@@ -57,4 +57,4 @@ class PGD(BaseAdvGenerator):
         if net_training_mode:
             net.train()
 
-        return inputs.data
+        return inputs_pgd.data
