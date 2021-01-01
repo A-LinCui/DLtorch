@@ -19,17 +19,18 @@ class PGD(BaseAdvGenerator):
         n_step: int = 7, 
         step_size: float = 2 / 255, 
         rand_init: bool = True, 
-        criterion = nn.CrossEntropyLoss(),
+        criterion_type: str = "CrossEntropyLoss",
+        criterion_kwargs: dict = {}, 
         eval_mode: bool = True
         ):
-        super(PGD, self).__init__(criterion, eval_mode)
+        super(PGD, self).__init__(criterion_type, criterion_kwargs, eval_mode)
         
         self.epsilon = epsilon
         self.n_step = n_step
         self.step_size = step_size
         self.rand_init = rand_init
 
-    def generate_adv(self, net: torch.nn.Module, inputs, targets, outputs=None):
+    def generate_adv(self, net, inputs, targets, outputs=None):
         if self.eval_mode:
             net_training_mode = net.training
             net.eval()
@@ -45,7 +46,7 @@ class PGD(BaseAdvGenerator):
 
         for _ in range(self.n_step):
             out = net(inputs_pgd)
-            loss = self.criterion(out, targets)
+            loss = self._criterion(out, targets)
             loss.backward()
             eta = self.step_size * inputs_pgd.grad.data.sign()
             inputs_pgd = Variable(inputs_pgd.data + eta, requires_grad=True)

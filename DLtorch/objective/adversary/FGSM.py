@@ -15,13 +15,14 @@ class FGSM(BaseAdvGenerator):
     def __init__(
         self,
         epsilon: float = 8 / 255, 
-        criterion = nn.CrossEntropyLoss(), 
+        criterion_type: str = "CrossEntropyLoss",
+        criterion_kwargs: dict = {}, 
         eval_mode: bool = True
         ):
-        super(FGSM, self).__init__(criterion, eval_mode)
+        super(FGSM, self).__init__(criterion_type, criterion_kwargs, eval_mode)
         self.epsilon = epsilon
 
-    def generate_adv(self, net: torch.nn.Module, inputs, targets, outputs=None):
+    def generate_adv(self, net, inputs, targets, outputs=None):
         
         if self.eval_mode:
             net_training_mode = net.training
@@ -31,7 +32,7 @@ class FGSM(BaseAdvGenerator):
 
         if outputs is None:
             outputs = net(inputs)
-        loss = self.criterion(outputs, targets)
+        loss = self._criterion(outputs, targets)
         loss.backward()
         eta = self.epsilon * inputs.grad.data.sign()
         inputs.data = inputs + eta
