@@ -1,0 +1,69 @@
+# An Example Configuration for Adversarially Training A ResNet18 Model on Cifar10
+
+# ---- Objective ----
+objective_type: ClassificationAdversarialObjective  # Type of objective to use
+objective_kwargs:
+  criterion_type: LSCrossEntropy         # Type of criterion to use
+  criterion_kwargs:
+    smooth: 0.2
+  adv_loss_coef: 0.5
+  adv_reward_coef: 0.5
+  adversary_type: PGD
+  adversary_kwargs:
+    epsilon: 0.031
+    n_step: 7
+    step_size: 0.0078
+    rand_init: True
+    criterion_type: CrossEntropyLoss
+    criterion_kwargs: {}
+    eval_mode: true      
+
+# ---- Model ----
+model_type: CifarResNet   # Model to train or test
+model_kwargs:
+  block: BasicBlock
+  num_blocks: [2, 2, 2, 2, 2]
+  num_classes: 10
+
+# ---- Dataset ----
+dataset_type: Cifar10  # Dataset to load
+dataset_kwargs:
+  path: E:/dltorch_plugins/data/CIFAR10  # Path
+  train_transforms: {  # Trainset transforms
+    "RandomCrop": {"size": 32, "padding": 4},
+    "RandomHorizontalFlip": {},
+    "ToTensor": {}
+    }
+  test_transforms: {  # Testset transforms
+    "ToTensor": {}
+    }
+    
+# ---- Trainer ----
+trainer_type: CNNTrainer  # Trainer type
+trainer_kwargs:  # Trainer kwargs
+  # Dataloader kwargs
+  dataloader_kwargs:
+    batch_size: 12
+    num_workers: 0
+    shuffle: true
+    drop_last: false
+  # Optimizer
+  optimizer_type: SGD  # Optimizer type
+  optimizer_kwargs:  # Optimizer kwargs
+    lr: 0.05
+    momentum: 0.9
+    nesterov: True
+    weight_decay: 0.0005
+  # Lr scheduler
+  lr_scheduler_type: CosineAnnealingLR  # Lr scheduler type
+  lr_scheduler_kwargs:  # Lr scheduler kwargs
+    T_max: 100
+    eta_min: 0.0
+  # Other cfgs
+  epochs: 100
+  save_as_state_dict: true
+  test_every: 1
+  grad_clip: 5.0
+  eval_no_grad: true
+  early_stop: true
+  trainset_portion: [0.8, 0.2]

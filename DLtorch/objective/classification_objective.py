@@ -1,13 +1,15 @@
-# DLtorch Framework
-# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
+# -*- coding: utf-8 -*-
 
 from DLtorch.utils import accuracy
 from DLtorch.objective.base import BaseObjective
 
-class ClassificationObjective(BaseObjective):
-    NAME = "ClassificationObjective"
 
-    def __init__(self, criterion_type="CrossEntropyLoss", criterion_kwargs=None):
+class ClassificationObjective(BaseObjective):
+    def __init__(
+        self, 
+        criterion_type: str = "CrossEntropyLoss", 
+        criterion_kwargs: dict = {}
+        ):
         super(ClassificationObjective, self).__init__(criterion_type, criterion_kwargs)
 
     @ property

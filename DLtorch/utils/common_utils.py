@@ -1,18 +1,24 @@
-# DLtorch Framework
-# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
+# -*- coding:utf-8 -*-
 
-import numpy as np
 import random
 from collections import OrderedDict
+from contextlib import contextmanager
 
 import torch
+import numpy as np
 
-def set_seed(seed):
-    # Set seed for system, numpy and pytorch.
-    if seed is not None:
-        np.random.seed(seed)
-        random.seed(seed)
-        torch.manual_seed(seed)
+
+def _set_seed(seed):
+    """ Set seed for system, numpy and pytorch. """
+    np.random.seed(seed)
+    random.seed(seed)
+    torch.manual_seed(seed)
+
+
+@contextmanager
+def nullcontext():
+    yield
+
 
 class AvgrageMeter(object):
     def __init__(self):
@@ -30,6 +36,7 @@ class AvgrageMeter(object):
 
     def is_empty(self):
         return self.cnt == 0
+
 
 class EnsembleAverageMeters(object):
     def __init__(self):

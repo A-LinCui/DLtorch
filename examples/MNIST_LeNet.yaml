@@ -1,0 +1,48 @@
+# An Example Configuration for Training A LeNet Model on MNIST
+
+# ---- Objective ----
+objective_type: ClassificationObjective  # Type of objective to use
+objective_kwargs:
+  criterion_type: CrossEntropyLoss         # Type of criterion to use
+# criterion_kwargs:
+
+# ---- Model ----
+model_type: MNISTLeNet   # Model to train or test
+model_kwargs: {}
+
+# ---- Dataset ----
+dataset_type: MNIST  # Dataset to load
+dataset_kwargs:
+  path: E:/dltorch_plugins/data/MNIST  # Path
+  train_transforms: {"ToTensor": {}}  # Trainset transforms
+  test_transforms: {"ToTensor": {}}  # Testset transforms
+
+# ---- Trainer ----
+trainer_type: CNNTrainer  # Trainer type
+trainer_kwargs:  # Trainer kwargs
+  # Dataloader kwargs
+  dataloader_kwargs:
+    batch_size: 128
+    num_workers: 0
+    shuffle: true
+    drop_last: false
+  # Optimizer
+  optimizer_type: SGD  # Optimizer type
+  optimizer_kwargs:  # Optimizer kwargs
+    lr: 0.001
+    momentum: 0.9
+    nesterov: True
+    weight_decay: 0.0001
+  # Lr scheduler
+  lr_scheduler_type: CosineAnnealingLR  # Lr scheduler type
+  lr_scheduler_kwargs:  # Lr scheduler kwargs
+    T_max: 100
+    eta_min: 0.0
+  # Other cfgs
+  epochs: 100
+  save_as_state_dict: true
+  test_every: 1
+  grad_clip: 5.0
+  eval_no_grad: true
+  early_stop: true
+  trainset_portion: [0.8, 0.2]

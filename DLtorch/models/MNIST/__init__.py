@@ -1,1 +1,0 @@
-from DLtorch.models.MNIST.LeNet import MNIST_LeNet

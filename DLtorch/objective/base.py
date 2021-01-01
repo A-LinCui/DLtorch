@@ -1,15 +1,21 @@
-# DLtorch Framework
-# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
+# -*- coding: utf-8 -*-
 
 import abc
 
-from DLtorch.component.criterion import get_criterion
+from DLtorch.base import BaseComponent
+import DLtorch.criterion
 
-class BaseObjective(object):
-    NAME = "BaseObjective"
-    def __init__(self, criterion_type, criterion_kwargs=None):
-        self._criterion = get_criterion(criterion_type, **criterion_kwargs) \
-            if criterion_kwargs is not None else get_criterion(criterion_type)
+
+class BaseObjective(BaseComponent):
+    def __init__(
+        self, 
+        criterion_type: str = "CrossEntropyLoss", 
+        criterion_kwargs: dict = {}
+        ):
+        super(BaseObjective, self).__init__()
+        self.logger.info("Objective Constructed.")
+
+        self._criterion = getattr(DLtorch.criterion, criterion_type)(**criterion_kwargs)
 
     # ---- virtual APIs to be implemented in subclasses ----
     @abc.abstractmethod
