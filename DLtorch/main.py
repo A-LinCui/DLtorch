@@ -39,7 +39,8 @@ if not os.path.exists(root_file):
     plugin_root = os.path.join("~", "dltorch_plugins")
     with open(root_file, "w") as f:
         yaml.dump(os.path.abspath(plugin_root), f)
-    os.makedirs(plugin_root)
+    if not os.path.exists(plugin_root):
+        os.makedirs(plugin_root)
     LOGGER.info("Initialize DLtorch with default plugins root: {}".format(plugin_root))
     LOGGER.info("All modules under the plugins root that is subclass of 'DLtorch.base.BaseComponent' will be automatically loaded.")
     LOGGER.info("Able to change the plugins root with 'DLtorch setroot'.")
@@ -80,7 +81,7 @@ main.add_command(setroot)
 @click.option('--gpus', default="0", type=str, help="GPUs to use")
 @click.option('--save-every', default=None, type=int, help="Number of epochs to save once")
 @click.option('--report-every', default=50, type=int, help="Number of batches to report once in a epoch")
-def train(cfg_file, train_dir, gpus, load, seed, save_every, report_every):
+def train(cfg_file, seed, load, train_dir, gpus, save_every, report_every):
     # Set the device
     gpu_list = [int(gpu) for gpu in gpus.split(",")]
     if not gpu_list:
@@ -127,12 +128,12 @@ main.add_command(train)
 
 @click.command(help="Test Model")
 @click.argument("cfg_file", required=True, type=str)
-@click.option("--split", required=True, type=click.Choice(['train', 'test']), case_sensitive=False, help="Dataset split to test")
+@click.option("--split", required=True, type=click.Choice(['train', 'test']), help="Dataset split to test")
 @click.option("--seed", default=123, type=int, help="The random seed to run training")
 @click.option("--load", required=True, type=str, help="The directory to load checkpoint")
 @click.option('--gpus', default="0", type=str, help="GPUs to use")
-@click.option('--report-every', default=50, type=int, help="Number of batches to report once in a epoch")
-def test(cfg_file, split, gpus, load, seed, save_every, report_every):
+@click.option('--report-every', type=int, default=50, help="Number of batches to report once in a epoch")
+def test(cfg_file, split, seed, load, gpus, report_every):
     # Set the device
     gpu_list = [int(gpu) for gpu in gpus.split(",")]
     if not gpu_list:
@@ -156,7 +157,7 @@ def test(cfg_file, split, gpus, load, seed, save_every, report_every):
     model = getattr(DLtorch.model, config["model_type"])(**config["model_kwargs"])
     dataset = getattr(DLtorch.datasets, config["dataset_type"])(**config["dataset_kwargs"])
     trainer = getattr(DLtorch.trainer, config["trainer_type"])(
-        **config["trainer_kwargs"], device=device, gpu_list=gpu_list, save_every=save_every, report_every=report_every,
+        **config["trainer_kwargs"], device=device, gpu_list=gpu_list, report_every=report_every,
         model=model, dataset=dataset, objective=objective)
     
     trainer.load(load)

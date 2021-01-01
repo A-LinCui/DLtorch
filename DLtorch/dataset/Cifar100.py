@@ -5,7 +5,7 @@ import torchvision.datasets as datasets
 from DLtorch.dataset.base import BaseCVDataset
 
 
-class Cifar100(base_dataset):
+class Cifar100(BaseCVDataset):
     def __init__(
         self, 
         path: str, 

@@ -14,13 +14,13 @@ class ClassificationAdversarialObjective(BaseObjective):
         self, 
         adversary_type: str = "PGD",
         adversary_kwargs: dict = {
-            epsilon: 8 / 255, 
-            n_step: 7, 
-            step_size: 2 / 255, 
-            rand_init: True, 
-            criterion_type: "CrossEntropyLoss",
-            criterion_kwargs: {},
-            eval_mode: True
+            "epsilon": 8 / 255, 
+            "n_step": 7, 
+            "step_size": 2 / 255, 
+            "rand_init": True, 
+            "criterion_type": "CrossEntropyLoss",
+            "criterion_kwargs": {},
+            "eval_mode": True
         },
         adv_loss_coef: float = 1.5, 
         adv_reward_coef: float = 0.5, 
