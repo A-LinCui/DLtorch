@@ -64,7 +64,8 @@ class Plugins(object):
                         sys.modules.pop(name, None)
                         print(err)            
                     finally:
-                        if fh is not None:fh.close()
+                        if fh is not None:
+                            fh.close()
         return modules
 
 
