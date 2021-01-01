@@ -32,18 +32,10 @@ dataset_kwargs:
   train_transforms: {  # Trainset transforms
     "RandomCrop": {"size": 32, "padding": 4},
     "RandomHorizontalFlip": {},
-    "ToTensor": {},
-    "Normalize": {
-      "mean": [0.49139968, 0.48215827, 0.44653124],
-      "std": [0.24703233, 0.24348505, 0.26158768]
-      }
+    "ToTensor": {}
     }
   test_transforms: {  # Testset transforms
-    "ToTensor": {},
-    "Normalize": {
-      "mean": [0.49139968, 0.48215827, 0.44653124],
-      "std": [0.24703233, 0.24348505, 0.26158768]
-      }
+    "ToTensor": {}
     }
     
 # ---- Trainer ----
