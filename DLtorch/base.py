@@ -1,6 +1,5 @@
 # coding:utf-8
-# DLtorch Framework
-# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
+
 
 import sys
 import os
@@ -10,6 +9,7 @@ import torch.nn as nn
 
 import DLtorch
 from DLtorch.utils import *
+
 
 class Plugins(object):
     def __init__(self, plugin_root: str):
@@ -24,7 +24,7 @@ class Plugins(object):
                         setattr(DLtorch.objective, module.__name__, module)
                     elif issubclass(module, DLtorch.objective.adversary.BaseAdvGenerator):
                         setattr(DLtorch.objective.adversary, module.__name__, module)
-                    elif issubclass(module, DLtorch.datasets.BaseDataset):
+                    elif issubclass(module, DLtorch.dataset.BaseDataset):
                         setattr(DLtorch.datasets, module.__name__, module)
                     elif issubclass(module, DLtorch.trainer.BaseFinalTrainer):
                         setattr(DLtorch.trainer, module.__name__, module)
@@ -60,6 +60,7 @@ class Plugins(object):
                         if fh is not None:
                             fh.close()
         return modules
+
 
 class BaseComponent(object):
     def __init__(self):

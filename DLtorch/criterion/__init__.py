@@ -1,7 +1,6 @@
-# DLtorch Framework
-# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
+# -*- coding:utf-8 -*-
 
 from torch.nn import *
 
 from DLtorch.criterion.base import BaseCriterion
-from DLtorch.criterion.LSCrossEntropy import *
+from DLtorch.criterion.LSCrossEntropy import LSCrossEntropy

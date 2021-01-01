@@ -1,4 +1,3 @@
-# DLtorch Framework
-# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
+# -*- coding:utf-8 -*-
 
 __version__ = "1.1.0"

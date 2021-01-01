@@ -8,8 +8,7 @@ import torch.utils.data as data
 
 import DLtorch
 from DLtorch.trainer.base import BaseTrainer
-from DLtorch.utils.common_utils import AvgrageMeter, EnsembleAverageMeters
-from DLtorch.utils.python_utils import nullcontext
+from DLtorch.utils.common_utils import AvgrageMeter, EnsembleAverageMeters, nullcontext
 from DLtorch.utils.torch_utils import accuracy
 
 

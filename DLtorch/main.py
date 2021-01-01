@@ -1,5 +1,4 @@
-# DLtorch Framework
-# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
+# -*- coding:utf-8 -*-
 
 from __future__ import print_function
 

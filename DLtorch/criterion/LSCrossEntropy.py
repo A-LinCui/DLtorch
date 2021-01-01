@@ -1,10 +1,10 @@
-# DLtorch Framework
-# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
+# -*- coding:utf-8 -*-
 
 import torch
 import torch.nn as nn
 
 from DLtorch.criterion.base import BaseCriterion
+
 
 class LSCrossEntropy(BaseCriterion):
     """ CrossEntropy with Label Smoothing. """

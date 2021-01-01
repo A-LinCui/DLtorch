@@ -1,9 +1,9 @@
-# DLtorch Framework
-# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
+# -*- coding:utf-8 -*-
 
 import torch
 import torch.nn as nn
 from torchviz import make_dot
+
 
 class CrossEntropyLabelSmooth(nn.Module):
     """CrossEntropy with Label Smoothing."""
@@ -20,6 +20,7 @@ class CrossEntropyLabelSmooth(nn.Module):
         loss = - (targets * log_probs).mean(0).sum()
         return loss
 
+
 def primary_test(model, dataloader, criterion):
     # Test a model's accuracy on the dataset basically.
     model.eval()
@@ -35,6 +36,7 @@ def primary_test(model, dataloader, criterion):
             loss += criterion(outputs, labels).item()
     return loss / total, correct / total
 
+
 def get_params(model, only_trainable=False):
     # Get the parameter number of the model.
     # If only_trainable is true, only trainable parameters will be counted.
@@ -42,6 +44,7 @@ def get_params(model, only_trainable=False):
         return sum(p.numel() for p in model.parameters())
     else:
         sum(p.numel() for p in model.parameters() if p.requires_grad)
+
 
 def accuracy(outputs, targets, topk=(1,)):
     # Get top-k accuracy on the data batch.
@@ -56,9 +59,11 @@ def accuracy(outputs, targets, topk=(1,)):
         res.append(correct_k.mul_(1.0/batch_size).item())
     return res
 
+
 def random_tensor(shape):
     # Randomly generate a tensor with the given shape
     return torch.randn(shape)
+
 
 def plot_arch(net, shape, device):
     # Plot the architecture of the given model. Input shape supported by the model should be given as "shape".
