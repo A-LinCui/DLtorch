@@ -1,6 +1,5 @@
 # coding:utf-8
 
-
 import sys
 import os
 import inspect
@@ -25,7 +24,7 @@ class Plugins(object):
                     elif issubclass(module, DLtorch.objective.adversary.BaseAdvGenerator):
                         setattr(DLtorch.objective.adversary, module.__name__, module)
                     elif issubclass(module, DLtorch.dataset.BaseDataset):
-                        setattr(DLtorch.datasets, module.__name__, module)
+                        setattr(DLtorch.dataset, module.__name__, module)
                     elif issubclass(module, DLtorch.trainer.BaseFinalTrainer):
                         setattr(DLtorch.trainer, module.__name__, module)
                     elif issubclass(module, DLtorch.optimizer.BaseOptimizer):
@@ -34,8 +33,8 @@ class Plugins(object):
                         setattr(DLtorch.criterion, module.__name__, module)
                     elif issubclass(module, DLtorch.lr_scheduler.BaseLrScheduler):
                         setattr(DLtorch.lr_scheduler, module.__name__, module)
-                    elif issubclass(module, nn.Module):
-                        setattr(DLtorch.models, module.__name__, module)
+                    elif issubclass(module, DLtorch.model.BaseModel):
+                        setattr(DLtorch.model, module.__name__, module)
         
     def _load_modules(self, root: str):
         """ Dynamically load modules from all the files ending with '.py' under current root and return a list. """

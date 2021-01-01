@@ -23,6 +23,7 @@ class BaseTrainer(BaseComponent):
         lr_scheduler_kwargs: dict = {},
         # Training cfgs
         device: str = "cuda",
+        gpu_list = [0],
         epochs: int = 100,
         save_every: int = 10,
         save_as_state_dict: bool = True,
@@ -44,6 +45,7 @@ class BaseTrainer(BaseComponent):
         self.lr_scheduler_kwargs = lr_scheduler_kwargs
 
         self.device = device
+        self.gpu_list = gpu_list
         self.epochs = epochs
         self.save_every = save_every
         self.save_as_state_dict = save_as_state_dict

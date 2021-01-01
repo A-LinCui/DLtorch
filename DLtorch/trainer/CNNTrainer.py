@@ -166,6 +166,8 @@ class CNNTrainer(BaseTrainer):
             model_path = os.path.join(path, "model_state.pt")
             self.model.load_state_dict(model_path)
         self.model = self.model.to(self.device)
+        if self.device != torch.device("cpu") and len(self.gpu_list) > 1:
+            self.model = torch.nn.DataParallel(self.model)
         self.logger.info("Load model from {}".format(os.path.abspath(model_path)))
 
         # Load the optimizer

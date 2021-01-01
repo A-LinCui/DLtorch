@@ -107,12 +107,14 @@ def train(cfg_file, train_dir, gpus, load, seed, save_every, report_every):
     _logger.addFile(log_file)
 
     # Init components
+    model = getattr(DLtorch.model, config["model_type"])(**config["model_kwargs"]).to(device)
+    if device != torch.device("cpu") and len(gpu_list) > 1:
+        model = torch.nn.DataParallel(model)
     objective = getattr(DLtorch.objective, config["objective_type"])(**config["objective_kwargs"])
-    model = getattr(DLtorch.model, config["model_type"])(**config["model_kwargs"])
     dataset = getattr(DLtorch.datasets, config["dataset_type"])(**config["dataset_kwargs"])
     trainer = getattr(DLtorch.trainer, config["trainer_type"])(
-        **config["trainer_kwargs"], device=device, save_every=save_every, report_every=report_every,
-        model=model, dataset = dataset, objective = objective)
+        **config["trainer_kwargs"], device=device, gpu_list=gpu_list, save_every=save_every, report_every=report_every,
+        model=model, dataset=dataset, objective=objective)
     
     if load is not None:
         trainer.load(load)
@@ -154,8 +156,8 @@ def test(cfg_file, split, gpus, load, seed, save_every, report_every):
     model = getattr(DLtorch.model, config["model_type"])(**config["model_kwargs"])
     dataset = getattr(DLtorch.datasets, config["dataset_type"])(**config["dataset_kwargs"])
     trainer = getattr(DLtorch.trainer, config["trainer_type"])(
-        **config["trainer_kwargs"], device=device, save_every=save_every, report_every=report_every,
-        model=model, dataset = dataset, objective = objective)
+        **config["trainer_kwargs"], device=device, gpu_list=gpu_list, save_every=save_every, report_every=report_every,
+        model=model, dataset=dataset, objective=objective)
     
     trainer.load(load)
     trainer.test(split)
