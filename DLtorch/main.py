@@ -159,7 +159,7 @@ def test(cfg_file, split, seed, load, gpus, report_every):
     # Init components
     objective = getattr(DLtorch.objective, config["objective_type"])(**config["objective_kwargs"])
     model = getattr(DLtorch.model, config["model_type"])(**config["model_kwargs"])
-    dataset = getattr(DLtorch.datasets, config["dataset_type"])(**config["dataset_kwargs"])
+    dataset = getattr(DLtorch.dataset, config["dataset_type"])(**config["dataset_kwargs"])
     trainer = getattr(DLtorch.trainer, config["trainer_type"])(
         **config["trainer_kwargs"], device=device, gpu_list=gpu_list, report_every=report_every,
         model=model, dataset=dataset, objective=objective)

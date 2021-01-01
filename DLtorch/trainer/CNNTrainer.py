@@ -161,12 +161,22 @@ class CNNTrainer(BaseTrainer):
         assert os.path.exists(path), "The loading path '{}' doesn't exist.".format(path)
         
         # Load the model
-        model_path = os.path.join(path, "model.pt") if os.path.isdir(path) else path
-        if os.path.exists(model_path):
+        if os.path.isdir(path):
+            if os.path.exists(os.path.join(path, "model.pt")):
+                model_path = os.path.join(path, "model.pt")
+                self.model = torch.load(model_path, map_location=torch.device("cpu"))
+            else:
+                model_path = os.path.join(path, "model_state.pt")
+                model_state = torch.load(model_path, map_location=torch.device("cpu"))
+                self.model.load_state_dict(model_state)
+        elif path.endswith("model.pt"):
+            model_path = path
             self.model = torch.load(model_path, map_location=torch.device("cpu"))
-        else:
-            model_path = os.path.join(path, "model_state.pt")
-            self.model.load_state_dict(model_path)
+        elif path.endswith("model_state.pt"):
+            model_path = path
+            model_state = torch.load(model_path, map_location=torch.device("cpu"))
+            self.model.load_state_dict(model_state)
+        
         self.model = self.model.to(self.device)
         if self.device != torch.device("cpu") and len(self.gpu_list) > 1:
             self.model = torch.nn.DataParallel(self.model)
