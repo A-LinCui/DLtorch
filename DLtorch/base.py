@@ -62,7 +62,7 @@ class Plugins(object):
 
 
 class BaseComponent(object):
-    def __init__(self):
+    def __init__(self, **kwargs):
         self._logger = None
     
     @property
