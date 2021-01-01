@@ -2,7 +2,7 @@
 
 import torchvision.datasets as datasets
 
-from DLtorch.datasets.base import BaseCVDataset
+from DLtorch.dataset.base import BaseCVDataset
 
 
 class ImageNet(BaseCVDataset):
@@ -13,7 +13,7 @@ class ImageNet(BaseCVDataset):
         train_transforms: dict = {
             "RandomSizedCrop": {"size": 224},
             "RandomHorizontalFlip": {},
-            "ToTensor": 
+            "ToTensor": {},
             "Normalize": {
                 "mean": [0.485, 0.456, 0.406],
                 "std": [0.229, 0.224, 0.225],
@@ -22,14 +22,14 @@ class ImageNet(BaseCVDataset):
         test_transforms: dict = {
             "Scale": {"size": 256},
             "CenterCrop": {"size": 224},
-            "ToTensor": 
+            "ToTensor": {}, 
             "Normalize": {
                 "mean": [0.485, 0.456, 0.406],
                 "std": [0.229, 0.224, 0.225],
                 }
         }
         ):
-        super(ImageNet, self).__init__(train_path, train_transforms, test_tranforms)
+        super(ImageNet, self).__init__(train_path, train_transforms, test_transforms)
 
         self.train_path = train_path
         self.test_path = test_path

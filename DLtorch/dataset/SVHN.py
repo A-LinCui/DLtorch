@@ -3,7 +3,7 @@
 import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 
-from DLtorch.datasets.base import BaseCVDataset
+from DLtorch.dataset.base import BaseCVDataset
 
 
 class SVHN(BaseCVDataset):
@@ -16,15 +16,15 @@ class SVHN(BaseCVDataset):
                 "mean": [0.4377, 0.4438, 0.4728],
                 "std": [0.1980, 0.2010, 0.1970]
                 }
-            }
-         test_transforms: dict = {
+            },
+        test_transforms: dict = {
             "ToTensor": {},
             "Normalize": {
                 "mean": [0.4377, 0.4438, 0.4728],
                 "std": [0.1980, 0.2010, 0.1970]
                 }
-            }
-         extra_transforms: dict = None
+            },
+        extra_transforms: dict = None
         ):
         super(SVHN, self).__init__(path, train_transforms, test_transforms)
 

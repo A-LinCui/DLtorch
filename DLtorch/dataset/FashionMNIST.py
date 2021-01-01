@@ -2,7 +2,7 @@
 
 import torchvision.datasets as datasets
 
-from DLtorch.datasets.base import BaseCVDataset
+from DLtorch.dataset.base import BaseCVDataset
 
 
 class FashionMNIST(BaseCVDataset):
@@ -11,8 +11,8 @@ class FashionMNIST(BaseCVDataset):
         path: str, 
         train_transforms: dict = {
             "ToTensor": {}
-            }
-         test_transforms: dict = {
+            },
+        test_transforms: dict = {
             "ToTensor": {}
             }
         ):

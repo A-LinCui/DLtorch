@@ -2,7 +2,7 @@
 
 import torchvision.datasets as datasets
 
-from DLtorch.datasets.base import BaseCVDataset
+from DLtorch.dataset.base import BaseCVDataset
 
 
 class Cifar100(base_dataset):

@@ -2,19 +2,15 @@
 
 import torchvision.datasets as datasets
 
-from DLtorch.datasets.base import BaseCVDataset
+from DLtorch.dataset.base import BaseCVDataset
 
 
 class MNIST(BaseCVDataset):
     def __init__(
         self, 
         path: str, 
-        train_transforms: dict = {
-            "ToTensor": {}
-            }
-         test_transforms: dict = {
-            "ToTensor": {}
-            }
+        train_transforms: dict = {"ToTensor": {}},
+        test_transforms: dict = {"ToTensor": {}}
         ):
         super(MNIST, self).__init__(path, train_transforms, test_transforms)
         
