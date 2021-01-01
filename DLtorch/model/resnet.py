@@ -1,8 +1,15 @@
-# DLtorch Framework
-# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
+# -*- coding: utf-8 -*-
 
 import torch.nn as nn
 import torch.nn.functional as F
+
+from DLtorch.model.base import BaseModel
+
+"""
+Deep Residual Learning for Image Recognition.
+He, K. , Zhang, X. , Ren, S. , & Sun, J. . (2016).  IEEE Conference on Computer Vision & Pattern Recognition. IEEE Computer Society.
+"""
+
 
 class BasicBlock(nn.Module):
     expansion = 1
@@ -57,11 +64,9 @@ class Bottleneck(nn.Module):
         return out
 
 
-class ResNet(nn.Module):
-    NAME = "ResNet"
-
+class BaseCifarResNet(nn.Module):
     def __init__(self, block, num_blocks, num_classes=10):
-        super(ResNet, self).__init__()
+        super(BaseCifarResNet, self).__init__()
         self.in_planes = 64
 
         self.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False)
@@ -91,17 +96,53 @@ class ResNet(nn.Module):
         out = self.linear(out)
         return out
 
-def ResNet18():
-    return ResNet(BasicBlock, [2, 2, 2, 2, 2])
 
-def ResNet34():
-    return ResNet(BasicBlock, [3, 4, 6, 3])
+class CifarResNet(BaseModel, BaseCifarResNet):
+    def __init__(
+        self,
+        model_kwargs: dict = {
+            "block": "BasicBlock",
+            "num_blocks": [2, 2, 2, 2, 2],
+            "num_classes": 10
+        }
+        ):
+        if model_kwargs["block"] == "BasicBlock":
+            model_kwargs["block"] = BasicBlock
+        elif model_kwargs["block"] == "Bottleneck":
+            model_kwargs["block"] = Bottleneck
+        BaseCifarResNet.__init__(self, **model_kwargs)
+        model_kwargs["block"] = str(model_kwargs["block"])
+        BaseModel.__init__(self, model_kwargs)
 
-def ResNet50():
-    return ResNet(Bottleneck, [3, 4, 6, 3])
 
-def ResNet101():
-    return ResNet(Bottleneck, [3, 4, 23, 3])
+"""
+ResNet18: model_kwargs: dict = {
+            "block": "BasicBlock",
+            "num_blocks": [2, 2, 2, 2, 2],
+            "num_classes": 10
+        }
 
-def ResNet152():
-    return ResNet(Bottleneck, [3, 8, 36, 3])
+ResNet34: model_kwargs: dict = {
+            "block": "BasicBlock",
+            "num_blocks": [3, 4, 6, 3],
+            "num_classes": 10
+        }
+
+ResNet50: model_kwargs: dict = {
+            "block": "Bottleneck",
+            "num_blocks": [3, 4, 6, 3],
+            "num_classes": 10
+        }
+
+ResNet101: model_kwargs: dict = {
+            "block": "Bottleneck",
+            "num_blocks": [3, 4, 23, 3],
+            "num_classes": 10
+        }
+
+ResNet152: model_kwargs: dict = {
+            "block": "Bottleneck",
+            "num_blocks": [3, 8, 36, 3],
+            "num_classes": 10
+        }
+"""

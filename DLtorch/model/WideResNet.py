@@ -1,10 +1,17 @@
-# DLtorch Framework
-# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
+# -*- coding: utf-8 -*-
 
 import math
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+
+from DLtorch.model.base import BaseModel
+
+"""
+Wide residual networks.
+Zagoruyko, S. , & Komodakis, N. . (2016). 
+"""
 
 
 class BasicBlock(nn.Module):
@@ -52,11 +59,9 @@ class NetworkBlock(nn.Module):
         return self.layer(x)
 
 
-class WideResNet(nn.Module):
-    NAME = "WideResNet"
-
-    def __init__(self, depth, num_classes, widen_factor=1, drop_rate=0.0):
-        super(WideResNet, self).__init__()
+class BaseCifarWideResNet(nn.Module):
+    def __init__(self, depth, num_classes=10, widen_factor=1, drop_rate=0.0):
+        super(BaseCifarWideResNet, self).__init__()
         n_channels = [16, 16 * widen_factor, 32 * widen_factor, 64 * widen_factor]
         assert ((depth - 4) % 6 == 0)
         n = int((depth - 4) / 6)
@@ -95,3 +100,17 @@ class WideResNet(nn.Module):
         out = F.avg_pool2d(out, 8)
         out = out.view(-1, self.nChannels)
         return self.fc(out)
+
+
+class CifarWideResNet(BaseModel, BaseCifarWideResNet):
+    def __init__(
+        self, 
+        model_kwargs: dict = {
+            "depth": 28,
+            "num_classes": 10,
+            "widen_factor": 1,
+            "drop_rate": 0.0
+        }
+        ):
+        BaseCifarWideResNet.__init__(self, **model_kwargs)
+        BaseModel.__init__(self, model_kwargs)

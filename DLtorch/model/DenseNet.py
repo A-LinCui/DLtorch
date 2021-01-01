@@ -1,11 +1,18 @@
-# DLtorch Framework
-# Author: Junbo Zhao <zhaojb17@mails.tsinghua.edu.cn>.
+# -*- coding: utf-8 -*-
 
 import math
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+
+from DLtorch.model.base import BaseModel
+
+"""
+Convolutional networks with dense connectivity.
+Gao, Huang, Zhuang, Liu, Geoff, & Pleiss, et al. (2019). IEEE transactions on pattern analysis and machine intelligence.
+"""
+
 
 class Bottleneck(nn.Module):
     def __init__(self, in_planes, growth_rate):
@@ -34,11 +41,9 @@ class Transition(nn.Module):
         return out
 
 
-class DenseNet(nn.Module):
-    NAME = "DenseNet"
-
-    def __init__(self, block, nblocks, growth_rate=12, reduction=0.5, num_classes=10):
-        super(DenseNet, self).__init__()
+class BaseCifarDenseNet(nn.Module):
+    def __init__(self, nblocks, block=Bottleneck, growth_rate=12, reduction=0.5, num_classes=10):
+        super(BaseCifarDenseNet, self).__init__()
         self.growth_rate = growth_rate
 
         num_planes = 2 * growth_rate
@@ -86,17 +91,47 @@ class DenseNet(nn.Module):
         out = self.linear(out)
         return out
 
-def DenseNet121():
-    return DenseNet(Bottleneck, [6, 12, 24, 16], growth_rate=32)
 
-def DenseNet169():
-    return DenseNet(Bottleneck, [6, 12, 32, 32], growth_rate=32)
+class CifarDenseNet(BaseModel, BaseCifarDenseNet):
+    def __init__(
+        self, 
+        model_kwargs: dict = {
+            "n_block": [6, 12, 24, 16], 
+            "growth_rate": 32,
+            "reduction": 0.5,
+            "num_classes": 10
+        }
+        ):
+        BaseCifarDenseNet.__init__(self, **model_kwargs)
+        BaseModel.__init__(self, model_kwargs)
 
-def DenseNet201():
-    return DenseNet(Bottleneck, [6, 12, 48, 32], growth_rate=32)
 
-def DenseNet161():
-    return DenseNet(Bottleneck, [6, 12, 36, 24], growth_rate=48)
+"""
+DenseNet 121: model_kwargs: dict = {
+            "n_block": [6, 12, 24, 16], 
+            "growth_rate": 32,
+            "reduction": 0.5,
+            "num_classes": 10
+        }
 
-def densenet_cifar():
-    return DenseNet(Bottleneck, [6, 12, 24, 16], growth_rate=12)
+DenseNet 161: model_kwargs: dict = {
+            "n_block": [6, 12, 36, 24], 
+            "growth_rate": 48,
+            "reduction": 0.5,
+            "num_classes": 10
+        }
+
+DenseNet 169: model_kwargs: dict = {
+            "n_block": [6, 12, 32, 32], 
+            "growth_rate": 32,
+            "reduction": 0.5,
+            "num_classes": 10
+        }
+
+DenseNet 201: model_kwargs: dict = {
+            "n_block": [6, 12, 48, 32], 
+            "growth_rate": 32,
+            "reduction": 0.5,
+            "num_classes": 10
+        }
+"""

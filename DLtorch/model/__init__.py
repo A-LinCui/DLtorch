@@ -1,2 +1,7 @@
-from DLtorch.models.cifar import *
-from DLtorch.models.MNIST import *
+# -*- coding: utf-8 -*-
+
+from DLtorch.model.base import BaseModel
+from DLtorch.model.DenseNet import CifarDenseNet
+from DLtorch.model.resnet import CifarResNet
+from DLtorch.model.LeNet import CifarLeNet, MNISTLeNet
+from DLtorch.model.WideResNet import CifarWideResNet
