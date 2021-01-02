@@ -135,7 +135,7 @@ class CNNTrainer(BaseTrainer):
             torch.save(self.model, model_path)
 
         # Save the optimizer
-        torch.save({"epoch": self.last_epoch, "optimizer": self.optimizer.state_dict()}, os.path.join(path, "optimizer.pt"))
+        torch.save({"epoch": self.last_epoch + 1, "optimizer": self.optimizer.state_dict()}, os.path.join(path, "optimizer.pt"))
         
         # Save the lr scheduler
         if self.lr_scheduler is not None:

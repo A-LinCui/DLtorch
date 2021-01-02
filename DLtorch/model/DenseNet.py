@@ -102,7 +102,7 @@ class CifarDenseNet(BaseModel, BaseCifarDenseNet):
         ):
         BaseCifarDenseNet.__init__(
             self, 
-            n_blocks = n_blocks, 
+            nblocks = n_blocks, 
             growth_rate=growth_rate,
             reduction=reduction,
             num_classes=num_classes
