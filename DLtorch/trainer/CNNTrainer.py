@@ -191,7 +191,7 @@ class CNNTrainer(BaseTrainer):
             self.logger.info("Load optimizer from {}".format(os.path.abspath(optimizer_path)))
 
         # Load the lr scheduler
-        lr_scheduler_path = os.path.join(path, "scheduler.pt")
+        lr_scheduler_path = os.path.join(path, "lr_scheduler.pt")
         if os.path.exists(lr_scheduler_path) and os.path.isdir(path):
             self.lr_scheduler.load_state_dict(torch.load(lr_scheduler_path, map_location=torch.device("cpu")))
             self.logger.info("Load lr scheduler from {}".format(lr_scheduler_path))
