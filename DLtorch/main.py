@@ -132,9 +132,7 @@ def train(cfg_file, seed, load, train_dir, gpus, save_every, report_every):
         if os.path.exists(train_dir):
             shutil.rmtree(train_dir)
         os.makedirs(train_dir)
-
-        with open(os.path.join(train_dir, "train_config.yaml"), "w") as f:
-            yaml.dump(config, f)
+        shutil.copy(cfg_file, train_dir)
         log_file = os.path.join(train_dir, "train.log")
         _logger.addFile(log_file)
 
