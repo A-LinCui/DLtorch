@@ -135,7 +135,7 @@ class CNNTrainer(BaseTrainer):
             torch.save(self.model, model_path)
 
         # Save the optimizer
-        torch.save({"epoch": self.last_epoch, "optimizer": self.optimizer.state_dict()}, os.path.join(path, "optimizer.pt"))
+        torch.save({"epoch": self.last_epoch + 1, "optimizer": self.optimizer.state_dict()}, os.path.join(path, "optimizer.pt"))
         
         # Save the lr scheduler
         if self.lr_scheduler is not None:
@@ -191,7 +191,7 @@ class CNNTrainer(BaseTrainer):
             self.logger.info("Load optimizer from {}".format(os.path.abspath(optimizer_path)))
 
         # Load the lr scheduler
-        lr_scheduler_path = os.path.join(path, "scheduler.pt")
+        lr_scheduler_path = os.path.join(path, "lr_scheduler.pt")
         if os.path.exists(lr_scheduler_path) and os.path.isdir(path):
             self.lr_scheduler.load_state_dict(torch.load(lr_scheduler_path, map_location=torch.device("cpu")))
             self.logger.info("Load lr scheduler from {}".format(lr_scheduler_path))
