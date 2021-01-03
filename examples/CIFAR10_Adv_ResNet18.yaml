@@ -29,22 +29,22 @@ model_kwargs:
 dataset_type: Cifar10  # Dataset to load
 dataset_kwargs:
   path: ~/dltorch_plugins/data/CIFAR10  # Path
-  train_transforms: {  # Trainset transforms
-    "RandomCrop": {"size": 32, "padding": 4},
-    "RandomHorizontalFlip": {},
-    "ToTensor": {}
-    }
-  test_transforms: {  # Testset transforms
-    "ToTensor": {}
-    }
+  train_transforms: # Trainset transforms
+    RandomCrop: 
+      size: 32
+      padding: 4
+    RandomHorizontalFlip: {}
+    ToTensor: {}
+  test_transforms: # Testset transforms
+    ToTensor: {}
     
 # ---- Trainer ----
 trainer_type: CNNTrainer  # Trainer type
 trainer_kwargs:  # Trainer kwargs
   # Dataloader kwargs
   dataloader_kwargs:
-    batch_size: 128
-    num_workers: 2
+    batch_size: 256
+    num_workers: 4
     shuffle: true
     drop_last: false
   # Optimizer
@@ -65,5 +65,5 @@ trainer_kwargs:  # Trainer kwargs
   test_every: 1
   grad_clip: 5.0
   eval_no_grad: false
-  early_stop: true
+  early_stop: false
   trainset_portion: [0.9, 0.1]
