@@ -139,7 +139,7 @@ def train(cfg_file, seed, load, train_dir, gpus, save_every, report_every):
     # Init components
     model = getattr(DLtorch.model, config["model_type"])(**config["model_kwargs"]).to(device)
     if device != torch.device("cpu") and len(gpu_list) > 1:
-        model = torch.nn.DataParallel(model)
+        model = torch.nn.DataParallel(model, device_ids=gpu_list).to(device)
     objective = getattr(DLtorch.objective, config["objective_type"])(**config["objective_kwargs"])
     dataset = getattr(DLtorch.dataset, config["dataset_type"])(**config["dataset_kwargs"])
     trainer = getattr(DLtorch.trainer, config["trainer_type"])(

@@ -7,3 +7,4 @@ torchvision >= 0.4.0
 torch <= 1.4.0
 pyyaml
 tools
+ipdb

@@ -13,7 +13,8 @@ INSTALL_REQUIRES = [
     "torchviz",
     "pyyaml",
     "setproctitle",
-    "tools"
+    "tools",
+    "ipdb"
 ]
 
 setuptools.setup(
