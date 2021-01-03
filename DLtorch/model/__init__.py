@@ -7,3 +7,4 @@ from DLtorch.model.LeNet import CifarLeNet, MNISTLeNet
 from DLtorch.model.WideResNet import CifarWideResNet
 from DLtorch.model.ShuffleNet import CifarShuffleNet
 from DLtorch.model.VGG import CifarVGG
+from DLtorch.model.SENet import CifarSEResNet

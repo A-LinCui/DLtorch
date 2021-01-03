@@ -64,6 +64,12 @@ class Bottleneck(nn.Module):
         return out
 
 
+BLOCK = {
+    "BasicBlock": BasicBlock,
+    "Bottleneck": Bottleneck
+    }
+
+
 class BaseCifarResNet(nn.Module):
     def __init__(self, block, num_blocks, num_classes=10):
         super(BaseCifarResNet, self).__init__()
@@ -104,11 +110,7 @@ class CifarResNet(BaseModel, BaseCifarResNet):
         num_blocks: list = [2, 2, 2, 2, 2],
         num_classes: int = 10
         ):
-        if block == "BasicBlock":
-            block = BasicBlock
-        elif block == "Bottleneck":
-            block = Bottleneck
-        BaseCifarResNet.__init__(self, block, num_blocks, num_classes)
+        BaseCifarResNet.__init__(self, BLOCK[block], num_blocks, num_classes)
         BaseModel.__init__(self)
 
 
