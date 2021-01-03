@@ -30,10 +30,11 @@ class BaseCifarVGG(nn.Module):
     def __init__(
         self, 
         features: list, 
-        num_class: int = 10
+        num_class: int = 10,
+        bn: bool = True
         ):
         super(BaseCifarVGG, self).__init__()
-        self.features = features
+        self.features = make_layers(features, bn)
         self.classifier = nn.Sequential(
             nn.Linear(512, 4096),
             nn.ReLU(inplace=True),
@@ -55,10 +56,11 @@ class BaseCifarVGG(nn.Module):
 class CifarVGG(BaseModel, BaseCifarVGG):
     def __init__(
         self,
-        feature: list,
-        num_classes: int = 10
+        features: list,
+        num_classes: int = 10,
+        bn: bool = True
         ):
-        BaseCifarVGG.__init__(self, feature, num_classes)
+        BaseCifarVGG.__init__(self, features, num_classes, bn)
         BaseModel.__init__(self)
 
 
