@@ -32,6 +32,7 @@ class BaseTrainer(BaseComponent):
         test_every: int = 1,
         grad_clip: float = 5.0,
         eval_no_grad: bool = True,
+        plot_model: bool = True
         ):
         super(BaseTrainer, self).__init__()
         self.logger.info("Trainer Constructed.")
@@ -55,6 +56,7 @@ class BaseTrainer(BaseComponent):
         self.test_every = test_every
         self.grad_clip = grad_clip
         self.eval_no_grad = eval_no_grad
+        self.plot_model = plot_model
 
         # Init components
         self.optimizer = getattr(DLtorch.optimizer, self.optimizer_type)(**self.optimizer_kwargs, params=list(self.model.parameters()))

@@ -9,7 +9,7 @@ import torch.utils.data as data
 import DLtorch
 from DLtorch.trainer.base import BaseTrainer
 from DLtorch.utils.common_utils import AvgrageMeter, EnsembleAverageMeters, nullcontext
-from DLtorch.utils.torch_utils import accuracy
+from DLtorch.utils.torch_utils import accuracy, plot_arch
 
 
 class CNNTrainer(BaseTrainer):
@@ -36,22 +36,11 @@ class CNNTrainer(BaseTrainer):
         grad_clip: float = 5.0,
         eval_no_grad: bool = True,
         early_stop: bool = False,
-        trainset_portion: list = [0.8, 0.2]
+        trainset_portion: list = [0.8, 0.2],
+        plot_model: bool = True
         ):
-        super(CNNTrainer, self).__init__(
-            model, 
-            dataset, dataloader_kwargs,
-            objective,
-            optimizer_type, optimizer_kwargs,
-            lr_scheduler_type, lr_scheduler_kwargs,
-            path, 
-            device, gpu_list,
-            epochs,
-            save_every, save_as_state_dict,
-            report_every, test_every,
-            grad_clip,
-            eval_no_grad
-            )
+        super(CNNTrainer, self).__init__(model, dataset, dataloader_kwargs, objective, optimizer_type, optimizer_kwargs, lr_scheduler_type, lr_scheduler_kwargs, path, device, gpu_list, epochs, save_every, save_as_state_dict, report_every, test_every, grad_clip, eval_no_grad, plot_model)
+        
         self.early_stop = early_stop
         self.portion = trainset_portion
 
@@ -241,9 +230,16 @@ class CNNTrainer(BaseTrainer):
         reward = self.objective.get_reward(perfs_value)
         self.optimizer.zero_grad()
         loss.backward()
+        
         if self.grad_clip is not None:
             torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.grad_clip)
         self.optimizer.step()
+        
+        if self.plot_model and self.path is not None:
+            plot_arch(self.model, inputs.shape, self.device, self.path, False)
+            self.logger.info("Plot architecture as {}".format(os.path.join(self.path, "{}.pdf".format(self.model.__class__.__name__))))
+            self.plot_model = False
+
         return loss.item(), accs, perfs, reward
 
 

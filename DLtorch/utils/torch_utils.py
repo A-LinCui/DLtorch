@@ -1,12 +1,17 @@
 # -*- coding:utf-8 -*-
 
+import warnings
+
 import torch
 import torch.nn as nn
+from torch.autograd import Variable
 from torchviz import make_dot
 
 
 class CrossEntropyLabelSmooth(nn.Module):
-    """CrossEntropy with Label Smoothing."""
+    """
+    CrossEntropy with Label Smoothing.
+    """
     
     def __init__(self, epsilon):
         super(CrossEntropyLabelSmooth, self).__init__()
@@ -22,7 +27,10 @@ class CrossEntropyLabelSmooth(nn.Module):
 
 
 def primary_test(model, dataloader, criterion):
-    # Test a model's accuracy on the dataset basically.
+    """
+    Test a model's accuracy on the dataset basically.
+    """
+
     model.eval()
     correct, total, loss = 0, 0, 0
     with torch.no_grad():
@@ -38,8 +46,11 @@ def primary_test(model, dataloader, criterion):
 
 
 def get_params(model, only_trainable=False):
-    # Get the parameter number of the model.
-    # If only_trainable is true, only trainable parameters will be counted.
+    """
+    Get the parameter number of the model.
+    If only_trainable is true, only trainable parameters will be counted.
+    """
+
     if not only_trainable:
         return sum(p.numel() for p in model.parameters())
     else:
@@ -47,7 +58,10 @@ def get_params(model, only_trainable=False):
 
 
 def accuracy(outputs, targets, topk=(1,)):
-    # Get top-k accuracy on the data batch.
+    """
+    Get top-k accuracy on the data batch.
+    """
+
     maxk = max(topk)
     batch_size = len(targets)
     _, predicts = outputs.topk(maxk, 1, True, True)
@@ -60,15 +74,16 @@ def accuracy(outputs, targets, topk=(1,)):
     return res
 
 
-def random_tensor(shape):
-    # Randomly generate a tensor with the given shape
-    return torch.randn(shape)
+def plot_arch(net, shape: tuple, device, path: str, view: bool = False):
+    """
+    Plot the architecture of the given model. Input shape supported by the model should be given as "shape".
+    For example, to plot a typical cifar10 model, the given shape should be (x, 3, 32, 32).
+    Current device of the net should be given.
+    """
 
-
-def plot_arch(net, shape, device):
-    # Plot the architecture of the given model. Input shape supported by the model should be given as "shape".
-    # For example, to plot a typical cifar10 model, the given shape should be (1, 3, 32, 32).
-    # Current device of the net should be given.
-    x = random_tensor(shape).to(device)
+    x = Variable(torch.randn(shape, requires_grad=True)).to(device)
     vis_graph = make_dot(net(x), params=dict(net.named_parameters()))
-    vis_graph.view()
+    try:
+        vis_graph.render(filename = "{}.pdf".format(net.__class__.__name__), directory = path, view=view)
+    except:
+        warnings.warn("Fail to render with graphviz. Maybe it's because your operation system is Windows", category=None, stacklevel=1, source=None)
