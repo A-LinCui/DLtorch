@@ -84,6 +84,6 @@ def plot_arch(net, shape: tuple, device, path: str, view: bool = False):
     x = Variable(torch.randn(shape, requires_grad=True)).to(device)
     vis_graph = make_dot(net(x), params=dict(net.named_parameters()))
     try:
-        vis_graph.render(filename = "{}.pdf".format(net.__class__.__name__), directory = path, view=view)
+        vis_graph.render(filename = net.__class__.__name__, directory = path, view=view)
     except:
         warnings.warn("Fail to render with graphviz. Maybe it's because your operation system is Windows", category=None, stacklevel=1, source=None)
