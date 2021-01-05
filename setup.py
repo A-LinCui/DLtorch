@@ -14,7 +14,8 @@ INSTALL_REQUIRES = [
     "pyyaml",
     "setproctitle",
     "tools",
-    "ipdb"
+    "ipdb",
+    "torchstat==0.0.3"
 ]
 
 setuptools.setup(
