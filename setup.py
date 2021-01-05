@@ -15,7 +15,7 @@ INSTALL_REQUIRES = [
     "setproctitle",
     "tools",
     "ipdb",
-    "torchstat==0.0.3"
+    "torchstat"
 ]
 
 setuptools.setup(

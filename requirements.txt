@@ -8,4 +8,4 @@ torch <= 1.4.0
 pyyaml
 tools
 ipdb
-torchstat == 0.0.3
+torchstat
