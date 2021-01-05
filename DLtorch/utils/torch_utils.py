@@ -2,10 +2,12 @@
 
 import warnings
 
+import pandas as pd
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
 from torchviz import make_dot
+from torchstat import ModelStat
 
 
 class CrossEntropyLabelSmooth(nn.Module):
@@ -45,18 +47,6 @@ def primary_test(model, dataloader, criterion):
     return loss / total, correct / total
 
 
-def get_params(model, only_trainable=False):
-    """
-    Get the parameter number of the model.
-    If only_trainable is true, only trainable parameters will be counted.
-    """
-
-    if not only_trainable:
-        return sum(p.numel() for p in model.parameters())
-    else:
-        sum(p.numel() for p in model.parameters() if p.requires_grad)
-
-
 def accuracy(outputs, targets, topk=(1,)):
     """
     Get top-k accuracy on the data batch.
@@ -74,7 +64,20 @@ def accuracy(outputs, targets, topk=(1,)):
     return res
 
 
-def plot_arch(net, shape: tuple, device, path: str, view: bool = False):
+# ---- Tools for Model Analysis ----
+def get_params(model, only_trainable=False):
+    """
+    Get the parameter number of the model.
+    If only_trainable is true, only trainable parameters will be counted.
+    """
+
+    if not only_trainable:
+        return sum(p.numel() for p in model.parameters())
+    else:
+        return sum(p.numel() for p in model.parameters() if p.requires_grad)
+
+
+def plot_arch(net, shape, device, path: str, view: bool = False):
     """
     Plot the architecture of the given model. Input shape supported by the model should be given as "shape".
     For example, to plot a typical cifar10 model, the given shape should be (x, 3, 32, 32).
@@ -89,3 +92,18 @@ def plot_arch(net, shape: tuple, device, path: str, view: bool = False):
     except:
         warnings.warn("Fail to render with graphviz. Maybe it's because your operation system is Windows", category=None, stacklevel=1, source=None)
         return False
+
+
+def get_flops(model, shape):
+    """
+    Get FLOPs of the model.
+    Input shape should be the shape of a single input, instead of the shape of a batch.
+    For example, for a typical model trained on CIFAR-10, it should be (3, 32, 32)
+    """
+
+    model_analyzer = ModelStat(model, shape) 
+    collected_nodes = model_analyzer._analyze_model()
+    flops = 0
+    for node in collected_nodes:
+        flops += node.Flops
+    return flops

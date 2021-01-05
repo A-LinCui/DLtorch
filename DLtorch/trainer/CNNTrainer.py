@@ -9,7 +9,7 @@ import torch.utils.data as data
 import DLtorch
 from DLtorch.trainer.base import BaseTrainer
 from DLtorch.utils.common_utils import AvgrageMeter, EnsembleAverageMeters, nullcontext
-from DLtorch.utils.torch_utils import accuracy, plot_arch
+from DLtorch.utils.torch_utils import accuracy, plot_arch, get_flops
 
 
 class CNNTrainer(BaseTrainer):
@@ -58,6 +58,7 @@ class CNNTrainer(BaseTrainer):
             self.dataloader[_dataset] = data.DataLoader(self.dataset.datasets[_dataset], **dataloader_kwargs)
         
         self.last_epoch = 0
+        self.report_flops = True
 
     
     # ---- API ----
@@ -234,7 +235,12 @@ class CNNTrainer(BaseTrainer):
         if self.grad_clip is not None:
             torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.grad_clip)
         self.optimizer.step()
-        
+
+        if self.report_flops:
+            flops = get_flops(self.model, inputs[0].shape)
+            self.logger.info("FLOPs of {}: {:.3f}M".format(self.model.__name__, flops / 1.e6))
+            self.report_flops = False
+
         if self.plot_model and self.path is not None:
             if plot_arch(self.model, inputs[0].unsqueeze(dim=0).shape, self.device, self.path, False):
                 self.logger.info("Plot architecture as {}".format(os.path.join(self.path, "{}.pdf".format(self.model.__class__.__name__))))
