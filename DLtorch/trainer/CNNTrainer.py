@@ -236,8 +236,8 @@ class CNNTrainer(BaseTrainer):
         self.optimizer.step()
         
         if self.plot_model and self.path is not None:
-            plot_arch(self.model, inputs[0].unsqueeze(dim=0).shape, self.device, self.path, False)
-            self.logger.info("Plot architecture as {}".format(os.path.join(self.path, "{}.pdf".format(self.model.__class__.__name__))))
+            if plot_arch(self.model, inputs[0].unsqueeze(dim=0).shape, self.device, self.path, False):
+                self.logger.info("Plot architecture as {}".format(os.path.join(self.path, "{}.pdf".format(self.model.__class__.__name__))))
             self.plot_model = False
 
         return loss.item(), accs, perfs, reward
